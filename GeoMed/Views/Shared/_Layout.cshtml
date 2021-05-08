@@ -1,0 +1,114 @@
+﻿@using GeoMed.Util
+
+@{
+    string Title = ViewData["Title"]?.ToString()?? "--GeoMed--";
+}
+
+<!DOCTYPE html>
+<html lang="ar" >
+<head>
+    <partial name="@ViewPaths._Meta" model="new {Title}" />
+
+    <style>
+        @@font-face {
+            font-family: Cairo;
+            src: url(assets/app/fonts/Cairo-SemiBold.ttf);
+        }
+    </style>
+    <!--begin::Web font -->
+    @*<script src="~/assets/app/js/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700", "Cairo:500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>*@
+    <!--end::Web font -->
+
+    <partial name="@ViewPaths.Links" />
+    <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/dark/main.css" />
+
+    <!--Fonts size-->
+    <style>
+        .m-menu__link-text {
+            font-size: 1.4rem !important;
+        }
+        .m-subheader__title {
+            font-size: 2.0rem !important;
+        }
+        .m-menu__section-text {
+            font-size: 1.2rem !important;
+        }
+    </style>
+
+</head>
+
+
+
+<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+
+
+    <!-- begin:: Page -->
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+
+
+        <!-- BEGIN: Header -->
+        <partial name="@ViewPaths.Navbar" />
+        <!-- END: Header -->
+        <!-- begin::Body -->
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+
+            <!-- BEGIN: Left Aside -->
+            <partial name="@ViewPaths.Sidebar" />
+            <!-- END: Left Aside -->
+
+
+            <div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+                <!-- BEGIN: Subheader -->
+                <partial name="@ViewPaths.Breadcrumb" model="new { Title }" />
+                <!-- END: Subheader -->
+
+
+                <div class="m-content">
+                    @RenderBody()
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- end:: Body -->
+        <!-- begin::Footer -->
+        <partial name="@ViewPaths.Footer" />
+        <!-- end::Footer -->
+
+
+    </div>
+
+
+
+    <partial name="@ViewPaths.Drawer" />
+
+
+    <!-- begin::Scroll Top -->
+    <div id="m_scroll_top" class="m-scroll-top">
+        <i class="la la-arrow-up"></i>
+    </div>
+
+    <!-- end::Scroll Top -->	
+
+
+    <partial name="@ViewPaths.StickyTool" />
+
+
+
+
+    <partial name="@ViewPaths.Scripts" />
+
+    @RenderSection("scripts", false)
+
+</body>
+</html>

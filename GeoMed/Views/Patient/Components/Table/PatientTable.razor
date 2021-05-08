@@ -1,0 +1,71 @@
+﻿@using GeoMed.Views.Shared.Components;
+
+<div class="portlet light ">
+    <div class="portlet-title">
+        <div class="caption font-dark">
+            <i class="icon-settings font-dark"></i>
+            <span class="caption-subject bold uppercase">سجل المرضى</span>
+        </div>
+        <div class="tools"> </div>
+    </div>
+
+    <div class="portlet-title">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+
+                <div class="input-group">
+                    <EditForm Model="@PatientSearch" OnValidSubmit="OnSearch">
+                        <InputText type="text" class="form-control" @bind-Value="PatientSearch.Search" placeholder="البحث..." name="query"></InputText>
+                    </EditForm>
+
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <button @onclick="(()=> OpenModal())" type="button" class="btn btn-success mt-ladda-btn ladda-button btn-circle" data-style="expand-up">
+                    <span class="ladda-label">إضافة الجديد</span>
+                    <span class="ladda-spinner"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <table class="table table-striped table-bordered table-hover dt-responsive" id="sample_3" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="all"># رقم التسلسل</th>
+                        <th class="all">اسم المريض</th>
+                        <th class="min-phone-l"> آخر تاريخ الدخول</th>
+                        <th class="min-tablet">عنوان</th>
+                        <th class="none">عمر</th>
+                        <th class="none">الجنس</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Patient in Patients)
+                    {
+                        <tr>
+                            <td>@Patient.Id</td>
+                            <td>@Patient.PatientName</td>
+                            <td>@Patient.LastInComeDate.ToShortDateString()</td>
+                            <td>@Patient.Address</td>
+                            <td>@Patient.Age</td>
+                            <td>@Patient.Gender</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row">
+            <CascadingValue Value="Patients">
+                <Pagination Spread="2" PageSize="10" SelectedPage="OnSelectPage" TotalCount="250"></Pagination>
+            </CascadingValue>
+        </div>
+    </div>
+    <PatientModal @ref="@ModalPatient" ></PatientModal>
+
+</div>
+

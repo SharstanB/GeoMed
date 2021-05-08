@@ -1,0 +1,32 @@
+﻿<div class="actions ">
+    @*<ul class="justify-content-center pg-dark">*@
+        @*@foreach (var item in PageNumericsList)
+        {
+            <li @onclick="(()=> SelectPage(item))" style="cursor: pointer;" class="@(item.Active) btn btn-circle btn-icon-only btn-default">
+                @if (item.PageNumber == 0 || item.PageNumber
+            == (PageNumericsListSize - 1))
+                {
+                    <span class="@(item.Text)"></span>
+
+                }
+                else
+                {
+                    <span>@(item.Text)</span>
+
+                }
+            </li>
+        }*@
+
+        <ul class="pagination justify-content-center">
+            @foreach (var link in _links)
+            {
+                <li @onclick="() => OnSelectedPage(link)" style="cursor: pointer;" class="page-item btn btn-circle 
+                    @(link.Enabled ? null : "disabled") @(link.Active ? "active" : null)">
+                    <span class="page-link" href="#">@link.Text</span>
+                </li>
+            }
+        </ul>
+    @*</ul>*@
+</div>
+
+

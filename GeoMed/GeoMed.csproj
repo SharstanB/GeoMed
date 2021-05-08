@@ -1,0 +1,173 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Share\**" />
+    <Content Remove="Views\Share\**" />
+    <EmbeddedResource Remove="Views\Share\**" />
+    <None Remove="Views\Share\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\app\js\dashboard.js" />
+    <None Include="wwwroot\assets\app\js\layout-builder.js" />
+    <None Include="wwwroot\assets\app\media\img\files\css.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\csv.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\doc.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\html.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\javascript.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\jpg.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\mp4.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\pdf.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\xml.svg" />
+    <None Include="wwwroot\assets\app\media\img\files\zip.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\exchange.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\logout.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\question.svg" />
+    <None Include="wwwroot\assets\app\media\img\icons\warning.svg" />
+    <None Include="wwwroot\assets\demo\demo12\base\scripts.bundle.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\blockui.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\bootstrap-notify.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\dropdown.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\scrollable.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\sweetalert2.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\toastr.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\base\treeview.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\calendar\background-events.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\calendar\basic.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\calendar\external-events.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\calendar\google.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\calendar\list-view.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\charts\amcharts\charts.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\charts\amcharts\maps.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\charts\amcharts\stock-charts.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\charts\flotcharts.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\charts\google-charts.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\charts\morris-charts.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\maps\google-maps.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\maps\jqvmap.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\maps\jvectormap.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\portlets\draggable.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\portlets\tools.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\utils\idle-timer.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\components\utils\session-timeout.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\advanced\column-rendering.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\advanced\column-visibility.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\advanced\footer-callback.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\advanced\multiple-controls.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\advanced\row-callback.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\advanced\row-grouping.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\basic\basic.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\basic\headers.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\basic\paginations.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\basic\scrollable.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\data-sources\ajax-client-side.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\data-sources\ajax-server-side.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\data-sources\html.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\data-sources\javascript.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\buttons.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\colreorder.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\fixedcolumns.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\fixedheader.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\keytable.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\responsive.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\rowgroup.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\rowreorder.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\scroller.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\extensions\select.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\search-options\advanced-search.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\datatables\search-options\column-search.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\validation\form-controls.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\validation\form-widgets.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\autosize.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-datepicker.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-daterangepicker.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-datetimepicker.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-markdown.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-maxlength.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-multipleselectsplitter.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-select.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-switch.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-timepicker.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\bootstrap-touchspin.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\clipboard.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\dropzone.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\form-repeater.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\google-recaptcha.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\input-mask.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\ion-range-slider.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\nouislider.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\select2.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\summernote.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\forms\widgets\typeahead.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\api\events.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\api\methods.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\column-rendering.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\column-width.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\data-ajax.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\data-json.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\data-local.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\html-table.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\local-sort.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\record-selection.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\responsive-columns.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\row-details.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\base\translation.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\child\data-ajax.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\child\data-local.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\locked\both.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\locked\html-table.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\locked\left.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\locked\right.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\scrolling\both.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\scrolling\horizontal.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\metronic-datatable\scrolling\vertical.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\crud\wizard\wizard.js" />
+    <None Include="wwwroot\assets\demo\demo12\custom\header\actions.js" />
+    <None Include="wwwroot\assets\snippets\apps\mail\mail.js" />
+    <None Include="wwwroot\assets\snippets\custom\apps\mail\mail.js" />
+    <None Include="wwwroot\assets\snippets\custom\pages\user\login.js" />
+    <None Include="wwwroot\assets\snippets\custom\pages\user\login6.js" />
+    <None Include="wwwroot\assets\vendors\base\fonts\flaticon\Flaticon.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\fontawesome5\fa-brands-400.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\fontawesome5\fa-brands-400.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\fontawesome5\fa-regular-400.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\fontawesome5\fa-regular-400.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\fontawesome5\fa-solid-900.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\fontawesome5\fa-solid-900.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\line-awesome\line-awesome.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.svg" />
+    <None Include="wwwroot\assets\vendors\base\fonts\metronic\Metronic_fda1334c35d0f5fe2afb3afebbb6774a.woff2" />
+    <None Include="wwwroot\assets\vendors\base\fonts\socicon\socicon.svg" />
+    <None Include="wwwroot\assets\vendors\base\vendors.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\datatables\datatables.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\flot\flot.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\fullcalendar\fullcalendar.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\gmaps\gmaps.js" />
+    <None Include="wwwroot\assets\vendors\custom\jquery-ui\jquery-ui.bundle.js" />
+    <None Include="wwwroot\assets\vendors\custom\jqvmap\jqvmap.bundle.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country\GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.csproj" />
+    <ProjectReference Include="..\GeoMed.Main.Data\GeoMed.Main.Data.csproj" />
+    <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
+    <ProjectReference Include="..\GeoMed.Share.Data\GeoMed.Share.Data.csproj" />
+    <ProjectReference Include="..\GeoMed.Share.IData\GeoMed.Share.IData.csproj" />
+    <ProjectReference Include="..\GeoMed.SqlServer\GeoMed.SqlServer.csproj" />
+  </ItemGroup>
+
+</Project>

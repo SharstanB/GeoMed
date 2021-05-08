@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "مسقط أمريكا";
+}
+
+<style>
+    #usaMap {
+        width: 100%;
+        height: 800px;
+    }
+</style>
+
+<div id="usaMap"></div>
+
+
+
+
+@section scripts
+{
+    <script src="~/lib/amcharts4/core.js"></script>
+    <script src="~/lib/amcharts4/maps.js"></script>
+    <script src="~/lib/amcharts4/usaHigh.js"></script>
+    <script src="~/lib/amcharts4/animated.js"></script>
+
+    <script src="~/js/view/map/vectorMap.js"></script>
+}
