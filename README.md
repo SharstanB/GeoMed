@@ -1,1 +1,1 @@
-# SharstanB-GeoMed
+# GeoMed
