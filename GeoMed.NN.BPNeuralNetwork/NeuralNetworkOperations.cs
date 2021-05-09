@@ -83,14 +83,14 @@ namespace GeoMed.NN.BPNeuralNetwork
 
                 elmanBPNeural.HiddenLayers.FirstOrDefault()
               .LayerCells.Add(new Neuron()
-              { value = ActivationFunctions.Tanh(elmanBPNeural.HiddenLayers.FirstOrDefault().GetContextValue
+              { value = ActivationFunctions.Tanh(elmanBPNeural.HiddenLayers.FirstOrDefault().GetContextValues
                       (inputRes, elmanBPNeural.NNType))});
 
             });
            
 
             if (elmanBPNeural.NNType == NNType.Elman)
-             elmanBPNeural.HiddenLayers.FirstOrDefault().FillHiddenCellValue();
+             elmanBPNeural.HiddenLayers.FirstOrDefault().FillHiddenCellValues();
 
             for (int i = 1; i < elmanBPNeural.HiddenLayerCount; i++) // loop for hidden layers
                 // , first hidden layer calculated in last step from input values
@@ -108,11 +108,11 @@ namespace GeoMed.NN.BPNeuralNetwork
                     }
                     
                     elmanBPNeural.HiddenLayers[i].LayerCells.Add(new Neuron()
-                    { value = ActivationFunctions.Tanh(elmanBPNeural.HiddenLayers[i].GetContextValue(res , elmanBPNeural.NNType)) });
+                    { value = ActivationFunctions.Tanh(elmanBPNeural.HiddenLayers[i].GetContextValues(res , elmanBPNeural.NNType)) });
                 }
 
                 if (elmanBPNeural.NNType == NNType.Elman)
-                    elmanBPNeural.HiddenLayers[i].FillHiddenCellValue();
+                    elmanBPNeural.HiddenLayers[i].FillHiddenCellValues();
             }
             elmanBPNeural.OutputLayer.LayerCells.Clear();
             elmanBPNeural.OutputLayer.Weights.ForEach(weigth =>
@@ -285,7 +285,7 @@ namespace GeoMed.NN.BPNeuralNetwork
             return elmanBPNeural;
         }
 
-        private static ElmanLayer FillHiddenCellValue(this HiddenLayer elmanLayer )
+        private static ElmanLayer FillHiddenCellValues(this HiddenLayer elmanLayer )
         {
             for (int i = elmanLayer.HiddenContextLayersCount - 2 ; i >= 0 ; i--)
             {
@@ -300,7 +300,7 @@ namespace GeoMed.NN.BPNeuralNetwork
         }
 
 
-        private static double GetContextValue(this HiddenLayer source ,
+        private static double GetContextValues(this HiddenLayer source ,
             double cellVal ,  NNType nNType = NNType.BackProbagation)
         {
             var res = cellVal;

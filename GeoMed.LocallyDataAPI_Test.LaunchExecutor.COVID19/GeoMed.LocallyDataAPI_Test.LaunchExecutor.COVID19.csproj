@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Accord" Version="3.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country\GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.csproj" />
   </ItemGroup>
 

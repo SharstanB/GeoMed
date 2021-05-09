@@ -17,5 +17,8 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.Models
 
         [Name("state_code")]
         public string StateCode { get; set; }
+
+        [Name("County")]
+        public string County { get; set; }
     }
 }

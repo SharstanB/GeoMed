@@ -143,11 +143,12 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             const int saveCount = 200;
 
             var fList = Select<DiseaseInfoModel>(paths.diseaseInfoPath)
-                   .Select(item => new {
+                   .Select(item => new 
+                   {
 
                        date = item.Date.Month,
 
-                       StateCode = item.StateCode,
+                       country = item.Country,
 
                        Cases = item.Cases,
 
@@ -158,23 +159,22 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             var UsInfoList = Select<USInfoModel>(paths.usInfoPath);
             var USPopulationCount = UsInfoList.Sum(s => s.Population);
             var sList = UsInfoList
-                    .GroupBy(group => group.StateCode)
+                   //.GroupBy(group => group.County)
                     .Select(g => new USInfoModel()
                     {
-                        MedianAge = g.Sum(f => f.MedianAge)
-                         / g.Count(),
+                        MedianAge = g.MedianAge ,
 
-                        Population = g.Sum(f => f.Population)
-                       / USPopulationCount,
+                        Population = g.Population,
+                     //  / USPopulationCount,
 
-                        StateCode = g.Key,
+                        County = g.County,
                     })
                     .Take(saveMemory ? saveCount : getMaxAllowCount);
 
 
             var data = fList.Join(sList
-                 , s => s.StateCode,
-                 f => f.StateCode,
+                 , s => s.country,
+                 f => f.County,
                  (a, b) => new { a, b }).Select((item, index) => new NNInput
                  {
                      Cases = item.a.Cases,
