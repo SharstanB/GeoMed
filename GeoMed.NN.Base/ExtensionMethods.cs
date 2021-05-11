@@ -32,6 +32,30 @@ namespace GeoMed.NN.Base
             return source.GetRange(0,source.Count).ToList();
         }
 
-      
+
+
+   
+
+        //static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(IList<TOuter> outer, IList<TInner> inner, Func<TOuter, TInner, TResult> resultSelector)
+        //{
+        //    if(outer != null)
+        //    {
+
+        //        foreach (TOuter item in outer)
+        //        {
+        //            //Lookup<TKey, TInner>  g = lookup.GetGrouping(outerKeySelector(item), false);
+        //            if (inner != null)
+        //            {
+        //                for (int i = 0; i < inner.Count(); i++)
+        //                {
+        //                    if(item.Equals(inner[i], ))
+        //                    yield return resultSelector(item, inner[i]);
+        //                }
+        //            }
+        //        }
+
+        //    }
+           
+        //}
     }
 }

@@ -123,7 +123,7 @@ namespace GeoMed.NN.BPNeuralNetwork
                         elmanBPNeural.HiddenLayers.LastOrDefault().LayerCells.ForEach(cellVal =>
                         {
                             var idx = elmanBPNeural.HiddenLayers.LastOrDefault().LayerCells.IndexOf(cellVal);
-                            res += cellVal.value * f  + elmanBPNeural.HiddenLayers.FirstOrDefault()
+                            res += cellVal.value * f  + elmanBPNeural.HiddenLayers.LastOrDefault()
                             .HiddenContextLayer
                            .FirstOrDefault().LayerCells[idx].value;
                         });

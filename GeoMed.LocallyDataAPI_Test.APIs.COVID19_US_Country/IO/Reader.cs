@@ -143,51 +143,52 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             const int saveCount = 200;
 
             var fList = Select<DiseaseInfoModel>(paths.diseaseInfoPath)
+                   .GroupBy(data => new { data.Date.Month , data.Country })
                    .Select(item => new 
                    {
 
-                       date = item.Date.Month,
+                       date = item.Key.Month,
 
-                       country = item.Country,
+                       country = $"{item.Key.Country} County",
 
-                       Cases = item.Cases,
+                       Cases = item.Sum(s=>s.Cases) ,
 
                    })
                    .Take(saveMemory ? saveCount : getMaxAllowCount)
                    .OrderBy(o => o.date).ToList();
 
             var UsInfoList = Select<USInfoModel>(paths.usInfoPath);
-            var USPopulationCount = UsInfoList.Sum(s => s.Population);
+          //  var USPopulationCount = UsInfoList.Sum(s => s.Population);
             var sList = UsInfoList
-                   //.GroupBy(group => group.County)
                     .Select(g => new USInfoModel()
                     {
-                        MedianAge = g.MedianAge ,
+                        MedianAge = g.MedianAge,
 
-                        Population = g.Population,
-                     //  / USPopulationCount,
+                        Population = g.Population ,
 
                         County = g.County,
-                    })
-                    .Take(saveMemory ? saveCount : getMaxAllowCount);
+                    });
+            // .Take(saveMemory ? saveCount : getMaxAllowCount);
 
 
             var data = fList.Join(sList
-                 , s => s.country,
+                 , s =>  s.country,
                  f => f.County,
-                 (a, b) => new { a, b }).Select((item, index) => new NNInput
-                 {
-                     Cases = item.a.Cases,
-                     MedianAge = item.b.MedianAge,
-                     Population = item.b.Population,
-                     TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases
-                 }).ToList();
+                 (a, b) => new { a , b })
+                .Select((item, index) => new NNInput
+                {
+                    Cases = item.a.Cases,
+                    MedianAge = item.b.MedianAge,
+                    Population = item.b.Population,
+                    TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases
+                }).ToList();
+           
 
             var testInputs = data.TakePercent(25).ToList();
 
             var trainInputs = data.TakePercent(75).ToList();
 
-            return (trainInputs, testInputs);
+              return (trainInputs, testInputs);
         }
 
 
