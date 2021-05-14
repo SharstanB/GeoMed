@@ -85,8 +85,7 @@ namespace GeoMed.NN.BPNeuralNetwork
               .LayerCells.Add(new Neuron()
               { value = ActivationFunctions.Tanh(elmanBPNeural.HiddenLayers.FirstOrDefault().GetContextValues
                       (inputRes, elmanBPNeural.NNType))});
-
-            });
+              });
            
 
             if (elmanBPNeural.NNType == NNType.Elman)
@@ -140,6 +139,7 @@ namespace GeoMed.NN.BPNeuralNetwork
             while (model.elmanBPNeural.Epochs-- > 0 )
             {
                 var list = new List<SampleResult>();
+                var finalEpochError = 0.0;
                 foreach (var sample in model.samples)
                 {
                     model.elmanBPNeural.InputLayer.Input = sample; 
@@ -147,11 +147,11 @@ namespace GeoMed.NN.BPNeuralNetwork
 
                     list.Add(new SampleResult()
                     {
-                        ActualOutput = sample.TargetOutput,
-                        TargetOutput = forwordResult.OutputLayer.
-                              LayerCells.FirstOrDefault().value
+                        ActualOutput = forwordResult.OutputLayer.
+                              LayerCells.FirstOrDefault().value ,
+                        TargetOutput = sample.TargetOutput
                     });    
-                    var Error = forwordResult.InputLayer.Input.NNPBError
+                   var Error = forwordResult.InputLayer.Input.NNPBError
                         (forwordResult.OutputLayer.LayerCells.Select(s => s.value).ToList());
 
                     if (Error.ErrorObtained > model.elmanBPNeural.ErrorRate)
@@ -160,9 +160,12 @@ namespace GeoMed.NN.BPNeuralNetwork
 
                         UpdateWeigths(model.elmanBPNeural);
                     }
-                   
+                    finalEpochError += Error.ErrorObtained;
+
+
                 }
-                NNResult.TrainSamples.Add((samples: list, epoch: ( model.elmanBPNeural.Epochs + 1) ));
+                NNResult.TrainSamples.Add((samples: list, epoch: ( model.elmanBPNeural.Epochs + 1) 
+                    , finalEpochError / model.samples.Count));
             }
             return model.elmanBPNeural;
         }

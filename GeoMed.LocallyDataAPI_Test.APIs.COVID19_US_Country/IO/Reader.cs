@@ -142,45 +142,50 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
         {
             const int saveCount = 200;
 
-            var fList = Select<DiseaseInfoModel>(paths.diseaseInfoPath)
-                   .GroupBy(data => new { data.Date.Month , data.Country })
+            var usDiseaseInfo = Select<DiseaseInfoModel>(paths.diseaseInfoPath);
+            var usCases = usDiseaseInfo.Sum(s => s.Cases);
+            var fList = usDiseaseInfo.GroupBy(data => new { data.Date.Month , data.FipsCode })
                    .Select(item => new 
                    {
 
                        date = item.Key.Month,
 
-                       country = $"{item.Key.Country} County",
+                       fips =  item.Key.FipsCode,
 
-                       Cases = item.Sum(s=>s.Cases) ,
+                       Cases = item.Sum(s=>s.Cases) 
+                       / usCases,
 
                    })
                    .Take(saveMemory ? saveCount : getMaxAllowCount)
                    .OrderBy(o => o.date).ToList();
 
             var UsInfoList = Select<USInfoModel>(paths.usInfoPath);
-          //  var USPopulationCount = UsInfoList.Sum(s => s.Population);
+            var USPopulationCount = UsInfoList.Sum(s => s.Population);
+            var USAgesCount = UsInfoList.Sum(s => s.MedianAge);
             var sList = UsInfoList
                     .Select(g => new USInfoModel()
                     {
-                        MedianAge = g.MedianAge,
+                        MedianAge = g.MedianAge
+                        / USAgesCount,
 
-                        Population = g.Population ,
+                        Population = g.Population
+                        / USPopulationCount,
 
-                        County = g.County,
-                    });
-            // .Take(saveMemory ? saveCount : getMaxAllowCount);
+                        FipsCode = g.FipsCode,
+                    })
+            .Take(saveMemory ? saveCount : getMaxAllowCount);
 
 
             var data = fList.Join(sList
-                 , s =>  s.country,
-                 f => f.County,
+                 , s =>  s.fips,
+                 f => f.FipsCode,
                  (a, b) => new { a , b })
                 .Select((item, index) => new NNInput
                 {
                     Cases = item.a.Cases,
                     MedianAge = item.b.MedianAge,
                     Population = item.b.Population,
-                    TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases
+                   TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases
                 }).ToList();
            
 

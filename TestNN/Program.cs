@@ -8,11 +8,11 @@ namespace TestNN
         static void Main(string[] args)
         {
 
-            var epochs = 5;
-           // var result = NeuralNetworkAPI.GetNetworkResult(epochs: 10, errorRate: 0.003f , hiddenCount: 7);
+             var epochs = 3;
+            //var result = NeuralNetworkAPI.GetNetworkResult(epochs: epochs, errorRate: 0.003f, executedData: ExecutedData.County, hiddenCount: 7);
 
             var result = NeuralNetworkAPI.
-                GetElmanNetworkResult(epochs: epochs,  errorRate: 0.003f , executedData: ExecutedData.State , hiddenCount: 7);
+                GetElmanNetworkResult(epochs: epochs, errorRate: 0.001f, executedData: ExecutedData.County, hiddenCount: 4);
 
 
             Print($"\n Network Error : {result.NetworkError} " , ConsoleColor.DarkBlue);
@@ -27,6 +27,10 @@ namespace TestNN
                 int i = 1;
 
                 Print($"\n ---------------------------------------------------------------------------------- Epoch : {sample.epoch} \n", ConsoleColor.Yellow );
+
+
+                Print($"\n Error : {sample.error} \n", ConsoleColor.Cyan);
+
 
                 sample.samples.ForEach(sample =>
                 {

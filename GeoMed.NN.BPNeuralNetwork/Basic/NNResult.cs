@@ -12,7 +12,7 @@ namespace GeoMed.NN.BPNeuralNetwork.Basic
     {
         public List<SampleResult> TestSamples { get; set; }
 
-        public List<(List<SampleResult> samples , int epoch )> TrainSamples { get; set; }
+        public List<(List<SampleResult> samples , int epoch  , double error)> TrainSamples { get; set; }
 
         public List<FinalWeigth> FinalWeigths { get; set; }
 
@@ -22,7 +22,7 @@ namespace GeoMed.NN.BPNeuralNetwork.Basic
         {
             FinalWeigths = new List<FinalWeigth>();
 
-            TrainSamples = new List<(List<SampleResult> samples, int epoch)>();
+            TrainSamples = new List<(List<SampleResult> samples, int epoch , double error)>();
 
             TestSamples = new List<SampleResult>();
         }
@@ -34,7 +34,7 @@ namespace GeoMed.NN.BPNeuralNetwork.Basic
 
         public double TargetOutput { get; set; }
 
-        public double NeuronError =>  TargetOutput - ActualOutput ;
+        public double NeuronError =>  (new List<(double, double)>() { (TargetOutput, ActualOutput) }).MeanSquaredError() ;
     }
 
     /// <summary>
