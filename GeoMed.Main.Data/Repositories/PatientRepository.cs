@@ -5,6 +5,7 @@ using GeoMed.SharedKernal.Enums;
 using GeoMed.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,13 +19,13 @@ namespace GeoMed.Main.Data.Repositories
 
         }
 
-        public async Task<OperationResult<GetPatientDto>> GetPatientsData()
+        public async Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData()
         {
-            OperationResult<GetPatientDto> operationResult = new OperationResult<GetPatientDto>();
+            OperationResult<IEnumerable<GetPatientDto>> operationResult = new OperationResult<IEnumerable<GetPatientDto>>();
 
             try
             {
-                operationResult.IEnumerableResult = await Context.Patients.Select(patient => new GetPatientDto()
+                operationResult.Result = await Context.Patients.Select(patient => new GetPatientDto()
                 {
                     Address = patient.Area.Name,
                     Age =  EF.Functions.DateDiffYear(patient.BirthDate, DateTime.Now),

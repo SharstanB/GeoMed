@@ -75,5 +75,8 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
 
         public static IEnumerable<DiseaseInfoModel> USAAggregate() => Reader.Select<DiseaseInfoModel>(dataset_path).USACombine();
 
+        public static IEnumerable<DiseaseInfoModel> ALLUSA() => Reader.Select<DiseaseInfoModel>(dataset_path);
+
+
     }
 }

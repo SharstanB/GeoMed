@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using GeoMed.Repository.DataSet.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,13 @@ namespace GeoMed.Controllers
     [Authorize]
     public class MapController : Controller
     {
+        private readonly IZoneRepository zone;
+
+        public MapController(IZoneRepository zone)
+        {
+            this.zone = zone;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -26,8 +34,9 @@ namespace GeoMed.Controllers
         }
 
         [HttpGet]
-        public IActionResult USA_Covid([FromQuery]string state)
+        public async Task<IActionResult> USA_CovidAsync([FromQuery]string state)
         {
+            return Json( (await zone.USAAggregate()).Result);
             return Ok(LocallyDataAPI_Test.APIs.COVID19_US_Country.COVID19USCountry.USAAggregate());
         }
     }

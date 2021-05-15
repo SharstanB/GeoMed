@@ -1,4 +1,16 @@
-﻿<button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
+﻿
+@functions{
+
+    string IsActiveMenu(string _controller, string _action = null)
+    {
+        string controller = ViewContext.RouteData.Values["Controller"].ToString();
+        string action = ViewContext.RouteData.Values["Action"].ToString(); 
+        if (_action is null)
+            return _controller == controller ? "m-menu__item--active" : "";
+        return _controller == controller && _action == action ? "m-menu__item--active" : "";
+    }
+}
+<button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i class="la la-close"></i></button>
 
 <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark ">
     <!-- BEGIN: Aside Menu -->
@@ -13,8 +25,8 @@
                 <i class="m-menu__section-icon flaticon-more-v3"></i>
             </li>
 
-            <li class="m-menu__item  m-menu__item--active" aria-haspopup="true">
-                <a href="index.html" class="m-menu__link ">
+            <li class="m-menu__item  @IsActiveMenu("Home")" aria-haspopup="true">
+                <a asp-controller="Home" asp-action="Index" class="m-menu__link">
                     <span class="m-menu__item-here"></span><i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-text">الرئيسية</span>
                 </a>
@@ -58,8 +70,8 @@
             </li>
 
 
-
-            <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+            <!--m-menu__item--expanded-->
+            <li class="m-menu__item  m-menu__item--submenu @IsActiveMenu("Map")" aria-haspopup="true" m-menu-submenu-toggle="hover">
                 <a href="javascript:;" class="m-menu__link m-menu__toggle">
                     <span class="m-menu__item-here"></span><i class="m-menu__link-icon flaticon-layers"></i>
                     <span class="m-menu__link-text">الخرائط</span>
@@ -152,3 +164,5 @@
     </div>
     <!-- END: Aside Menu -->
 </div>
+
+

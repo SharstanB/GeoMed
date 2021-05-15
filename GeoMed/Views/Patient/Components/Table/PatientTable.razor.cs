@@ -29,7 +29,7 @@ namespace GeoMed.Views.Patient.Components.Table
         protected override async Task OnInitializedAsync()
         {
             Patients = (await PatientRepository.GetPatientsData())
-                .IEnumerableResult ?? new List<GetPatientDto>();
+                .Result ?? new List<GetPatientDto>();
         }
         public void OnSearch()
         {
