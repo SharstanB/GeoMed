@@ -1,6 +1,10 @@
 ﻿using System;
+using GeoMed.Main.Data.Repositories;
+using GeoMed.Main.IData.IRepositories;
 using GeoMed.NN.Base.Enums;
 using GeoMed.NN.BPNeuralNetwork;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace TestNN
 {
     class Program
@@ -8,7 +12,11 @@ namespace TestNN
         static void Main(string[] args)
         {
 
-             var epochs = 3;
+            var serviceProvider = new ServiceCollection()
+           .AddSingleton<IMapRepository, MapRepository>()
+           .BuildServiceProvider();
+
+            var epochs = 1;
             //var result = NeuralNetworkAPI.GetNetworkResult(epochs: epochs, errorRate: 0.003f, executedData: ExecutedData.County, hiddenCount: 7);
 
             var result = NeuralNetworkAPI.
@@ -82,6 +90,8 @@ namespace TestNN
                     });
                 });
             });
+
+            serviceProvider.GetService<IMapRepository>().SaveTrainedModel(result);
         }
 
         public static void Print(string text, ConsoleColor color = ConsoleColor.White)

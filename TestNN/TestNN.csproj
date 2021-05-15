@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GeoMed.Main.Data\GeoMed.Main.Data.csproj" />
+    <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
     <ProjectReference Include="..\GeoMed.NN.BPNeuralNetwork\GeoMed.NN.BPNeuralNetwork.csproj" />
   </ItemGroup>
 
