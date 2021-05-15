@@ -1,5 +1,7 @@
 using GeoMed.Main.Data.Repositories;
 using GeoMed.Main.IData.IRepositories;
+using GeoMed.Repository.DataSet.Interface;
+using GeoMed.Repository.DataSet.Repository;
 using GeoMed.Share.Data;
 using GeoMed.Share.IData.IRepositories;
 using GeoMed.SqlServer;
@@ -66,6 +68,7 @@ namespace GeoMed
 
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IStoreDataRepository, StoreDataRepository>();
+            services.AddScoped<IZoneRepository, ZoneRepository>();
 
         
         }
@@ -101,6 +104,8 @@ namespace GeoMed
                     pattern: "{controller=Account}/{action=Login}/{id?}");
                 endpoints.MapBlazorHub();
             });
+
         }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using GeoMed.Model.Main;
+﻿using GeoMed.Model.DataSet;
+using GeoMed.Model.Main;
 using GeoMed.Model.Setting;
 using GeoMed.Model.Templete;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,12 @@ namespace GeoMed.SqlServer
 
         #endregion
 
+        #region == DbSet ==
+
+        public DbSet<CovidZone> CovidZones { get; set; }
+
+        #endregion
+
 
         #region == Methods == 
 
@@ -67,7 +74,7 @@ namespace GeoMed.SqlServer
 
             #region  == Main Filters == 
             modelBuilder.Entity<PatientRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-        modelBuilder.Entity<TrackRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+             modelBuilder.Entity<TrackRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
             #endregion
 
@@ -80,14 +87,18 @@ namespace GeoMed.SqlServer
 
             #endregion
 
+
+            #region == DbSet ==
+
+            modelBuilder.Entity<CovidZone>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+
+            #endregion
+
             #endregion
 
         }
 
         #endregion
-
-
-
 
 
     }

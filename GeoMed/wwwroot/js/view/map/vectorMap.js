@@ -1,4 +1,14 @@
-﻿am4core.ready(function () {
+﻿
+
+
+
+am4core.ready(function () {
+
+    swal(
+        {
+            title: "USA Map", text: "Please wait while the data is processed", allowOutsideClick: false,
+            onOpen: function () { swal.showLoading() }
+        });
 
     var populations = [
         {id:'US-AL', value: 4887871,  },
@@ -100,7 +110,7 @@
     polygonSeries.heatRules.push({
         "property": "fill",
         "target": polygonSeries.mapPolygons.template,
-        "min": am4core.color("#F7CAD1"),
+        "min": am4core.color("#F9DBE0"),
         "max": am4core.color("#DB1430")
     });
 
@@ -114,7 +124,9 @@
         var loader = new am4core.DataSource();
         loader.url = "https://localhost:44363/Map/USA_Covid";
         loader.events.on("parseended", function (ev) {
-            setupStores(ev.target.data.filter(x => x.cases>0));
+             setupStores(ev.target.data.filter(x => x.cases>0));
+          //  console.log("data", ev.target.data)
+          //  setupStores(ev.target.data);
         });
         loader.load();
     }
@@ -129,7 +141,7 @@
         template.horizontalCenter = "middle";
         template.propertyFields.latitude = "lat";
         template.propertyFields.longitude = "long";
-        template.tooltipText = "{name}:\n[bold]{cases} cases[/]";
+        template.tooltipText = "{name}:\n[bold]{cases} cases[/] \n {long} , {lat} \n {count}";
 
         var circle = template.createChild(am4core.Circle);
         circle.radius = 10;
@@ -149,7 +161,7 @@
             target: circle,
             property: "radius",
             min: 10,
-            max: 30
+            max: 40
         });
 
         // Set up drill-down
@@ -157,25 +169,19 @@
 
             // Determine what we've clicked on
             var data = ev.target.dataItem.dataContext;
-            console.log("once");
             // No id? Individual store - nothing to drill down to further
             if (!data.target) {
                 return;
             }
-            console.log("once2");
-
             // Create actual series if it hasn't been yet created
             if (!regionalSeries[data.target].series) {
                 regionalSeries[data.target].series = createSeries("count");
                 regionalSeries[data.target].series.data = data.markerData;
             }
-            console.log("once3");
-
             // Hide current series
             if (currentSeries) {
                 currentSeries.hide();
             }
-
             // Control zoom
             if (data.type == "state") {
                 console.log("once4");
@@ -184,7 +190,6 @@
                 chart.zoomToMapObject(statePolygon);
             }
             else if (data.type == "country") {
-                console.log("once5");
 
                 chart.zoomToGeoPoint({
                     latitude: data.lat,
@@ -192,13 +197,9 @@
                 }, 64, true);
             }
             zoomOut.show();
-            console.log("once6");
 
             // Show new targert series
             currentSeries = regionalSeries[data.target].series;
-
-            console.log("once8");
-
 
             currentSeries.show();
         });
@@ -214,7 +215,7 @@
         // Init country-level series
         regionalSeries.US = {
             markerData: [],
-            series: createSeries("cases")
+            series: createSeries("count")
         };
 
         // Set current series
@@ -297,7 +298,7 @@
 
         regionalSeries.US.series.data = regionalSeries.US.markerData;
 
-        console.log(regionalSeries.US.series.data);
+        swal.close()
     }
 
 }); // end am4core.ready()

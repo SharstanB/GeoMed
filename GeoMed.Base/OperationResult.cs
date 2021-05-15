@@ -10,8 +10,6 @@ namespace GeoMed.Base
     {
         public T Result { get; set; }
 
-        public IEnumerable<T> IEnumerableResult { get; set; }
-
         public OperationResultTypes OperationResultType { get; set; }
 
         public Exception Exception { get; set; }
