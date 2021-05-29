@@ -71,7 +71,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestNN", "TestNN\TestNN.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSet", "DataSet", "{AB4082BE-63B5-4E98-BCC2-C3FBECF27431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoMed.Repository.DataSet", "GeoMed.Repository.DataSet\GeoMed.Repository.DataSet.csproj", "{65902D66-7EBE-4EB3-8115-64531F3A78DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoMed.Repository.DataSet", "GeoMed.Repository.DataSet\GeoMed.Repository.DataSet.csproj", "{65902D66-7EBE-4EB3-8115-64531F3A78DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

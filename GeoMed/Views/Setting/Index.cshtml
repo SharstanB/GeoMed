@@ -1,1 +1,9 @@
-﻿<p>Setting</p>
+﻿@using GeoMed.Views.Setting.Components;
+
+<div class="col-12" asp-single-html-node="true">
+    <div class="row">
+        <component type="typeof(NeuralNetwork)" render-mode="ServerPrerendered" />
+    </div>
+</div>
+
+
