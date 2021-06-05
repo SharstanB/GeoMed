@@ -1,9 +1,18 @@
 ﻿@using GeoMed.Views.Setting.Components;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "تدريب شبكة عصبية";
+    ViewBag.MenuText = "Elman / Back Probagation";
 
-<div class="col-12" asp-single-html-node="true">
-    <div class="row">
+}
+@section styles{
+    <link href="~/css/countup/countup.css" rel="stylesheet" />
+}
+<div  class="col-12" asp-single-html-node="true">
+    <div class="col-12">
         <component type="typeof(NeuralNetwork)" render-mode="ServerPrerendered" />
     </div>
 </div>
-
-
+@section scripts {
+    <script src="~/js/countup/countup.js"></script>
+}

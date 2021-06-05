@@ -17,17 +17,18 @@
     </style>
     <!--begin::Web font -->
     @*<script src="~/assets/app/js/webfont.js"></script>
-    <script>
-        WebFont.load({
-            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700", "Cairo:500,600,700"] },
-            active: function () {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>*@
+        <script>
+            WebFont.load({
+                google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700", "Cairo:500,600,700"] },
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>*@
     <!--end::Web font -->
 
     <partial name="@ViewPaths.Links" />
+    @RenderSection("styles", false)
     <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/dark/main.css" />
 
     <!--Fonts size-->
@@ -35,9 +36,11 @@
         .m-menu__link-text {
             font-size: 1.4rem !important;
         }
+
         .m-subheader__title {
             font-size: 2.0rem !important;
         }
+
         .m-menu__section-text {
             font-size: 1.2rem !important;
         }

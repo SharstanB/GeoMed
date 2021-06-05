@@ -35,6 +35,8 @@ namespace GeoMed
 
             services.AddControllersWithViews();
 
+            var indentityInfo = Configuration.GetSection("IdentityInfo");
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = "Cookies";
@@ -49,10 +51,10 @@ namespace GeoMed
                 )
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "https://localhost:44351/";
-                    options.ClientId = "secret_dash_client_id";
+                    options.Authority = indentityInfo.GetSection("Authority").Value;
+                    options.ClientId = indentityInfo.GetSection("ClientId").Value;
                     options.RequireHttpsMetadata = false;
-                    options.ClientSecret = "SecretGeoMedDashBoardProject2021";
+                    options.ClientSecret = indentityInfo.GetSection("ClientSecret").Value;
                     options.SignInScheme = "Cookies";
                     options.ResponseType = "code";
                     options.Scope.Clear();

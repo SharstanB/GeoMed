@@ -1,0 +1,22 @@
+﻿.countup {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .countup .timeel {
+        display: inline-block;
+        padding: 10px;
+        background: #151515;
+        margin: 0;
+        color: white;
+        min-width: 2.6rem;
+        margin-left: 13px;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .countup span[class*="timeRef"] {
+        border-radius: 0 10px 10px 0;
+        margin-left: 0;
+        background: #32c5d2;
+        color: black;
+    }
