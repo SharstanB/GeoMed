@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModelInformation>
+  <NetworkError>2.634072915500087</NetworkError>
+  <FinalWeigths>
+    <Hidden1>
+      <weigth out="0" in="0">0.2773705992276643</weigth>
+      <weigth out="0" in="1">0.02345959331070054</weigth>
+      <weigth out="0" in="2">0.8037784471194159</weigth>
+      <weigth out="1" in="0">0.6835479869896304</weigth>
+      <weigth out="1" in="1">0.7463006771850869</weigth>
+      <weigth out="1" in="2">0.9221220034743296</weigth>
+      <weigth out="2" in="0">0.5964960766008571</weigth>
+      <weigth out="2" in="1">0.009418983482485163</weigth>
+      <weigth out="2" in="2">0.7874727471673268</weigth>
+    </Hidden1>
+    <Output>
+      <weigth out="0" in="0">0.11151509737200807</weigth>
+      <weigth out="0" in="1">0.7514855166671265</weigth>
+      <weigth out="0" in="2">0.7102957790299764</weigth>
+    </Output>
+  </FinalWeigths>
+</ModelInformation>

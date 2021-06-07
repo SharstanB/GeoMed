@@ -11,27 +11,44 @@ namespace GeoMed.NN.BPNeuralNetwork
 {
     internal static class NeuralNetworkOperations 
     {
+        /// <summary>
+        ///  temporary storage for testing samples
+        /// </summary>
         private static List<NNInput> TestDataList { get; set; }
 
+        /// <summary>
+        ///  represent final result 
+        /// </summary>
         private static NNResult NNResult { get; set; } = new NNResult();
+
+        /// <summary>
+        ///  initial neural network or we can say built network with initial values 
+        ///  for traing operation
+        /// </summary>
+        /// <param name="neuralNetwork">get network properties </param>
+        /// <param name="executedData"> which data will be trained</param>
+        /// <returns></returns>
         public static (NeuralNetwork initializedNN , List<NNInput> samples) InitialLayers(NeuralNetwork neuralNetwork  , ExecutedData executedData)
          {
-
-            var inputList = COVID19USCountry.GetStateInput(executedData);
+            // get data for train and test 
+            var inputList = COVID19USCountry.GetDataInput(executedData);
 
             var trainDataList = inputList.trainData;
 
             TestDataList = inputList.testData;
 
-            neuralNetwork.InputLayer.Input = trainDataList[0];
+            neuralNetwork.InputLayer.Input = trainDataList[0];// initial with first sample
 
-            int hiddenCells = (new Random().Next(2, 5));
+            int hiddenCells = (new Random().Next(2, 5)); // first hidden layer cells
 
-            var firsthiddenLayer = new HiddenLayer(LayerType.Hidden, hiddenCells);
-            firsthiddenLayer.Weights = InitialWeigths(hiddenCells , neuralNetwork.InputLayer.CellsCount);
+            var firsthiddenLayer = new HiddenLayer(LayerType.Hidden, hiddenCells); // first layer
 
-            neuralNetwork.HiddenLayers.Add(firsthiddenLayer);
+            firsthiddenLayer.Weights = InitialWeigths(hiddenCells , 
+                neuralNetwork.InputLayer.CellsCount); // initial first layer weigths
 
+            neuralNetwork.HiddenLayers.Add(firsthiddenLayer); // add first hidden layer to hidden layers list
+
+            // complete with other hidden layer if layers count more than one 
             for (int i = 1; i < neuralNetwork.HiddenLayerCount ; i++)
             {
                 var newHiddenCells = new Random().Next(2,5);
@@ -41,17 +58,26 @@ namespace GeoMed.NN.BPNeuralNetwork
                 hiddenCells = newHiddenCells;
             }
 
+            // create output layer 
             neuralNetwork.OutputLayer = new ElmanLayer(LayerType.Output, 1);
 
+            // initial output weigths 
             neuralNetwork.OutputLayer.Weights =
                InitialWeigths( neuralNetwork.OutputLayer.CellsCount 
                , neuralNetwork.HiddenLayers.LastOrDefault().CellsCount);
 
-
+            // return initialed netword which is ready for training
             return (neuralNetwork , trainDataList.Skip(0).ToList());
         }
 
 
+        /// <summary>
+        ///  initial Network weigths between two layers (from , to) 
+        /// </summary>
+        /// <param name="inputCount">from layer cells count</param>
+        /// <param name="outputCount">to layer cells count</param>
+        /// <param name="isContext">if these weigths for context layers or not</param>
+        /// <returns></returns>
         public static List<List<double>> InitialWeigths(int inputCount  
                                                       , int outputCount 
                                                       , bool isContext = false)
@@ -61,12 +87,17 @@ namespace GeoMed.NN.BPNeuralNetwork
             for (int i = 0; i < inputCount; i++)
             {
                  ll = Enumerable.Range(0, outputCount).Select(s => isContext ? 1.1
-                  : new Random().NextDouble()).ToList();
+                 // ifcontext layer initial with 1 or with random value between  (1 , 0)
+                 : new Random().NextDouble()).ToList(); 
                  list.Add(ll);
             }
             return list;
         }
-       
+        /// <summary>
+        ///  move from input layer to output layer across hidden layers 
+        /// </summary>
+        /// <param name="elmanBPNeural"></param>
+        /// <returns></returns>
         private static NeuralNetwork ForwordOperation(NeuralNetwork elmanBPNeural)
         {
             elmanBPNeural.HiddenLayers.FirstOrDefault().LayerCells.Clear();
@@ -81,6 +112,7 @@ namespace GeoMed.NN.BPNeuralNetwork
                           weigth[1] * elmanBPNeural.InputLayer.Input.MedianAge +
                           weigth[2] * elmanBPNeural.InputLayer.Input.Population);
 
+             // calculate first hidden layer 
                 elmanBPNeural.HiddenLayers.FirstOrDefault()
               .LayerCells.Add(new Neuron()
               { value = ActivationFunctions.Tanh(elmanBPNeural.HiddenLayers.FirstOrDefault().GetContextValues
@@ -114,6 +146,7 @@ namespace GeoMed.NN.BPNeuralNetwork
                     elmanBPNeural.HiddenLayers[i].FillHiddenCellValues();
             }
             elmanBPNeural.OutputLayer.LayerCells.Clear();
+            // calculate ouput layer 
             elmanBPNeural.OutputLayer.Weights.ForEach(weigth =>
                 {
                     var res = 0.0;
@@ -132,7 +165,11 @@ namespace GeoMed.NN.BPNeuralNetwork
 
             return elmanBPNeural;
         }
-
+        /// <summary>
+        /// trai network with two step (feed forword - back forword)
+        /// </summary>
+        /// <param name="model">get network and data for training</param>
+        /// <returns></returns>
         public static NeuralNetwork TrainNN((NeuralNetwork elmanBPNeural, List<NNInput> samples) model)
         {
             
@@ -140,20 +177,23 @@ namespace GeoMed.NN.BPNeuralNetwork
             {
                 var list = new List<SampleResult>();
                 var finalEpochError = 0.0;
-                foreach (var sample in model.samples)
+                foreach (var sample in model.samples) // loop on train samples 
                 {
                     model.elmanBPNeural.InputLayer.Input = sample; 
                     var forwordResult = ForwordOperation(model.elmanBPNeural);
 
-                    list.Add(new SampleResult()
+                    list.Add(new SampleResult() // store (actual - target) outputs for each sample
                     {
                         ActualOutput = forwordResult.OutputLayer.
                               LayerCells.FirstOrDefault().value ,
                         TargetOutput = sample.TargetOutput
                     });    
+
+                    // calculate error for each sample
                    var Error = forwordResult.InputLayer.Input.NNPBError
                         (forwordResult.OutputLayer.LayerCells.Select(s => s.value).ToList());
 
+                    // using calculate error to decide update weigths or not 
                     if (Error.ErrorObtained > model.elmanBPNeural.ErrorRate)
                     {
                         model.elmanBPNeural = CalcNeuronsErrors(model.elmanBPNeural, Error.NetworkError);
@@ -205,7 +245,11 @@ namespace GeoMed.NN.BPNeuralNetwork
             }
             return elmanBPNeural;
         }
-       
+       /// <summary>
+       /// update weigths (back forword)
+       /// </summary>
+       /// <param name="elmanBPNeural"></param>
+       /// <returns></returns>
         public static NeuralNetwork UpdateWeigths(NeuralNetwork elmanBPNeural)
         {
             for (int i = 0; i < elmanBPNeural.HiddenLayers.LastOrDefault().CellsCount; i++)
@@ -230,6 +274,7 @@ namespace GeoMed.NN.BPNeuralNetwork
                    
                 }
             }
+
                 for (int j = 0; j < elmanBPNeural.HiddenLayers.FirstOrDefault().CellsCount; j++)
                 {
                     elmanBPNeural.HiddenLayers.FirstOrDefault().Weights[j][0] +=
@@ -266,7 +311,11 @@ namespace GeoMed.NN.BPNeuralNetwork
 
             return NNResult;
         }
-
+        /// <summary>
+        /// test trained network with test data samples (calc error without update weigths)
+        /// </summary>
+        /// <param name="elmanBPNeural"></param>
+        /// <returns></returns>
         public static NeuralNetwork TestNN(NeuralNetwork elmanBPNeural)
         {
             foreach (var sample in TestDataList)

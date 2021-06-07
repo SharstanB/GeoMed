@@ -8,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.IO;
+using GeoMed.Base;
+using GeoMed.Main.DTO.Settings;
+using GeoMed.NN.BPNeuralNetwork;
 
 namespace GeoMed.Main.Data.Repositories
 {
-    public class MapRepository : IMapRepository
+    public class NNRepository : INNRepository
     {
-        private string ModelPath = Path.Combine(Directory.GetCurrentDirectory(), "models");
+        private string ModelPath = "wwwroot/models";
 
         public void SaveTrainedModel(NNResult nNResult)
         {
@@ -83,7 +86,30 @@ namespace GeoMed.Main.Data.Repositories
 
             //var finalElem = new XElement("ModelInformation", xElement);
 
-            xElement.Save(Path.Combine( ModelPath,$"{@"model-"}{Guid.NewGuid()}.xml"));
+            xElement.Save(Path.Combine( ModelPath,$"{@"model-"}{DateTime.Now}.xml"));
+        }
+
+        public OperationResult<NNResult> TrainNeuralNetwork(TrainNeuralNetworkDto trainNeural)
+        {
+            OperationResult<NNResult> operationResult = new OperationResult<NNResult>();
+            NNResult nNResult = NeuralNetworkAPI.
+                GetElmanNetworkResult(trainNeural.Epochs, trainNeural.ErrorRate,
+                trainNeural.ExecutedData, trainNeural.HiddenLayersCount);
+            operationResult.Result = nNResult;
+            operationResult.OperationResultType = OperationResultTypes.Success;
+
+            SaveTrainedModel(nNResult);
+
+            return operationResult;
+        }
+
+
+        public OperationResult<bool> LoadModel()
+        {
+            var operation = new OperationResult<bool>();
+
+
+            return operation;
         }
     }
 }

@@ -1,23 +1,28 @@
-﻿<div class="portlet light bordered">
+﻿@using GeoMed.NN.Base.Enums;
+
+<div class="portlet light bordered">
     <div class="portlet-title">
-        
+
         <div class="actions">
             <div class="btn-group">
                 <a class="btn btn-sm green dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                  
+
                     <i class="fa fa-angle-down">   الشبكات  </i>
                 </a>
                 <ul class="dropdown-menu pull-right">
                     <li>
-                        <a href="javascript:;"> Elman
+                        <a href="javascript:;">
+                            Elman
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:;"> Back Probagation
+                        <a href="javascript:;">
+                            Back Probagation
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:;"> LSTM
+                        <a href="javascript:;">
+                            LSTM
                         </a>
                     </li>
                 </ul>
@@ -25,95 +30,104 @@
         </div>
     </div>
     <div class="portlet-body form">
-        <form role="form">
+        <EditForm Model="@TrainNNVM" OnValidSubmit="OnSubmit">
+            <DataAnnotationsValidator />
+            @*<ValidationSummary />*@
             <div class="form-body  row">
                 <div class="col-6">
                     <div class="form-group">
                         <label>عدد التكرارات (Epochs)</label>
                         <div class="input-group">
                             @*<span class="input-group-addon">
-                                <i class="fa fa-envelope"></i>
-                            </span>*@
-                            <input type="text" class="form-control" placeholder="عدد التكرارات">
+                <i class="fa fa-envelope"></i>
+            </span>*@
+                            <InputNumber @bind-Value="TrainNNVM.Epochs" type="text" class="form-control" placeholder="عدد التكرارات" />
                         </div>
+                        <ValidationMessage   For="@(() => TrainNNVM.Epochs )" />
+
                     </div>
                     <div class="form-group">
                         <label>عدد طبقات الHeddin</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="عدد طبقات ">
+                            <InputNumber @bind-Value="TrainNNVM.HiddenLayersCount" type="text" class="form-control" placeholder="عدد طبقات " />
                         </div>
+                        <ValidationMessage  For="@(() => TrainNNVM.HiddenLayersCount )" />
                     </div>
                     @*<div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            <span class="input-group-addon">
-                                <i class="fa fa-user font-red"></i>
-                            </span>
-                        </div>
-                    </div>*@
+                    <label for="exampleInputPassword1">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <span class="input-group-addon">
+                            <i class="fa fa-user font-red"></i>
+                        </span>
+                    </div>
+                </div>*@
                     @*<div class="form-group">
-                        <label>Left Icon</label>
-                        <div class="input-icon">
-                            <i class="fa fa-bell-o font-green"></i>
-                            <input type="text" class="form-control" placeholder="Left icon">
-                        </div>
-                    </div>*@
+                    <label>Left Icon</label>
+                    <div class="input-icon">
+                        <i class="fa fa-bell-o font-green"></i>
+                        <input type="text" class="form-control" placeholder="Left icon">
+                    </div>
+                </div>*@
                     @*<div class="form-group">
-                        <label>Left Icon(.input-sm)</label>
-                        <div class="input-icon input-icon-sm">
-                            <i class="fa fa-bell-o"></i>
-                            <input type="text" class="form-control input-sm" placeholder="Left icon">
-                        </div>
-                    </div>*@
+                    <label>Left Icon(.input-sm)</label>
+                    <div class="input-icon input-icon-sm">
+                        <i class="fa fa-bell-o"></i>
+                        <input type="text" class="form-control input-sm" placeholder="Left icon">
+                    </div>
+                </div>*@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label>نسبة الخطأ</label>
                         <div class="input-icon input-icon-lg">
-                            @*<i class="fa fa-bell-o"></i>*@
-                            <input type="text" class="form-control input-lg" placeholder="نسبة الخطأ">
+                            <InputNumber @bind-Value="TrainNNVM.LearningRate"  d type="text" class="form-control input-lg" placeholder="معامل التعلم" />
                         </div>
+                        <ValidationMessage  For="@(() => TrainNNVM.LearningRate )" />
                     </div>
                     <div class="form-group">
                         <label>الداتا المدربة</label>
                         <div class="input-icon right">
-                            @*<i class="fa fa-microphone fa-spin font-blue"></i>*@
-                            <input type="text" class="form-control" placeholder="الداتا المدربة">
+                            <InputSelect type="text" class="form-control" placeholder="الداتا المدربة"
+                                         @bind-Value="TrainNNVM.ExecutedData">
+                                @foreach (var item in Enum.GetValues(typeof(ExecutedData)))
+                                {
+                                    <option value="@item">@Enum.GetName(typeof(ExecutedData), item)</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => TrainNNVM.ExecutedData )" />
                         </div>
                     </div>
                     @*<div class="form-group">
-                        <label>Right Icon(.input-sm)</label>
-                        <div class="input-icon input-icon-sm right">
-                            <i class="fa fa-bell-o"></i>
-                            <input type="text" class="form-control input-sm" placeholder="Left icon">
-                        </div>
-                    </div>*@
+                    <label>Right Icon(.input-sm)</label>
+                    <div class="input-icon input-icon-sm right">
+                        <i class="fa fa-bell-o"></i>
+                        <input type="text" class="form-control input-sm" placeholder="Left icon">
+                    </div>
+                </div>*@
                     @*<div class="form-group">
-                        <label>Right Icon(.input-lg)</label>
-                        <div class="input-icon input-icon-lg right">
-                            <i class="fa fa-bell-o font-green"></i>
-                            <input type="text" class="form-control input-lg" placeholder="Left icon">
-                        </div>
-                    </div>*@
+                    <label>Right Icon(.input-lg)</label>
+                    <div class="input-icon input-icon-lg right">
+                        <i class="fa fa-bell-o font-green"></i>
+                        <input type="text" class="form-control input-lg" placeholder="Left icon">
+                    </div>
+                </div>*@
                     @*<div class="form-group">
-                        <label>Circle Input</label>
-                        <div class="input-icon right">
-                            <i class="fa fa-microphone"></i>
-                            <input type="text" class="form-control input-circle" placeholder="Right icon">
-                        </div>
-                    </div>*@
+                    <label>Circle Input</label>
+                    <div class="input-icon right">
+                        <i class="fa fa-microphone"></i>
+                        <input type="text" class="form-control input-circle" placeholder="Right icon">
+                    </div>
+                </div>*@
                 </div>
-               
-               
- 
-               
+
+
+
+
             </div>
 
             <div class="row" dir="ltr">
                 <div class="countup col-md-offset-4 col-md-12" id="countup1">
-                    @*<span class="timeel days">00</span>
-                    <span class="timeel timeRefDays">days</span>*@
                     <span class="timeel hours">00</span>
                     <span class="timeel timeRefHours">hours</span>
                     <span class="timeel minutes">00</span>
@@ -126,11 +140,8 @@
                 <button type="submit" class="btn blue">بدء التدريب</button>
                 <button type="button" class="btn default">إلغاء</button>
             </div>
-        </form>
+        </EditForm>
     </div>
 </div>
 
 
-@code {
-
-}

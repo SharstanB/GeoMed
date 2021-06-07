@@ -48,7 +48,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         /// get Elman Neural Network Input 
         /// </summary>
         /// <returns></returns>
-        public static (List<NNInput> trainData, List<NNInput> testData) GetStateInput(ExecutedData executedData) => executedData == ExecutedData.State ?
+        public static (List<NNInput> trainData, List<NNInput> testData) GetDataInput(ExecutedData executedData) => executedData == ExecutedData.State ?
             (diseaseDataset_path , usInfoDataset_path).ReadStatesInput() : (diseaseDataset_path, usInfoDataset_path).ReadCountiesInput();
 
 

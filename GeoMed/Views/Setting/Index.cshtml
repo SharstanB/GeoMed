@@ -1,4 +1,5 @@
 ﻿@using GeoMed.Views.Setting.Components;
+
 @{
     Layout = "_Layout";
     ViewData["Title"] = "تدريب شبكة عصبية";
@@ -8,7 +9,7 @@
 @section styles{
     <link href="~/css/countup/countup.css" rel="stylesheet" />
 }
-<div  class="col-12" asp-single-html-node="true">
+<div class="col-12" asp-single-html-node="true">
     <div class="col-12">
         <component type="typeof(NeuralNetwork)" render-mode="ServerPrerendered" />
     </div>

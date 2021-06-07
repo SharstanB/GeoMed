@@ -13,7 +13,7 @@ namespace TestNN
         {
 
             var serviceProvider = new ServiceCollection()
-           .AddSingleton<IMapRepository, MapRepository>()
+           .AddSingleton<INNRepository, NNRepository>()
            .BuildServiceProvider();
 
             var epochs = 1;
@@ -91,7 +91,7 @@ namespace TestNN
                 });
             });
 
-            serviceProvider.GetService<IMapRepository>().SaveTrainedModel(result);
+            serviceProvider.GetService<INNRepository>().SaveTrainedModel(result);
         }
 
         public static void Print(string text, ConsoleColor color = ConsoleColor.White)

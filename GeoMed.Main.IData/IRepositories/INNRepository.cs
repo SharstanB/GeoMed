@@ -1,4 +1,6 @@
-﻿using GeoMed.NN.BPNeuralNetwork.Basic;
+﻿using GeoMed.Base;
+using GeoMed.Main.DTO.Settings;
+using GeoMed.NN.BPNeuralNetwork.Basic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace GeoMed.Main.IData.IRepositories
 {
-    public interface IMapRepository
+    public interface INNRepository
     {
         void SaveTrainedModel(NNResult nNResult);
+
+        OperationResult<NNResult> TrainNeuralNetwork(TrainNeuralNetworkDto trainNeural);
 
         
     }
