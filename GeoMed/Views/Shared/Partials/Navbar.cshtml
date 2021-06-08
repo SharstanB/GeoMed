@@ -1,4 +1,5 @@
-﻿<header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
+﻿@using GeoMed.Util;
+<header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
     <div class="m-container m-container--fluid m-container--full-height">
         <div class="m-stack m-stack--ver m-stack--desktop">
             <!-- BEGIN: Brand -->
@@ -456,7 +457,8 @@
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="snippets/pages/user/login-1.html" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">تسجيل الخروج</a>
+                                                        <a href="@Url.Action(nameof(AccountController.Logout)
+                                                      ,nameof(AccountController).GetActionName())" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">تسجيل الخروج</a>
                                                     </li>
                                                 </ul>
                                             </div>

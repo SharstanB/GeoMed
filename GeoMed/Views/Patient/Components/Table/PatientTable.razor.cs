@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 namespace GeoMed.Views.Patient.Components.Table
 {
-    public partial class PatientTable
+    public partial class PatientTable : ComponentBase
     {
         private PatientSearchViewModel PatientSearch =
            new PatientSearchViewModel();

@@ -121,7 +121,7 @@ namespace GeoMed.NN.BPNeuralNetwork
            
 
             if (elmanBPNeural.NNType == NNType.Elman)
-             elmanBPNeural.HiddenLayers.FirstOrDefault().FillHiddenCellValues();
+             elmanBPNeural.HiddenLayers.FirstOrDefault().FillContextCellValues();
 
             for (int i = 1; i < elmanBPNeural.HiddenLayerCount; i++) // loop for hidden layers
                 // , first hidden layer calculated in last step from input values
@@ -143,7 +143,7 @@ namespace GeoMed.NN.BPNeuralNetwork
                 }
 
                 if (elmanBPNeural.NNType == NNType.Elman)
-                    elmanBPNeural.HiddenLayers[i].FillHiddenCellValues();
+                    elmanBPNeural.HiddenLayers[i].FillContextCellValues();
             }
             elmanBPNeural.OutputLayer.LayerCells.Clear();
             // calculate ouput layer 
@@ -291,22 +291,27 @@ namespace GeoMed.NN.BPNeuralNetwork
             }
             return elmanBPNeural;
         }
-
-        public static NNResult GetResult( NeuralNetwork elmanBPNeural   )
+        /// <summary>
+        ///  store final weigths for trained network
+        /// </summary>
+        /// <param name="neuralNetwork"></param>
+        /// <returns></returns>
+        public static NNResult GetResult( NeuralNetwork neuralNetwork   )
         {
-            elmanBPNeural.HiddenLayers.ForEach(hLayer =>
+
+            neuralNetwork.HiddenLayers.ForEach(hLayer =>
             {
                 NNResult.FinalWeigths.Add(new FinalWeigth()
                 {
                     LayerType = LayerType.Hidden,
-                    HiddenNumber = elmanBPNeural.HiddenLayers.IndexOf(hLayer) + 1,
+                    HiddenNumber = neuralNetwork.HiddenLayers.IndexOf(hLayer) + 1,
                     weigths = hLayer.Weights
                 });
             });
             NNResult.FinalWeigths.Add(new FinalWeigth()
             {
                 LayerType = LayerType.Output,
-                weigths =  elmanBPNeural.OutputLayer.Weights
+                weigths = neuralNetwork.OutputLayer.Weights
             });
 
             return NNResult;
@@ -337,7 +342,12 @@ namespace GeoMed.NN.BPNeuralNetwork
             return elmanBPNeural;
         }
 
-        private static ElmanLayer FillHiddenCellValues(this HiddenLayer elmanLayer )
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elmanLayer"></param>
+        /// <returns></returns>
+        private static ElmanLayer FillContextCellValues(this HiddenLayer elmanLayer )
         {
             for (int i = elmanLayer.HiddenContextLayersCount - 2 ; i >= 0 ; i--)
             {
@@ -365,6 +375,11 @@ namespace GeoMed.NN.BPNeuralNetwork
                 });
             });
             return res;
+        }
+
+        public static void LoadDataToNetwork(NNInput nNInput)
+        {
+            
         }
     }
 }

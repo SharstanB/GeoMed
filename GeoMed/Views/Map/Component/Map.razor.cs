@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 
 namespace GeoMed.Views.Map.Component
 {
-    public partial class Map
+    public partial class Map : ComponentBase
     {
 
         [Inject]
