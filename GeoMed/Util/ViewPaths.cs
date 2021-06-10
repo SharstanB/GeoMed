@@ -51,5 +51,7 @@ namespace GeoMed.Util
         /// Views/Shared/Partials/StickyTool.cshtml
         /// </summary>
         public static string StickyTool { get; } = "~/Views/Shared/Partials/StickyTool.cshtml";
+
+        public static string QuikNav { get; } = "~/Views/Shared/Partials/QuikNav.cshtml";
     }
 }

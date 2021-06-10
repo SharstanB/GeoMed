@@ -26,13 +26,13 @@ namespace GeoMed.Repository.DataSet.DataTransformObject
             return new CovidZoneDto()
             {
                 Cases = item.Cases,
-                Country = item.Country,
+                Country = item.SpatialInfo.Country,
                 Date = item.Date,
                 Deaths = item.Deaths,
                 FipsCode = item.FipsCode,
-                Lat = item.Lat,
-                Long = item.Long,
-                State = item.State,
+                Lat = item.SpatialInfo.Lat,
+                Long = item.SpatialInfo.Long,
+                State = item.SpatialInfo.State,
                 StateCode = item.StateCode,
             };
         }

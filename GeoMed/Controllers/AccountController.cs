@@ -15,12 +15,8 @@ namespace GeoMed.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-       // public HttpClient _httpClient { get; set; }
-        //public IConfiguration _configuration { get; }
-
         public AccountController()
         {
-          //  _httpClient = httpClient;
         }
 
         [HttpGet]

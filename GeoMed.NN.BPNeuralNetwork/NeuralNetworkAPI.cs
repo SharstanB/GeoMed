@@ -11,13 +11,15 @@ namespace GeoMed.NN.BPNeuralNetwork
     public static class NeuralNetworkAPI
     {
         public static NNResult GetNetworkResult
-            (int epochs, float errorRate, ExecutedData executedData, int hiddenCount = 1) =>
-            Test(Train(new NeuralNetwork(epochs, errorRate ,  hiddenCount , NNType.BackProbagation) , executedData));
+            (int epochs, float errorRate, ExecutedData executedData, int hiddenCount = 1, NNType nNType = NNType.BackProbagation
+            ) => nNType switch
+            {
+                 NNType.BackProbagation =>
+                  Test(Train(new NeuralNetwork(NNType.BackProbagation, epochs, errorRate, hiddenCount), executedData)),
 
+                 NNType.Elman => Test(Train(new NeuralNetwork(NNType.Elman, epochs, errorRate, hiddenCount), executedData))
+            };
 
-        public static NNResult GetElmanNetworkResult
-           (int epochs, float errorRate, ExecutedData executedData, int hiddenCount = 1) =>
-           Test(Train(new NeuralNetwork(epochs, errorRate, hiddenCount , NNType.Elman) , executedData));
 
         private static NNResult Test(NeuralNetwork network) =>
             NeuralNetworkOperations.GetResult(NeuralNetworkOperations.TestNN(network));
@@ -26,7 +28,7 @@ namespace GeoMed.NN.BPNeuralNetwork
              NeuralNetworkOperations.TrainNN(NeuralNetworkOperations.InitialLayers(network , executedData));
 
 
-
+        public static NeuralNetwork loadModel(NNResult nResult) => NeuralNetworkOperations.LoadDataToNetwork(nResult);
 
     }
 }

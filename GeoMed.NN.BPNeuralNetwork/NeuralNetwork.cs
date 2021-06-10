@@ -31,8 +31,8 @@ namespace GeoMed.NN.BPNeuralNetwork
         #endregion
 
         #region Constructer
-        public NeuralNetwork(int epoch, float errorRate , int hiddenLayerCount = 1
-                                      , NNType nNType = NNType.BackProbagation, float alpha = 0.1f )
+        public NeuralNetwork(NNType nNType = NNType.BackProbagation , int epoch = 1, float errorRate = 0.001f, int hiddenLayerCount = 1
+                                      , float alpha = 0.1f )
         {
             Epochs = epoch;
 

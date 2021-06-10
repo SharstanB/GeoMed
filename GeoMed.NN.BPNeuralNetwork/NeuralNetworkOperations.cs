@@ -336,7 +336,7 @@ namespace GeoMed.NN.BPNeuralNetwork
                     LayerCells.FirstOrDefault().value
                 });
             }
-
+            NNResult.NNType =  elmanBPNeural.NNType;
             NNResult.NetworkError = NNResult.TestSamples.Select(s=> (s.TargetOutput , s.ActualOutput))
                 .MeanSquaredError();
             return elmanBPNeural;
@@ -377,9 +377,25 @@ namespace GeoMed.NN.BPNeuralNetwork
             return res;
         }
 
-        public static void LoadDataToNetwork(NNInput nNInput)
+        public static NeuralNetwork LoadDataToNetwork(NNResult nNResult)
         {
-            
+           NeuralNetwork neuralNetwork = new NeuralNetwork(nNResult.NNType);
+            nNResult.FinalWeigths.ForEach(item =>
+            {
+                if(item.LayerType == LayerType.Hidden)
+                {
+                    var layer = new HiddenLayer( LayerType.Hidden, item.weigths.Count);
+                    layer.Weights = item.weigths;
+                    neuralNetwork.HiddenLayers.Add(layer);
+                }
+                else
+                {
+                    var layer = new HiddenLayer(LayerType.Output, item.weigths.Count);
+                    layer.Weights = item.weigths;
+                    neuralNetwork.OutputLayer = layer;
+                }
+            });
+            return neuralNetwork;
         }
     }
 }

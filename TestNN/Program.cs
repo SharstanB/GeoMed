@@ -20,7 +20,7 @@ namespace TestNN
             //var result = NeuralNetworkAPI.GetNetworkResult(epochs: epochs, errorRate: 0.003f, executedData: ExecutedData.County, hiddenCount: 7);
 
             var result = NeuralNetworkAPI.
-                GetElmanNetworkResult(epochs: epochs, errorRate: 0.001f, executedData: ExecutedData.County, hiddenCount: 4);
+                GetNetworkResult(epochs: epochs, errorRate: 0.001f, executedData: ExecutedData.County, hiddenCount: 4 , NNType.BackProbagation);
 
 
             Print($"\n Network Error : {result.NetworkError} " , ConsoleColor.DarkBlue);

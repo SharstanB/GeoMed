@@ -10,7 +10,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.Models
     public class USInfoModel 
     {
         [Name("population")]
-        public double Population { get; set; }
+        public int Population { get; set; }
 
         [Name("median_age")]
         public double MedianAge { get; set; }

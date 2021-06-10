@@ -18,8 +18,6 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
     /// </summary>
     public class COVID19USCountry
     {
-
-
         /// <summary>
         /// مجلد سطح المجلد بسمى مشروع التخرج يحوي مجلد داتا ست المرض
         /// </summary>
@@ -68,14 +66,11 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         }
 
 
-        /// <summary>
-        /// مجلد سطح المجلد بسمى مشروع التخرج يحوي مجلد الداتا ست
-        /// </summary>
-        private static string dataset_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "مشروع التخرج", "dataset", "covid_us_county.csv");
+        public static IEnumerable<DiseaseInfoModel> USAAggregate() => Reader.Select<DiseaseInfoModel>(diseaseDataset_path).USACombine();
 
-        public static IEnumerable<DiseaseInfoModel> USAAggregate() => Reader.Select<DiseaseInfoModel>(dataset_path).USACombine();
+        public static IEnumerable<DiseaseInfoModel> ALLUSA() => Reader.Select<DiseaseInfoModel>(diseaseDataset_path);
 
-        public static IEnumerable<DiseaseInfoModel> ALLUSA() => Reader.Select<DiseaseInfoModel>(dataset_path);
+        public static IEnumerable<USInfoModel> ALLUSAInfo() => Reader.Select<USInfoModel>(usInfoDataset_path);
 
 
     }

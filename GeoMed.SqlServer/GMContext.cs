@@ -52,6 +52,9 @@ namespace GeoMed.SqlServer
 
         public DbSet<CovidZone> CovidZones { get; set; }
 
+        public DbSet<ModelSet> Models { get; set; }
+
+        public DbSet<SpatialInfo> SpatialInfos { get; set; }
         #endregion
 
 
@@ -88,14 +91,65 @@ namespace GeoMed.SqlServer
             #endregion
 
 
-            #region == DbSet ==
+            #region == DbSet Default values ==
 
             modelBuilder.Entity<CovidZone>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<ModelSet>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<SpatialInfo>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
             #endregion
 
             #endregion
 
+            #region == Set Default values ==
+            #region  == Settings Default values == 
+
+            modelBuilder.Entity<Area>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Career>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Disease>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<Symptom>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+
+
+            #endregion
+
+            #region  == Main Default values == 
+            modelBuilder.Entity<PatientRecord>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+            modelBuilder.Entity<TrackRecord>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+
+            #endregion
+
+            #region == Templete Default values ==
+
+            modelBuilder.Entity<Field>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Templete>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+
+
+            #endregion
+
+
+            #region == DbSet Default values ==
+
+            modelBuilder.Entity<CovidZone>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<ModelSet>().Property(b => b.CreateDate)
+           .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<SpatialInfo>().Property(b => b.CreateDate)
+         .HasDefaultValueSql("getdate()");
+
+            #endregion
+
+            #endregion 
         }
 
         #endregion

@@ -28,8 +28,9 @@ namespace GeoMed.Controllers
             return View();
         }
 
-        public IActionResult USA()
+        public async Task<IActionResult> USA()
         {
+            var das = (await zone.USAAggregate()).Result;
             return View("VectorMap");
         }
 

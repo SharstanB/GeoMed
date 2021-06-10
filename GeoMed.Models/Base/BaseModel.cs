@@ -11,6 +11,9 @@ namespace GeoMed.Model.Base
         [Column(TypeName = "datetime2")]
         public DateTime? DeleteDate { get; set; }
 
+        [Column(TypeName = "datetime2")]
+        public DateTime CreateDate { get; set; }
+
         public bool IsDelete => DeleteDate.HasValue;
     }
 }

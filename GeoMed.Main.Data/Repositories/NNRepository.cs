@@ -11,90 +11,96 @@ using System.IO;
 using GeoMed.Base;
 using GeoMed.Main.DTO.Settings;
 using GeoMed.NN.BPNeuralNetwork;
+using GeoMed.SqlServer;
+using GeoMed.Model.DataSet;
 
 namespace GeoMed.Main.Data.Repositories
 {
-    public class NNRepository : INNRepository
+    public class NNRepository : BaseRepository ,  INNRepository
     {
+
+        #region Properties
         private string ModelPath = "wwwroot/models";
 
-        public void SaveTrainedModel(NNResult nNResult)
+        #endregion
+
+        #region Constructer
+
+        public NNRepository(GMContext context)
+            : base(context)
         {
-            if (!Directory.Exists(ModelPath))
+
+        }
+        #endregion
+
+        public OperationResult<bool> SaveTrainedModel(NNResult nNResult)
+        {
+            var result = new OperationResult<bool>();
+            try
             {
-                Directory.CreateDirectory(ModelPath);
-            }
-
-         //   XElement xElement = new XElement(nameof(nNResult.NetworkError), nNResult.NetworkError);
-
-            XElement xElement = new XElement("ModelInformation", new XElement( nameof(nNResult.NetworkError) 
-                , nNResult.NetworkError));
-
-
-            List<XElement> samples = new List<XElement>();
-
-            int idx = 1;
-            //nNResult.TrainSamples.ForEach(sample =>
-            //{
-            //    samples.Add(new XElement( $"Sample" , new XAttribute("Value" , idx++), 
-            //        new XElement(nameof(sample.epoch), sample.epoch),
-            //        new XElement(nameof(sample.error),  sample.error),
-            //        new XElement(nameof(sample.samples), sample.samples)));
-            //});
-
-            //xElement.Add(new XElement(nameof(nNResult.TrainSamples), samples));
-
-
-            //idx = 1;
-            //samples.Clear();
-            //nNResult.TestSamples.ForEach(sample =>
-            //{
-            //    samples.Add( new XElement($"Sample", new XAttribute("Value", idx++),
-            //        new XElement(nameof(sample.ActualOutput),  sample.ActualOutput),
-            //        new XElement(nameof(sample.NeuronError),  sample.NeuronError),
-            //        new XElement(nameof(sample.TargetOutput), sample.TargetOutput)));
-            //});
-
-            //xElement.Add( new XElement( nameof(nNResult.TestSamples), samples));
-
-
-            //samples.Clear();
-
-            nNResult.FinalWeigths.ForEach(weigthItem =>
-            {
-
-                var element = new List<XElement>();
-
-                idx = 1;
-                weigthItem.weigths.ForEach(outWeigth =>
+                if (!Directory.Exists(ModelPath))
                 {
-                    outWeigth.ForEach(inWeigth => {
-                        element.Add(new XElement("weigth",
-                            new XAttribute("out", weigthItem.weigths.IndexOf(outWeigth))
-                            , new XAttribute("in", outWeigth.IndexOf(inWeigth))
-                           , inWeigth));
+                    Directory.CreateDirectory(ModelPath);
+                }
+                XElement xElement = new XElement("ModelInformation", new XElement(nameof(nNResult.NetworkError)
+                    , nNResult.NetworkError));
+
+                xElement.Add(new XElement("NNType")
+                               , nNResult.NNType);
+
+                List<XElement> samples = new List<XElement>();
+
+                nNResult.FinalWeigths.ForEach(weigthItem =>
+                {
+
+                    var element = new List<XElement>();
+
+                    weigthItem.weigths.ForEach(outWeigth =>
+                    {
+                        outWeigth.ForEach(inWeigth => {
+                            element.Add(new XElement("weigth",
+                                new XAttribute("out", weigthItem.weigths.IndexOf(outWeigth))
+                                , new XAttribute("in", outWeigth.IndexOf(inWeigth))
+                               , inWeigth));
+                        });
                     });
+
+                    samples.Add(new XElement((weigthItem.LayerType == LayerType.Hidden ?
+                                                              $"{nameof(LayerType.Hidden)}{weigthItem.HiddenNumber}" :
+                                                               nameof(LayerType.Output)), element));
                 });
 
-                samples.Add(new XElement((weigthItem.LayerType == LayerType.Hidden  ? 
-                                                          $"{nameof(LayerType.Hidden)}{weigthItem.HiddenNumber}" :
-                                                           nameof(LayerType.Output)), element));
-            });
+                xElement.Add(new XElement(nameof(nNResult.FinalWeigths), samples));
 
-            xElement.Add( new XElement(nameof(nNResult.FinalWeigths), samples));
+                var finalPath = Path.Combine(ModelPath, $"{@"model-"}{ DateTime.Now.ToString("yyyy-MM-dd") + DateTime.Now.TimeOfDay.ToString().Replace(":", "-") }.xml");
 
+                xElement.Save(finalPath);
 
-            //var finalElem = new XElement("ModelInformation", xElement);
+                Context.Models.Add(new ModelSet()
+                {
+                    ErrorRate = nNResult.NetworkError,
+                    Path = finalPath,
+                    AlgorithmType = (int)nNResult.NNType,
+                });
 
-            xElement.Save(Path.Combine( ModelPath,$"{@"model-"}{DateTime.Now}.xml"));
+                Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result.Exception = ex;
+                result.OperationResultType = OperationResultTypes.Exeption;
+            }
+
+            return result;
         }
 
         public OperationResult<NNResult> TrainNeuralNetwork(TrainNeuralNetworkDto trainNeural)
         {
             OperationResult<NNResult> operationResult = new OperationResult<NNResult>();
             NNResult nNResult = NeuralNetworkAPI.
-                GetElmanNetworkResult(trainNeural.Epochs, trainNeural.ErrorRate,
-                trainNeural.ExecutedData, trainNeural.HiddenLayersCount);
+                GetNetworkResult( trainNeural.Epochs, trainNeural.ErrorRate,
+                trainNeural.ExecutedData, trainNeural.HiddenLayersCount , trainNeural.NNType);
+            nNResult.NNType = trainNeural.NNType;
             operationResult.Result = nNResult;
             operationResult.OperationResultType = OperationResultTypes.Success;
 
@@ -104,10 +110,22 @@ namespace GeoMed.Main.Data.Repositories
         }
 
 
-        public OperationResult<bool> LoadModel()
+        public OperationResult<bool> LoadModel(string filePath)
         {
             var operation = new OperationResult<bool>();
 
+            NNResult nResult = new NNResult();
+
+            XDocument xdoc = XDocument.Load(filePath);
+
+            var res = xdoc.Elements();
+
+            var dk = res.Select(item => new NNResult()
+            {
+               // NNType = item.Element()
+            });
+
+            //NeuralNetworkAPI.loadModel(nResult);
 
             return operation;
         }

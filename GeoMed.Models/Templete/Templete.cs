@@ -11,8 +11,6 @@ namespace GeoMed.Model.Templete
     {
         public string Path { get; set; }
 
-        public DateTime CreatedDate { get; set; }
-
         public ICollection<Field> Fields { get; set; }
              
     }

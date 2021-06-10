@@ -11,7 +11,7 @@ namespace GeoMed.Main.IData.IRepositories
 {
     public interface INNRepository
     {
-        void SaveTrainedModel(NNResult nNResult);
+        OperationResult<bool> SaveTrainedModel(NNResult nNResult);
 
         OperationResult<NNResult> TrainNeuralNetwork(TrainNeuralNetworkDto trainNeural);
 

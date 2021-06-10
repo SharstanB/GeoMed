@@ -8,21 +8,23 @@ using System.Threading.Tasks;
 
 namespace GeoMed.NN.BPNeuralNetwork.Basic
 {
-    public class NNResult 
+    public class NNResult
     {
         public List<SampleResult> TestSamples { get; set; }
 
-        public List<(List<SampleResult> samples , int epoch  , double error)> TrainSamples { get; set; }
+        public List<(List<SampleResult> samples, int epoch, double error)> TrainSamples { get; set; }
 
         public List<FinalWeigth> FinalWeigths { get; set; }
 
         public double NetworkError { get; set; }
 
+        public NNType NNType { get; set; }
+
         public NNResult()
         {
             FinalWeigths = new List<FinalWeigth>();
 
-            TrainSamples = new List<(List<SampleResult> samples, int epoch , double error)>();
+            TrainSamples = new List<(List<SampleResult> samples, int epoch, double error)>();
 
             TestSamples = new List<SampleResult>();
         }
