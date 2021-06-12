@@ -43,13 +43,11 @@ namespace GeoMed.Main.Data.Repositories
                     Directory.CreateDirectory(ModelPath);
                 }
                 XElement xElement = new XElement("ModelInformation", new XElement(nameof(nNResult.NetworkError)
-                    , nNResult.NetworkError));
+                    , nNResult.NetworkError) , new XElement(nameof(NNType), nNResult.NNType));
 
-                xElement.Add(new XElement("NNType")
-                               , nNResult.NNType);
 
                 List<XElement> samples = new List<XElement>();
-
+               
                 nNResult.FinalWeigths.ForEach(weigthItem =>
                 {
 
@@ -57,17 +55,23 @@ namespace GeoMed.Main.Data.Repositories
 
                     weigthItem.weigths.ForEach(outWeigth =>
                     {
+                        var weigthElem = new List<XElement>();
+
                         outWeigth.ForEach(inWeigth => {
-                            element.Add(new XElement("weigth",
+
+                            weigthElem.Add(new XElement("weigth",
                                 new XAttribute("out", weigthItem.weigths.IndexOf(outWeigth))
                                 , new XAttribute("in", outWeigth.IndexOf(inWeigth))
                                , inWeigth));
                         });
+
+                        element.Add( new XElement($"group{(weigthItem.weigths.IndexOf(outWeigth) + 1)}", weigthElem));
                     });
 
                     samples.Add(new XElement((weigthItem.LayerType == LayerType.Hidden ?
                                                               $"{nameof(LayerType.Hidden)}{weigthItem.HiddenNumber}" :
-                                                               nameof(LayerType.Output)), element));
+                                                               nameof(LayerType.Output))
+                                                               , new XAttribute("number", weigthItem.HiddenNumber), element));
                 });
 
                 xElement.Add(new XElement(nameof(nNResult.FinalWeigths), samples));
@@ -110,22 +114,68 @@ namespace GeoMed.Main.Data.Repositories
         }
 
 
-        public OperationResult<bool> LoadModel(string filePath)
+        public OperationResult<NNResult> LoadModel(string filePath)
         {
-            var operation = new OperationResult<bool>();
+            var operation = new OperationResult<NNResult>();
 
             NNResult nResult = new NNResult();
 
+            filePath = @"C:\Users\sharstan\Source\Repos\GeoMed\GeoMed\wwwroot\models\model-2021-06-1120-18-34.6434777.xml";
+
+
             XDocument xdoc = XDocument.Load(filePath);
 
-            var res = xdoc.Elements();
+            var xElement = xdoc.Descendants("FinalWeigths");
+             
 
-            var dk = res.Select(item => new NNResult()
-            {
-               // NNType = item.Element()
-            });
+            if (xElement != null)
+                for (int i = 0; i < xElement.Elements().Count() ; i++)
+                {
+                    var child = xElement.Elements().ToList()[i];
+                    var finalWeigth = new FinalWeigth();
+                    if (child.Name.ToString().Contains(nameof(LayerType.Hidden)))
+                    {
+                        finalWeigth.LayerType = LayerType.Hidden;
+                        finalWeigth.HiddenNumber = Convert.ToInt32(child.Attribute("number").Value);
 
-            //NeuralNetworkAPI.loadModel(nResult);
+                    }
+                    else
+                    {
+                        finalWeigth.LayerType = LayerType.Output;
+                    }
+
+                    finalWeigth.weigths = new List<List<double>>();
+                    foreach (var childElement in child.Elements())
+                        {
+
+                            var temp = new List<double>();
+                            foreach (var childchild in childElement.Elements())
+                            {
+                                var outAttr = Convert.ToInt32(childchild.Attributes().FirstOrDefault().Value);
+                                var inAttr = Convert.ToInt32(childchild.Attributes().LastOrDefault().Value);
+
+                                temp.Insert(inAttr, Convert.ToDouble(childchild.Value));
+                                try
+                                {
+                                    finalWeigth.weigths.RemoveAt(outAttr);
+                                }
+                                catch
+                                {
+
+                                }
+                                finalWeigth.weigths.Insert(outAttr, temp);
+                            }
+                        }
+                   
+
+                    nResult.FinalWeigths.Add(finalWeigth);
+
+                }
+
+
+            operation.Result = nResult;
+            operation.OperationResultType = OperationResultTypes.Success;
+
 
             return operation;
         }

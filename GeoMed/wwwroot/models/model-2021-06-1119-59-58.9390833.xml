@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModelInformation>
+  <NetworkError>0.011103119309992797</NetworkError>
+  <NNType>BackProbagation</NNType>
+  <FinalWeigths>
+    <Hidden1 number="1">
+      <group9>
+        <weigth out="0" in="0">0.34574410707973197</weigth>
+        <weigth out="0" in="1">0.7858046405736594</weigth>
+        <weigth out="0" in="2">0.6395317589116897</weigth>
+      </group9>
+      <group9>
+        <weigth out="1" in="0">0.447933546486114</weigth>
+        <weigth out="1" in="1">0.6894535124571508</weigth>
+        <weigth out="1" in="2">0.1273743957874246</weigth>
+      </group9>
+      <group9>
+        <weigth out="2" in="0">0.9675432065974279</weigth>
+        <weigth out="2" in="1">0.3562973145495073</weigth>
+        <weigth out="2" in="2">0.8532965345556366</weigth>
+      </group9>
+      <group9>
+        <weigth out="3" in="0">0.032207649052032</weigth>
+        <weigth out="3" in="1">14.485479986635385</weigth>
+        <weigth out="3" in="2">0.296504062272843</weigth>
+      </group9>
+    </Hidden1>
+    <Hidden2 number="2">
+      <group9>
+        <weigth out="0" in="0">0.24194148660572593</weigth>
+        <weigth out="0" in="1">0.7263061988542051</weigth>
+        <weigth out="0" in="2">0.5781561345199369</weigth>
+        <weigth out="0" in="3">1.2825789820528868</weigth>
+      </group9>
+      <group9>
+        <weigth out="1" in="0">0.3177808631837292</weigth>
+        <weigth out="1" in="1">0.05630200440418111</weigth>
+        <weigth out="1" in="2">0.5939679475639176</weigth>
+        <weigth out="1" in="3">0.9637976211171895</weigth>
+      </group9>
+    </Hidden2>
+    <Hidden3 number="3">
+      <group9>
+        <weigth out="0" in="0">195.65058301689305</weigth>
+        <weigth out="0" in="1">196.0317341450495</weigth>
+      </group9>
+      <group9>
+        <weigth out="1" in="0">178.38870504493414</weigth>
+        <weigth out="1" in="1">178.6021503050183</weigth>
+      </group9>
+      <group9>
+        <weigth out="2" in="0">212.1610553151099</weigth>
+        <weigth out="2" in="1">211.62372384767653</weigth>
+      </group9>
+    </Hidden3>
+    <Hidden4 number="4">
+      <group9>
+        <weigth out="0" in="0">411.89908808985143</weigth>
+        <weigth out="0" in="1">401.1998552712008</weigth>
+        <weigth out="0" in="2">413.03822861396463</weigth>
+      </group9>
+      <group9>
+        <weigth out="1" in="0">420.8628716414287</weigth>
+        <weigth out="1" in="1">410.7022286561767</weigth>
+        <weigth out="1" in="2">422.15650100610344</weigth>
+      </group9>
+    </Hidden4>
+    <Hidden5 number="5">
+      <group9>
+        <weigth out="0" in="0">245.52182296270666</weigth>
+        <weigth out="0" in="1">243.96446506286776</weigth>
+      </group9>
+      <group9>
+        <weigth out="1" in="0">225.65462683097957</weigth>
+        <weigth out="1" in="1">223.8916895638591</weigth>
+      </group9>
+      <group9>
+        <weigth out="2" in="0">250.6095860094601</weigth>
+        <weigth out="2" in="1">248.64835891169542</weigth>
+      </group9>
+      <group9>
+        <weigth out="3" in="0">217.78094836837505</weigth>
+        <weigth out="3" in="1">216.22225555584708</weigth>
+      </group9>
+    </Hidden5>
+    <Output number="0">
+      <group9>
+        <weigth out="0" in="0">212.3822693013398</weigth>
+        <weigth out="0" in="1">200.28760215863883</weigth>
+        <weigth out="0" in="2">239.04490097206624</weigth>
+        <weigth out="0" in="3">204.20921663320408</weigth>
+      </group9>
+    </Output>
+  </FinalWeigths>
+</ModelInformation>
