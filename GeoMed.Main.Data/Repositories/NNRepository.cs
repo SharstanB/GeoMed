@@ -114,13 +114,13 @@ namespace GeoMed.Main.Data.Repositories
         }
 
 
-        public OperationResult<NNResult> LoadModel(string filePath)
+        public OperationResult<NNResult> LoadModel()
         {
             var operation = new OperationResult<NNResult>();
 
             NNResult nResult = new NNResult();
 
-            filePath = @"C:\Users\sharstan\Source\Repos\GeoMed\GeoMed\wwwroot\models\model-2021-06-1120-18-34.6434777.xml";
+            string filePath = ChooseMoreAccurateModel();
 
 
             XDocument xdoc = XDocument.Load(filePath);
@@ -172,12 +172,21 @@ namespace GeoMed.Main.Data.Repositories
 
                 }
 
+            NeuralNetworkAPI.loadModel(nResult);
 
             operation.Result = nResult;
             operation.OperationResultType = OperationResultTypes.Success;
 
-
             return operation;
+        }
+
+        private string ChooseMoreAccurateModel()
+        {
+            var path = string.Empty;
+
+            path = Context.Models.OrderBy(o => o.ErrorRate).FirstOrDefault().Path;
+
+            return path;
         }
     }
 }
