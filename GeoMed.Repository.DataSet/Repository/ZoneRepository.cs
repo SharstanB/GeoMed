@@ -17,7 +17,7 @@ namespace GeoMed.Repository.DataSet.Repository
         public ZoneRepository(GMContext context) : base(context)
         {
         }
-
+      
         public async Task<OperationResult<IEnumerable<CovidZoneDto>>> USAAggregate()
         {
             //if( !Context.CovidZones.Any())
@@ -133,9 +133,15 @@ namespace GeoMed.Repository.DataSet.Repository
             return operation;
         }
 
+        public async Task<OperationResult<IEnumerable<CovidZoneDto>>> GetMapData(MapDataDto mapDataDto)
+        {
+            var result = new OperationResult<IEnumerable<CovidZoneDto>>();
 
 
+            result.Result = await Context.CovidZones.Select(x => (CovidZoneDto)x).ToListAsync(); 
+            return result;
 
+        }
 
     }
 }

@@ -16,5 +16,8 @@ namespace GeoMed.Model.DataSet
         [Column(TypeName = "int")]
         public int AlgorithmType { get; set; }
 
+        [Column(TypeName = "int")]
+        public int ExecutedDataType { get; set; }
+
     }
 }

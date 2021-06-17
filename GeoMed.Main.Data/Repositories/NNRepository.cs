@@ -85,6 +85,7 @@ namespace GeoMed.Main.Data.Repositories
                     ErrorRate = nNResult.NetworkError,
                     Path = finalPath,
                     AlgorithmType = (int)nNResult.NNType,
+                    ExecutedDataType = (int)nNResult.ExecutedData,
                 });
 
                 Context.SaveChanges();
@@ -105,6 +106,7 @@ namespace GeoMed.Main.Data.Repositories
                 GetNetworkResult( trainNeural.Epochs, trainNeural.ErrorRate,
                 trainNeural.ExecutedData, trainNeural.HiddenLayersCount , trainNeural.NNType);
             nNResult.NNType = trainNeural.NNType;
+            nNResult.ExecutedData = trainNeural.ExecutedData;
             operationResult.Result = nNResult;
             operationResult.OperationResultType = OperationResultTypes.Success;
 

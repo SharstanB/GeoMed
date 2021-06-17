@@ -10,5 +10,7 @@ namespace GeoMed.Repository.DataSet.Interface
     public interface IZoneRepository
     {
         public Task<OperationResult<IEnumerable<CovidZoneDto>>> USAAggregate();
+
+        public Task<OperationResult<IEnumerable<CovidZoneDto>>> GetMapData(MapDataDto mapDataDto);
     }
 }

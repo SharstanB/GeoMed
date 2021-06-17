@@ -18,7 +18,7 @@ namespace GeoMed.Controllers
         }
         public IActionResult Index()
         {
-            NNRepository.LoadModel("");
+          //  NNRepository.LoadModel("");
             return View();
         }
     }

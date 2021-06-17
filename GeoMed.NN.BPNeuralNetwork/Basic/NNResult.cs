@@ -20,6 +20,8 @@ namespace GeoMed.NN.BPNeuralNetwork.Basic
 
         public NNType NNType { get; set; }
 
+        public ExecutedData ExecutedData { get; set; }
+
         public NNResult()
         {
             FinalWeigths = new List<FinalWeigth>();

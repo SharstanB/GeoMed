@@ -172,4 +172,8 @@
     <ProjectReference Include="..\GeoMed.SqlServer\GeoMed.SqlServer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\models\" />
+  </ItemGroup>
+
 </Project>
