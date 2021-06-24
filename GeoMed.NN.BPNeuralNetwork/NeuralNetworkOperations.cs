@@ -186,21 +186,21 @@ namespace GeoMed.NN.BPNeuralNetwork
                     {
                         ActualOutput = forwordResult.OutputLayer.
                               LayerCells.FirstOrDefault().value ,
-                        TargetOutput = sample.TargetOutput
+                      TargetOutput = sample.TargetOutput
                     });    
 
                     // calculate error for each sample
-                   var Error = forwordResult.InputLayer.Input.NNPBError
-                        (forwordResult.OutputLayer.LayerCells.Select(s => s.value).ToList());
+                   //var Error = forwordResult.InputLayer.Input.NNPBError
+                   //     (forwordResult.OutputLayer.LayerCells.Select(s => s.value).ToList());
 
                     // using calculate error to decide update weigths or not 
-                    if (Error.ErrorObtained > model.elmanBPNeural.ErrorRate)
-                    {
-                        model.elmanBPNeural = CalcNeuronsErrors(model.elmanBPNeural, Error.NetworkError);
+                    //if (Error.ErrorObtained > model.elmanBPNeural.ErrorRate)
+                    //{
+                    //    model.elmanBPNeural = CalcNeuronsErrors(model.elmanBPNeural, Error.NetworkError);
 
-                        UpdateWeigths(model.elmanBPNeural);
-                    }
-                    finalEpochError += Error.ErrorObtained;
+                    //    UpdateWeigths(model.elmanBPNeural);
+                    //}
+                    //finalEpochError += Error.ErrorObtained;
 
 
                 }

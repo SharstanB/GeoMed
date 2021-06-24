@@ -20,7 +20,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
     internal static class Reader
     {
 
-
+        private static string ModelPath = "wwwroot/models";
         /// <summary>
         /// 
         /// </summary>
@@ -43,6 +43,19 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 //Georgia  ,Pike  GA   
             }
             return data;
+        }
+
+        public static void Write(IEnumerable<NNInput> source)
+        {
+            if (!Directory.Exists(ModelPath))
+            {
+                Directory.CreateDirectory(ModelPath);
+            }
+            using (var writer = new StreamWriter($"{ModelPath}\\file.csv"))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                csv.WriteRecords(source);
+            }
         }
 
         /// <summary>
@@ -130,6 +143,8 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                      TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases
                  }).ToList();
 
+
+            Write(data);
             var testInputs = data.TakePercent(25).ToList();
 
             var trainInputs = data.TakePercent(75).ToList();
@@ -140,22 +155,23 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
         public static (List<NNInput> trainData, List<NNInput> testData) ReadCountiesInput(this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
         {
-            const int saveCount = 200;
+            const int saveCount = 1000;
 
             var usDiseaseInfo = Select<DiseaseInfoModel>(paths.diseaseInfoPath);
             var usCases = usDiseaseInfo.Sum(s => s.Cases);
-            var fList = usDiseaseInfo.GroupBy(data => new { data.Date.Month , data.FipsCode })
-                   .Select(item => new 
-                   {
+            var fList = usDiseaseInfo
+                   .GroupBy(data => new { data.Date.Month, data.FipsCode })
+                   .Select(item => new
+                    {
 
-                       date = item.Key.Month,
+                        date = item.Select(s => s.Date).FirstOrDefault(),
 
-                       fips =  item.Key.FipsCode,
+                        fips = item.Key.FipsCode,
 
-                       Cases = item.Sum(s=>s.Cases) 
+                        Cases = item.Sum(s => s.Cases)
                        / usCases,
 
-                   })
+                    })
                    .Take(saveMemory ? saveCount : getMaxAllowCount)
                    .OrderBy(o => o.date).ToList();
 
@@ -176,24 +192,29 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             .Take(saveMemory ? saveCount : getMaxAllowCount);
 
 
+
+
             var data = fList.Join(sList
-                 , s =>  s.fips,
+                 , s => s.fips,
                  f => f.FipsCode,
-                 (a, b) => new { a , b })
+                 (a, b) => new { a, b })
                 .Select((item, index) => new NNInput
                 {
                     Cases = item.a.Cases,
                     MedianAge = item.b.MedianAge,
                     Population = item.b.Population,
-                   TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases
+                    TargetOutput = (index + 1 < fList.Count()) ? fList[index + 1].Cases : fList[index].Cases,
+                    Date = item.a.date.ToString("MM-dd-yyyy")
                 }).ToList();
-           
+            Write(data);
 
             var testInputs = data.TakePercent(25).ToList();
 
             var trainInputs = data.TakePercent(75).ToList();
 
-              return (trainInputs, testInputs);
+            return (trainInputs, testInputs);
+
+           // return (new List<NNInput>() , new List<NNInput>());
         }
 
 

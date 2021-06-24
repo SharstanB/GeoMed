@@ -15,5 +15,7 @@ namespace GeoMed.NN.Base
         public double Cases { get; set; }
 
         public double TargetOutput { get; set; } // get output target for each sample
+
+        public string Date { get; set; }
     }
 }

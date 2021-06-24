@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,6 +22,8 @@ namespace GeoMed.Controllers
 
         public IActionResult Index()
         {
+            var equation = COVID19USCountry.GetDataInput(NN.Base.Enums.ExecutedData.County);
+
             ViewData["Title"] = "الرئيسية";
             return View();
         }
