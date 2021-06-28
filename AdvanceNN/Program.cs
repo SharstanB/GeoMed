@@ -5,7 +5,7 @@ using GeoMed.NN.Base.Enums;
 using GeoMed.NN.BPNeuralNetwork;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace TestNN
+namespace AdvanceNN
 {
     class Program
     {

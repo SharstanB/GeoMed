@@ -8,15 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestNN
+namespace AdvanceNN
 {
     public static class AdvanceNetwork
     {
         public static NDarray ParseToNumpy(IEnumerable<float[][]> sourceList)
         {
 
-            //using (Py.GIL())
-            //{
                 float[,,] x = new float[sourceList.Count(), sourceList.FirstOrDefault().Length,
                     sourceList.FirstOrDefault().FirstOrDefault().Length];
 
@@ -33,7 +31,6 @@ namespace TestNN
                 }
                 NDarray result = np.array(x);
                 return result;
-            //}
 
         }
 

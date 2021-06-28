@@ -9,38 +9,35 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-
-namespace TestNN
+namespace AdvanceNN
 {
-    public static class CNN_Model
+    public static class LSTM_NN
     {
-
-        public static void Train_CNN()
+        public static void TrainLSTM()
         {
-            using (Py.GIL())
-            {
 
                 var data = AdvanceNetwork.GetTrainDataWithDimentions();
 
                 var train_data_numpy = data.train;
 
-                var test_data_numpy = data.test;
 
-                // var data_list = tf.stack(data_list)
-                //  y = tf.stack(y)
+               // TODO  need review
+                var test_data_numpy = data.test;   
+
+               // var data_list = tf.stack(data_list)
+               //  y = tf.stack(y)
 
                 //Build sequential model
                 var model = new Sequential();
-
-                model.Add(new Conv1D(128, kernel_size: 5 , strides: 1
-                    , activation: "relu", padding: "causal", input_shape: new Shape(
+                
+                model.Add(new LSTM(128 , activation: "relu", input_shape: new Shape(
                     //train_data.Count, 
                     data.inputDimention.FD,
-                    data.inputDimention.SD)
+                    data.inputDimention.SD) 
+                    , return_sequences: true
                     //, return_state: true
                     ));
 
-                model.Add(new LSTM(128, activation: "relu", return_sequences: true));
                 model.Add(new LSTM(128, activation: "relu", return_sequences: true));
                 model.Add(new Dense(1, activation: "linear"));
 
@@ -59,7 +56,8 @@ namespace TestNN
                 //Load model and weight
                 var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));
                 loaded_model.LoadWeight("model.h5");
-            }
+
         }
+       
     }
 }
