@@ -33,9 +33,9 @@ namespace GeoMed.NN.BPNeuralNetwork
             // get data for train and test 
             var inputList = COVID19USCountry.GetDataInput(executedData);
 
-            var trainDataList = inputList.trainData;
+            var trainDataList = inputList.trainData.ToList();
 
-            TestDataList = inputList.testData;
+            TestDataList = inputList.testData.ToList();
 
             neuralNetwork.InputLayer.Input = trainDataList[0];// initial with first sample
 

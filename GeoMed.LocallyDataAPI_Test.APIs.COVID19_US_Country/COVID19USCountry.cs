@@ -4,6 +4,7 @@ using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO;
 using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.Models;
 using GeoMed.NN.Base;
 using GeoMed.NN.Base.Enums;
+using GeoMed.NN.Base.LSTMDTOs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,8 +47,16 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         /// get Elman Neural Network Input 
         /// </summary>
         /// <returns></returns>
-        public static (List<NNInput> trainData, List<NNInput> testData) GetDataInput(ExecutedData executedData) => executedData == ExecutedData.State ?
+        public static (IEnumerable<NNInput> trainData, IEnumerable<NNInput> testData) GetDataInput(ExecutedData executedData) => executedData == ExecutedData.State ?
             (diseaseDataset_path , usInfoDataset_path).ReadStatesInput() : (diseaseDataset_path, usInfoDataset_path).ReadCountiesInput();
+
+
+        /// <summary>
+        /// get Elman Neural Network Input 
+        /// </summary>
+        /// <returns></returns>
+        public static (IEnumerable<LSTMSample> trainData, IEnumerable<LSTMSample> testData) GetCountiesLSTMInput() =>
+            (diseaseDataset_path, usInfoDataset_path).ReadCountiesLSTMInput();
 
 
         /// <summary>

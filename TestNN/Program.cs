@@ -12,15 +12,18 @@ namespace TestNN
         static void Main(string[] args)
         {
 
+
+            AdvanceNetwork.TrainNN(NNType.Conv_LSTM);
+
             var serviceProvider = new ServiceCollection()
            .AddSingleton<INNRepository, NNRepository>()
            .BuildServiceProvider();
 
             var epochs = 1;
-            //var result = NeuralNetworkAPI.GetNetworkResult(epochs: epochs, errorRate: 0.003f, executedData: ExecutedData.County, hiddenCount: 7);
+
 
             var result = NeuralNetworkAPI.
-                GetNetworkResult(epochs: epochs, errorRate: 0.001f, executedData: ExecutedData.County, hiddenCount: 4 , NNType.BackProbagation);
+                GetNetworkResult(epochs: epochs, errorRate: 0.001f, executedData: ExecutedData.County, hiddenCount: 4, NNType.BackProbagation);
 
 
             Print($"\n Network Error : {result.NetworkError} " , ConsoleColor.DarkBlue);

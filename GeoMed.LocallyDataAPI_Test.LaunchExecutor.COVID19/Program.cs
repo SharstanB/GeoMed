@@ -10,13 +10,14 @@ namespace GeoMed.LocallyDataAPI_Test.LaunchExecutor.COVID19
 
           //  string equation =COVID19USCountry.ToStringPolynomial(COVID19USCountry.GetPolynomialCases("Gwinnett"));
 
-            var equation = COVID19USCountry.GetDataInput(NN.Base.Enums.ExecutedData.County);
+          //  var equation = COVID19USCountry.GetDataInput(NN.Base.Enums.ExecutedData.County);
 
+            var result = COVID19USCountry.GetCountiesLSTMInput();
 
             //  Console.WriteLine(equation);
 
             //GA Georgia Gwinnett
-            Console.WriteLine(equation);
+            Console.WriteLine(result);
 
             Console.WriteLine("Done!");
 

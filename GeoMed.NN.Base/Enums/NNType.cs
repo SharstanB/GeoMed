@@ -16,5 +16,13 @@ namespace GeoMed.NN.Base.Enums
         ///  RNN network (with context layer for each hidden layer)
         /// </summary>
         Elman,
+        /// <summary>
+        ///  RNN network for time data
+        /// </summary>
+        LSTM,
+        /// <summary>
+        ///  RNN network with convelution layer for time data
+        /// </summary>
+        Conv_LSTM
     }
 }

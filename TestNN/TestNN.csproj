@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Keras.NET" Version="3.8.5" />
+    <PackageReference Include="Python.Runtime" Version="2.7.9" />
+    <PackageReference Include="TensorFlow.Keras" Version="0.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GeoMed.Main.Data\GeoMed.Main.Data.csproj" />
     <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
     <ProjectReference Include="..\GeoMed.NN.BPNeuralNetwork\GeoMed.NN.BPNeuralNetwork.csproj" />
