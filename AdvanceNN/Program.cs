@@ -13,7 +13,7 @@ namespace AdvanceNN
         {
 
 
-            AdvanceNetwork.TrainNN(NNType.Conv_LSTM);
+            AdvanceNetwork.TrainNN(NNType.LSTM);
 
             var serviceProvider = new ServiceCollection()
            .AddSingleton<INNRepository, NNRepository>()

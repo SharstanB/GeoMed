@@ -15,10 +15,11 @@ namespace GeoMed.NN.Base
         /// <param name="source"> data source collection </param>
         /// <param name="percent"> returned data precent </param>
         /// <returns></returns>
-        public static IEnumerable<T> TakePercent<T>(this ICollection<T> source, double percent)
+        public static IEnumerable<T> TakePercent<T>(this IEnumerable<T> source, double percent , double skip)
         {
-            int count = (int)(source.Count * percent / 100);
-            return source.Take(count);
+            int count = (int)(source.Count() * percent / 100);
+            int skipCount = (int)(source.Count() * skip / 100);
+            return source.Skip(skipCount).Take(count);
         }
 
         /// <summary>

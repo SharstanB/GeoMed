@@ -147,9 +147,9 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
 
             Write(data);
-            var testInputs = data.TakePercent(25).ToList();
+            var testInputs = data.TakePercent(25 , 75).ToList();
 
-            var trainInputs = data.TakePercent(75).ToList();
+            var trainInputs = data.TakePercent(75 , 0 ).ToList();
 
             return (trainInputs , testInputs);
         }
@@ -208,9 +208,9 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 }).ToList();
             Write(data);
 
-            var testInputs = data.TakePercent(25).ToList();
+            var testInputs = data.TakePercent(25 , 75).ToList();
 
-            var trainInputs = data.TakePercent(75).ToList();
+            var trainInputs = data.TakePercent(75 , 0 ).ToList();
 
             return (trainInputs, testInputs);
 
@@ -223,6 +223,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             const int saveCount = 1000;
 
             var usDiseaseInfo = Select<DiseaseInfoModel>(paths.diseaseInfoPath);
+
             var usCases = usDiseaseInfo.Sum(s => s.Cases);
             var fList = usDiseaseInfo
                    .GroupBy(data => new { data.Date, data.FipsCode })
@@ -238,8 +239,10 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
                    })
                    .Take(saveMemory ? saveCount : getMaxAllowCount)
-                  // .OrderBy(o => o.date)
+                    //.OrderBy(o => o.date)
                    .ToList();
+
+
 
             var UsInfoList = Select<USInfoModel>(paths.usInfoPath);
             var USPopulationCount = UsInfoList.Sum(s => s.Population);
@@ -258,7 +261,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             .Take(saveMemory ? saveCount : getMaxAllowCount);
 
 
-            var data = fList.Join(sList
+            var Data = fList.Join(sList
                  , s => s.fips,
                  f => f.FipsCode,
                  (a, b) => new { a, b })
@@ -268,7 +271,10 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     Cases = item.a.Cases,
                     MedianAge = item.b.MedianAge,
                     Population = item.b.Population,
-                }).GroupBy(s=>s.Date.Date).Select(item => new LSTMSample() {
+                }).ToList();
+
+           var finalTrainData = Data.TakePercent(50 , 0 ).GroupBy(s=>s.Date.Date)
+                .Select(item => new LSTMSample() {
                     Date = item.Key,
                     Features = item.Select(feature => new Feature()
                     {
@@ -278,15 +284,29 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     }).ToList()
                 })
                 .ToList();
-           // Write(data);
 
-            var testInputs = data.TakePercent(25);
+            var finalTestData = Data.TakePercent(50, 50 ).GroupBy(s => s.Date.Date)
+                .Select(item => new LSTMSample()
+                {
+                    Date = item.Key,
+                    Features = item.Select(feature => new Feature()
+                    {
+                        Cases = feature.Cases,
+                        MedianAge = feature.MedianAge,
+                        Population = feature.Population
+                    }).ToList()
+                })
+                .ToList();
+            // Write(data);
 
-            var trainInputs = data.TakePercent(75);
 
-           return (trainInputs, testInputs);
+            // var testInputs = data.Take();
 
-           //  return (new List<NNInput>() , new List<NNInput>());
+            // var trainInputs = data.TakePercent(75);
+
+            // return (trainInputs, testInputs);
+
+            return (finalTrainData, finalTestData);
         }
 
 

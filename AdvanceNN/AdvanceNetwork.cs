@@ -12,7 +12,7 @@ namespace AdvanceNN
 {
     public static class AdvanceNetwork
     {
-        public static NDarray ParseToNumpy(IEnumerable<float[][]> sourceList)
+        private static NDarray ParseToNumpy(IEnumerable<float[][]> sourceList)
         {
 
                 float[,,] x = new float[sourceList.Count(), sourceList.FirstOrDefault().Length,
@@ -34,7 +34,7 @@ namespace AdvanceNN
 
         }
 
-        public static (List<float[][]> train , List<float[][]> test ) GetData()
+        private static (List<float[][]> train , List<float[][]> test ) GetData()
         {
             var data = COVID19USCountry.GetCountiesLSTMInput();
 
