@@ -1,4 +1,5 @@
 ﻿using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country;
+using GeoMed.NN.Base.Enums;
 using Keras;
 using Keras.Layers;
 using Keras.Models;
@@ -16,7 +17,8 @@ namespace AdvanceNN
         public static void TrainLSTM()
         {
 
-                var data = AdvanceNetwork.GetTrainDataWithDimentions();
+
+            var data = AdvanceNetwork.GetTrainDataWithDimentions();
 
                 var train_data_numpy = data.train;
 
@@ -46,16 +48,19 @@ namespace AdvanceNN
 
                 model.Compile(optimizer: "rmsprop", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
 
-                model.Fit(train_data_numpy , test_data_numpy , batch_size: 1, epochs: 10, verbose: 1);
+                model.Fit(train_data_numpy , test_data_numpy , batch_size: 1, epochs: 1, verbose: 1);
 
                 //Save model and weights
                 string json = model.ToJson();
                 File.WriteAllText("model.json", json);
-                model.SaveWeight("model.h5");
 
-                //Load model and weight
-                var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));
-                loaded_model.LoadWeight("model.h5");
+                //model.SaveWeight("model.h5");
+
+                model.SaveModel(NNType.LSTM);
+
+                ////Load model and weight
+                //var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));
+                //loaded_model.LoadWeight("model.h5");
 
         }
        

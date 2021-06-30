@@ -1,9 +1,11 @@
 ﻿using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country;
 using GeoMed.NN.Base.Enums;
+using Keras.Models;
 using Numpy;
 using Python.Runtime;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,5 +96,19 @@ namespace AdvanceNN
             }
         }
 
+        public static void SaveModel( this Sequential sequential , NNType nNType)
+        {
+            var path = Path.Combine( Environment.CurrentDirectory.Substring(0, (Environment.CurrentDirectory.IndexOf("AdvanceNN") + "AdvanceNN".Length )) , "modles", nNType.ToString());
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            string modelsDirectory = Path.Combine( path
+                , $"{ DateTime.Now.ToString("yyyy-MM-dd") + DateTime.Now.TimeOfDay.ToString().Replace(":", "-")}.h5");
+
+            sequential.SaveWeight(modelsDirectory);
+
+        }
     }
 }

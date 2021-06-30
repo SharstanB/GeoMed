@@ -1,4 +1,5 @@
 ﻿using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country;
+using GeoMed.NN.Base.Enums;
 using Keras;
 using Keras.Layers;
 using Keras.Models;
@@ -54,7 +55,10 @@ namespace AdvanceNN
                 //Save model and weights
                 string json = model.ToJson();
                 File.WriteAllText("model.json", json);
-                model.SaveWeight("model.h5");
+                
+                
+               // model.SaveWeight("model.h5");
+                model.SaveModel(NNType.Conv_LSTM);
 
                 //Load model and weight
                 var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));
