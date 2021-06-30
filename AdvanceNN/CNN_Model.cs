@@ -16,12 +16,12 @@ namespace AdvanceNN
     public static class CNN_Model
     {
 
-        public static void Train_CNN()
+        public static void Train_CNN(ExecutedData executedData)
         {
             using (Py.GIL())
             {
 
-                var data = AdvanceNetwork.GetTrainDataWithDimentions();
+                var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData);
 
                 var train_data_numpy = data.train;
 

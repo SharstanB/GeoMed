@@ -17,5 +17,16 @@ namespace GeoMed.NN.Base.Enums
         /// when NN input is US counties
         /// </summary>
         County,
+
+        /// <summary>
+        /// when train and validate date is same  (dependence on training mey
+        /// be if vaidate and train is same =>  accuracy be high)
+        /// </summary>
+        all,
+        /// <summary>
+        /// when train and validate date is splited  (dependence on training mey
+        /// be if vaidate and train is deffirent =>  accuracy be high)
+        /// </summary>
+        splited
     }
 }

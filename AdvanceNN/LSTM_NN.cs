@@ -14,17 +14,18 @@ namespace AdvanceNN
 {
     public static class LSTM_NN
     {
-        public static void TrainLSTM()
+        public static void TrainLSTM(ExecutedData executedData)
         {
 
 
-            var data = AdvanceNetwork.GetTrainDataWithDimentions();
+              var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData);
 
                 var train_data_numpy = data.train;
 
 
                // TODO  need review
-                var test_data_numpy = data.test;   
+                var test_data_numpy = data.test;
+            
 
                // var data_list = tf.stack(data_list)
                //  y = tf.stack(y)
@@ -48,15 +49,17 @@ namespace AdvanceNN
 
                 model.Compile(optimizer: "rmsprop", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
 
-                model.Fit(train_data_numpy , test_data_numpy , batch_size: 1, epochs: 1, verbose: 1);
+                model.Fit(train_data_numpy ,
+                    (executedData == ExecutedData.all)? test_data_numpy : train_data_numpy, batch_size: 1, epochs: 1, verbose: 1);
 
                 //Save model and weights
                 string json = model.ToJson();
                 File.WriteAllText("model.json", json);
 
-                //model.SaveWeight("model.h5");
 
-                model.SaveModel(NNType.LSTM);
+                 model.SaveModel(NNType.LSTM);
+
+              
 
                 ////Load model and weight
                 //var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));

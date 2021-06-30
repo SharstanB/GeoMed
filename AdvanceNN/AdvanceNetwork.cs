@@ -36,9 +36,25 @@ namespace AdvanceNN
 
         }
 
-        private static (List<float[][]> train , List<float[][]> test ) GetData()
+        private static (List<float[][]> train , List<float[][]> test ) GetData(ExecutedData executedData)
         {
-            var data = COVID19USCountry.GetCountiesLSTMInput();
+            
+            if (executedData == ExecutedData.all)
+            {
+                var allData = COVID19USCountry.GetCountiesLSTMInput();
+
+                return (allData.SelectMany(s => new List<float[][]> {
+                    s.Features.Select(d => new float[]
+                    {
+                      (float)d.Cases,
+                      (float)d.MedianAge,
+                      (float)d.Population
+                    }).ToArray()
+
+                }).ToList(), new List<float[][]>());
+
+            }
+           var data =  COVID19USCountry.GetCountiesLSTMInputWithSplit();
 
             var train_data = data.trainData.SelectMany(s => new List<float[][]> {
                     s.Features.Select(d => new float[]
@@ -65,16 +81,16 @@ namespace AdvanceNN
         }
 
 
-        public static ( NDarray train , NDarray test , (int FD, int SD) inputDimention)  GetTrainDataWithDimentions()
+        public static ( NDarray train , NDarray test , (int FD, int SD) inputDimention)  GetTrainDataWithDimentions(ExecutedData executedData)
         {
-            var dataResult = GetData();
+            var dataResult = GetData(executedData);
 
             return (ParseToNumpy(dataResult.train), ParseToNumpy(dataResult.test)
                 , (dataResult.train.FirstOrDefault().Length, dataResult.train.FirstOrDefault().FirstOrDefault().Length));
         }
 
 
-        public static void TrainNN(NNType nNType)
+        public static void TrainNN(NNType nNType , ExecutedData executedData)
         {
             var pythonPath = @"C:\Users\sharstan\AppData\Local\Programs\Python\Python38";
 
@@ -87,11 +103,11 @@ namespace AdvanceNN
             {
                 if(nNType == NNType.Conv_LSTM)
                 {
-                    CNN_Model.Train_CNN();
+                    CNN_Model.Train_CNN(executedData);
                 }
                 if(nNType == NNType.LSTM)
                 {
-                    LSTM_NN.TrainLSTM();
+                    LSTM_NN.TrainLSTM(executedData);
                 }
             }
         }
