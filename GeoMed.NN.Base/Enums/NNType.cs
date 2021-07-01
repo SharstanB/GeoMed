@@ -23,6 +23,8 @@ namespace GeoMed.NN.Base.Enums
         /// <summary>
         ///  RNN network with convelution layer for time data
         /// </summary>
-        Conv_LSTM
+        Conv_LSTM,
+
+        GRU ,
     }
 }

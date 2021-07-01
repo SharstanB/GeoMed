@@ -23,22 +23,16 @@ namespace AdvanceNN
                 var train_data_numpy = data.train;
 
 
-               // TODO  need review
                 var test_data_numpy = data.test;
             
-
-               // var data_list = tf.stack(data_list)
-               //  y = tf.stack(y)
 
                 //Build sequential model
                 var model = new Sequential();
                 
                 model.Add(new LSTM(128 , activation: "relu", input_shape: new Shape(
-                    //train_data.Count, 
                     data.inputDimention.FD,
                     data.inputDimention.SD) 
                     , return_sequences: true
-                    //, return_state: true
                     ));
 
                 model.Add(new LSTM(128, activation: "relu", return_sequences: true));
@@ -57,9 +51,7 @@ namespace AdvanceNN
                 File.WriteAllText("model.json", json);
 
 
-                 model.SaveModel(NNType.LSTM);
-
-              
+                model.SaveModel(NNType.LSTM);
 
                 ////Load model and weight
                 //var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));

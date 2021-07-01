@@ -109,6 +109,10 @@ namespace AdvanceNN
                 {
                     LSTM_NN.TrainLSTM(executedData);
                 }
+                if(nNType == NNType.GRU)
+                {
+                    GRU_NN.Train_GRU(executedData);
+                }
             }
         }
 
