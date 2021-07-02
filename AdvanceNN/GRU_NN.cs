@@ -44,7 +44,7 @@ namespace AdvanceNN
 
                 model.Compile(optimizer: "rmsprop", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
 
-                model.Fit(trainX_data_numpy, trainX_data_numpy, batch_size: 1, epochs: 10, verbose: 1);
+                model.Fit(trainX_data_numpy, trainX_data_numpy, batch_size: 1, epochs: 1, verbose: 1);
 
                 //Save model and weights
                 string json = model.ToJson();

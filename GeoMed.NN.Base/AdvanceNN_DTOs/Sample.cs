@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GeoMed.NN.Base.LSTMDTOs
 {
-    public class LSTMSample
+    public class Sample
     {
         public DateTime Date { get; set; }
 

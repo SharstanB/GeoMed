@@ -1,5 +1,6 @@
 ﻿using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country;
 using GeoMed.NN.Base.Enums;
+using GeoMed.NN.Base.LSTMDTOs;
 using Keras.Models;
 using Numpy;
 using Python.Runtime;
@@ -14,6 +15,16 @@ namespace AdvanceNN
 {
     public static class AdvanceNetwork
     {
+        private static void SetPythonPath()
+        {
+            var pythonPath = @"C:\Users\sharstan\AppData\Local\Programs\Python\Python38";
+
+            Environment.SetEnvironmentVariable("PATH", $@"{pythonPath};" + Environment.GetEnvironmentVariable("PATH"));
+            Environment.SetEnvironmentVariable("PYTHONHOME", pythonPath);
+            Environment.SetEnvironmentVariable("PYTHONPATH ", $@"{pythonPath}\Lib");
+
+
+        }
         private static NDarray ParseToNumpy(IEnumerable<float[][]> sourceList)
         {
 
@@ -92,13 +103,8 @@ namespace AdvanceNN
 
         public static void TrainNN(NNType nNType , ExecutedData executedData)
         {
-            var pythonPath = @"C:\Users\sharstan\AppData\Local\Programs\Python\Python38";
 
-            Environment.SetEnvironmentVariable("PATH", $@"{pythonPath};" + Environment.GetEnvironmentVariable("PATH"));
-            Environment.SetEnvironmentVariable("PYTHONHOME", pythonPath);
-            Environment.SetEnvironmentVariable("PYTHONPATH ", $@"{pythonPath}\Lib");
-
-
+            SetPythonPath();
             using (Py.GIL())
             {
                 if(nNType == NNType.Conv_LSTM)
@@ -127,7 +133,45 @@ namespace AdvanceNN
             string modelsDirectory = Path.Combine( path
                 , $"{ DateTime.Now.ToString("yyyy-MM-dd") + DateTime.Now.TimeOfDay.ToString().Replace(":", "-")}.h5");
 
-            sequential.SaveWeight(modelsDirectory);
+            sequential.Save(modelsDirectory);
+
+        }
+
+
+        public static string Predict(string path , Sample sample)
+        {
+
+            SetPythonPath();
+
+            using (Py.GIL())
+            {
+                string rv = "";
+
+                string modelPath = Path.GetFullPath(@"C:\Users\sharstan\Source\Repos\GeoMed\AdvanceNN\modles\GRU\2021-07-0200-50-13.7059485.h5");
+                //  string modelPath = Path.GetFullPath("model.h5");
+                string weightsPath = Path.GetFullPath("weights.h5");
+
+                if (File.Exists(modelPath))
+                {
+                    // var img = ImageUtil.LoadImg(path, target_size: new Shape(32, 32));
+                    NDarray x = ParseToNumpy(new List<float[][]>() {
+                  sample.Features.Select(d => new float[]
+                    {
+                      (float)d.Cases,
+                      (float)d.MedianAge,
+                      (float)d.Population
+                    }).ToArray()
+                });
+                    var model = Sequential.LoadModel(modelPath);
+                    var y = model.Predict(x);
+                }
+                else
+                {
+                    throw (new Exception("No model found at: " + modelPath));
+                }
+                return rv;
+
+            }
 
         }
     }

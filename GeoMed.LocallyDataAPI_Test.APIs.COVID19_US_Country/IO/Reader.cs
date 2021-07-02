@@ -218,7 +218,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
         }
 
 
-        public static (IEnumerable<LSTMSample> trainData, IEnumerable<LSTMSample> testData
+        public static (IEnumerable<Sample> trainData, IEnumerable<Sample> testData
             ) ReadCountiesLSTMInputWithSplit(this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
         {
             const int saveCount = 1000;
@@ -273,7 +273,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 }).ToList();
 
            var finalTrainData = Data.TakePercent(50 , 0 ).GroupBy(s=>s.Date.Date)
-                .Select(item => new LSTMSample() {
+                .Select(item => new Sample() {
                     Date = item.Key,
                     Features = item.Select(feature => new Feature()
                     {
@@ -285,7 +285,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 .ToList();
 
             var finalTestData = Data.TakePercent(50, 50 ).GroupBy(s => s.Date.Date)
-                .Select(item => new LSTMSample()
+                .Select(item => new Sample()
                 {
                     Date = item.Key,
                     Features = item.Select(feature => new Feature()
@@ -314,7 +314,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
         }
 
 
-        public static IEnumerable<LSTMSample>  ReadCountiesLSTMInput(this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
+        public static IEnumerable<Sample>  ReadCountiesLSTMInput(this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
         {
             const int saveCount = 1000;
 
@@ -369,7 +369,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
 
             var allData = Data.TakePercent(50, 50).GroupBy(s => s.Date.Date)
-               .Select(item => new LSTMSample()
+               .Select(item => new Sample()
                {
                    Date = item.Key,
                    Features = item.Select(feature => new Feature()

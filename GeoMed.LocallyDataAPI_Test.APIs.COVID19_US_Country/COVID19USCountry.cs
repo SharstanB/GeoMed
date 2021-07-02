@@ -55,14 +55,14 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         /// get spliting Data (trainx, trainY) for LSTM Neural Network Input 
         /// </summary>
         /// <returns></returns>
-        public static (IEnumerable<LSTMSample> trainData, IEnumerable<LSTMSample> testData) GetCountiesLSTMInputWithSplit() =>
+        public static (IEnumerable<Sample> trainData, IEnumerable<Sample> testData) GetCountiesLSTMInputWithSplit() =>
             (diseaseDataset_path, usInfoDataset_path).ReadCountiesLSTMInputWithSplit();
 
         /// <summary>
         /// get Elman Neural Network Input 
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<LSTMSample> GetCountiesLSTMInput() =>
+        public static IEnumerable<Sample> GetCountiesLSTMInput() =>
             (diseaseDataset_path, usInfoDataset_path).ReadCountiesLSTMInput();
 
 

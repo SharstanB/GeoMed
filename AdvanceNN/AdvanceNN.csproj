@@ -17,4 +17,8 @@
     <ProjectReference Include="..\GeoMed.NN.BPNeuralNetwork\GeoMed.NN.BPNeuralNetwork.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="modles\GRU\" />
+  </ItemGroup>
+
 </Project>
