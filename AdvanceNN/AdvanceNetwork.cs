@@ -138,7 +138,7 @@ namespace AdvanceNN
         }
 
 
-        public static string Predict(string path , Sample sample)
+        public static string Forecasting(string path , Sample sample)
         {
 
             SetPythonPath();
