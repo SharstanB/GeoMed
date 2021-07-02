@@ -167,7 +167,7 @@ namespace AdvanceNN
                 }
                 else
                 {
-                    throw (new Exception("No model found at: " + modelPath));
+                    throw (new Exception($"No model found at: { modelPath}"));
                 }
                 return rv;
 
