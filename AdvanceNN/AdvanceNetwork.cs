@@ -109,7 +109,7 @@ namespace AdvanceNN
             {
                 if(nNType == NNType.Conv_LSTM)
                 {
-                    CNN_Model.Train_CNN(executedData);
+                    ConvLSTM_NN.Train_CNN(executedData);
                 }
                 if(nNType == NNType.LSTM)
                 {

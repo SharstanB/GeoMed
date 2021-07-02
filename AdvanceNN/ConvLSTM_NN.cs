@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace AdvanceNN
 {
-    public static class CNN_Model
+    public static class ConvLSTM_NN
     {
 
         public static void Train_CNN(ExecutedData executedData)

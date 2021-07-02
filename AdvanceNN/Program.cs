@@ -14,7 +14,7 @@ namespace AdvanceNN
 
 
 
-            AdvanceNetwork.Predict("", new GeoMed.NN.Base.LSTMDTOs.Sample()
+            AdvanceNetwork.Forecasting("", new GeoMed.NN.Base.LSTMDTOs.Sample()
             {
                 Features = new System.Collections.Generic.List<GeoMed.NN.Base.LSTMDTOs.Feature>()
                 {
