@@ -18,7 +18,7 @@ namespace AdvanceNN
         private static void SetPythonPath()
         {
            var pythonPath = Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData) , @"Local\Programs\Python\Python38");
+                    Environment.SpecialFolder.LocalApplicationData) , @"Programs\Python\Python38");
 
            Environment.SetEnvironmentVariable("PATH", $@"{pythonPath};" + Environment.GetEnvironmentVariable("PATH"));
            Environment.SetEnvironmentVariable("PYTHONHOME", pythonPath);
