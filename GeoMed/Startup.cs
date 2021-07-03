@@ -1,3 +1,4 @@
+using EasyNetQ;
 using GeoMed.Main.Data.Repositories;
 using GeoMed.Main.IData.IRepositories;
 using GeoMed.Repository.DataSet.Interface;
@@ -26,11 +27,18 @@ namespace GeoMed
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<GMContext>(options =>
 
             options.UseSqlServer(Configuration.GetConnectionString("GMConnectionString"))
 
             );
+
+            var bus = RabbitHutch.CreateBus(Configuration
+                .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value);
+
+            services.AddSingleton(bus);
+
             services.AddServerSideBlazor();
 
             services.AddControllersWithViews();

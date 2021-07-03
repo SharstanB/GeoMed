@@ -14,18 +14,18 @@ namespace AdvanceNN
 
 
 
-            AdvanceNetwork.Forecasting("", new GeoMed.NN.Base.LSTMDTOs.Sample()
-            {
-                Features = new System.Collections.Generic.List<GeoMed.NN.Base.LSTMDTOs.Feature>()
-                {
-                   new GeoMed.NN.Base.LSTMDTOs.Feature()
-                   {
-                       Cases = 0.000000323,
-                       MedianAge = 0.32493,
-                       Population = 0.123
-                   }
-                }
-            });
+            //AdvanceNetwork.Forecasting("", new GeoMed.NN.Base.LSTMDTOs.Sample()
+            //{
+            //    Features = new System.Collections.Generic.List<GeoMed.NN.Base.LSTMDTOs.Feature>()
+            //    {
+            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 0.000000323,
+            //           MedianAge = 0.32493,
+            //           Population = 0.123
+            //       }
+            //    }
+            //});
 
 
 
