@@ -17,11 +17,12 @@ namespace AdvanceNN
     {
         private static void SetPythonPath()
         {
-            var pythonPath = @"C:\Users\sharstan\AppData\Local\Programs\Python\Python38";
+           var pythonPath = Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData) , @"Local\Programs\Python\Python38");
 
-            Environment.SetEnvironmentVariable("PATH", $@"{pythonPath};" + Environment.GetEnvironmentVariable("PATH"));
-            Environment.SetEnvironmentVariable("PYTHONHOME", pythonPath);
-            Environment.SetEnvironmentVariable("PYTHONPATH ", $@"{pythonPath}\Lib");
+           Environment.SetEnvironmentVariable("PATH", $@"{pythonPath};" + Environment.GetEnvironmentVariable("PATH"));
+           Environment.SetEnvironmentVariable("PYTHONHOME", pythonPath);
+           Environment.SetEnvironmentVariable("PYTHONPATH ", $@"{pythonPath}\Lib");
 
 
         }
@@ -146,8 +147,10 @@ namespace AdvanceNN
             using (Py.GIL())
             {
                 string rv = "";
-
-                string modelPath = Path.GetFullPath(@"C:\Users\sharstan\Source\Repos\GeoMed\AdvanceNN\modles\GRU\2021-07-0200-50-13.7059485.h5");
+             
+                string modelPath = Path.GetFullPath(@"modles\GRU\2021-07-0200-50-13.7059485.h5");
+                string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+                modelPath = Path.Combine(projectDirectory, @"modles\GRU\2021-07-0200-50-13.7059485.h5");
                 //  string modelPath = Path.GetFullPath("model.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
 
