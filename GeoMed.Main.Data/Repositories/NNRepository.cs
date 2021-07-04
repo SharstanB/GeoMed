@@ -183,12 +183,6 @@ namespace GeoMed.Main.Data.Repositories
         }
 
         private string ChooseMoreAccurateModel()
-        {
-            var path = string.Empty;
-
-            path = Context.Models.OrderBy(o => o.ErrorRate).FirstOrDefault().Path;
-
-            return path;
-        }
+        => Context.Models.OrderBy(o => o.ErrorRate).FirstOrDefault().Path;
     }
 }

@@ -17,7 +17,6 @@ namespace GeoMed.SqlServer
         }
         #endregion
 
-
         #region  == Settings Entities == 
 
         public DbSet<Area> Areas { get; set; }

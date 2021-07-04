@@ -28,9 +28,11 @@ namespace AdvanceNN
         }
         private static NDarray ParseToNumpy(IEnumerable<float[][]> sourceList)
         {
-
+            NDarray result = np.empty();
+            if (sourceList.Any())
+            {
                 float[,,] x = new float[sourceList.Count(), sourceList.FirstOrDefault().Length,
-                    sourceList.FirstOrDefault().FirstOrDefault().Length];
+                                   sourceList.FirstOrDefault().FirstOrDefault().Length];
 
                 for (int i = 0; i < sourceList.Count(); i++)
                 {
@@ -43,7 +45,9 @@ namespace AdvanceNN
                         }
                     }
                 }
-                NDarray result = np.array(x);
+                 result = np.array(x);
+                }
+               
                 return result;
 
         }
@@ -93,7 +97,7 @@ namespace AdvanceNN
         }
 
 
-        public static ( NDarray train , NDarray test , (int FD, int SD) inputDimention)  GetTrainDataWithDimentions(ExecutedData executedData)
+        public static ( NDarray trainX , NDarray trainY, (int FD, int SD) inputDimention)  GetTrainDataWithDimentions(ExecutedData executedData)
         {
             var dataResult = GetData(executedData);
 
