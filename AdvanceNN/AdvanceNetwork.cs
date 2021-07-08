@@ -45,10 +45,25 @@ namespace AdvanceNN
                         }
                     }
                 }
-                 result = np.array(x);
-                }
-               
-                return result;
+
+                //float[,] x = new float[sourceList.Count(), sourceList.FirstOrDefault().Length];
+
+                //for (int i = 0; i < sourceList.Count(); i++)
+
+                //{
+                //    for (int j = 0; j < sourceList.FirstOrDefault().Length; j++)
+                //    {
+                //        var list = sourceList.FirstOrDefault().FirstOrDefault();
+                //        //for (int k = 0; k < list.Length; k++)
+                //        //{
+                //        x[i, j] = list.LastOrDefault();
+                //        // }
+                //    }
+                //}
+                result = np.array(x);
+            }
+
+            return result;
 
         }
 
@@ -129,7 +144,8 @@ namespace AdvanceNN
 
         public static void SaveModel( this Sequential sequential , NNType nNType)
         {
-            var path = Path.Combine( Environment.CurrentDirectory.Substring(0, (Environment.CurrentDirectory.IndexOf("AdvanceNN") + "AdvanceNN".Length )) , "modles", nNType.ToString());
+            var path = Path.Combine( Environment.CurrentDirectory.
+                Substring(0, (Environment.CurrentDirectory.IndexOf("AdvanceNN") + "AdvanceNN".Length )) , "modles", nNType.ToString());
 
             if (!Directory.Exists(path))
             {

@@ -321,17 +321,22 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             var usDiseaseInfo = Select<DiseaseInfoModel>(paths.diseaseInfoPath);
 
             var usCases = usDiseaseInfo.Sum(s => s.Cases);
-            var fList = usDiseaseInfo
-                   .GroupBy(data => new { data.Date, data.FipsCode })
+
+            //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
+            var fList = usDiseaseInfo.ToList().Difference()
+                   .GroupBy(data => new {
+                       data.FipsCode,
+                       data.Date
+                   })
                    .Select(item => new
                    {
 
-                       date = item.Key,
+                       date = item.Key.Date,
 
-                       fips = item.Key.FipsCode,
+                       fips = item.FirstOrDefault().FipsCode,
 
-                       Cases = item.Sum(s => s.Cases)
-                       / usCases,
+                       Cases = item.FirstOrDefault().Cases
+                      / usCases,
 
                    })
                    .Take(saveMemory ? saveCount : getMaxAllowCount)
@@ -368,7 +373,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 }).ToList();
 
 
-            var allData = Data.TakePercent(50, 50).GroupBy(s => s.Date.Date)
+            var allData = Data.GroupBy(s => s.Date.Date)
                .Select(item => new Sample()
                {
                    Date = item.Key,

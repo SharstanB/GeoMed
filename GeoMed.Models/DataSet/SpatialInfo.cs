@@ -11,8 +11,10 @@ namespace GeoMed.Model.DataSet
         public string State { get; set; }
         public decimal Lat { get; set; }
         public decimal Long { get; set; }
-        public int Population { get; set; }
+        public double Population { get; set; }
         public double MedianAge { get; set; }
+
+        public string fib { get; set; }
         public ICollection<CovidZone> CovidZones { get; set; }
     }
 }
