@@ -35,31 +35,17 @@ namespace AdvanceNN
                                    sourceList.FirstOrDefault().FirstOrDefault().Length];
 
                 for (int i = 0; i < sourceList.Count(); i++)
+
                 {
                     for (int j = 0; j < sourceList.FirstOrDefault().Length; j++)
                     {
-                        var list = sourceList.FirstOrDefault().FirstOrDefault();
+                        var list = sourceList.FirstOrDefault()[j];
                         for (int k = 0; k < list.Length; k++)
                         {
-                            x[i, j, k] = list[k];
+                            x[i, j , k] = list[k];
                         }
                     }
                 }
-
-                //float[,] x = new float[sourceList.Count(), sourceList.FirstOrDefault().Length];
-
-                //for (int i = 0; i < sourceList.Count(); i++)
-
-                //{
-                //    for (int j = 0; j < sourceList.FirstOrDefault().Length; j++)
-                //    {
-                //        var list = sourceList.FirstOrDefault().FirstOrDefault();
-                //        //for (int k = 0; k < list.Length; k++)
-                //        //{
-                //        x[i, j] = list.LastOrDefault();
-                //        // }
-                //    }
-                //}
                 result = np.array(x);
             }
 
@@ -67,14 +53,17 @@ namespace AdvanceNN
 
         }
 
-        private static (List<float[][]> train , List<float[][]> test ) GetData(ExecutedData executedData)
+        private static (List<float[][]> train , List<float[][]> test ) GetData(ExecutedData executedData 
+            , FeatureCases featureCases)
         {
             
             if (executedData == ExecutedData.all)
             {
-                var allData = COVID19USCountry.GetCountiesLSTMInput();
+                if(featureCases == FeatureCases.All_Features)
+                {
+                    var allData = COVID19USCountry.GetCountiesLSTMInput<Sample>();
 
-                return (allData.SelectMany(s => new List<float[][]> {
+                    return (allData.SelectMany(s => new List<float[][]> {
                     s.Features.Select(d => new float[]
                     {
                       (float)d.Cases,
@@ -84,15 +73,29 @@ namespace AdvanceNN
 
                 }).ToList(), new List<float[][]>());
 
+                }
+                else
+                {
+                    var Data = COVID19USCountry.
+                        GetCountiesLSTMInput<List<float[]>>()
+                        .Select(s=>s.ToArray()).ToList();
+
+                    //var dd = Data.Select(a => a.ToArray()).ToArray();
+                    return (Data , new List<float[][]>());
+
+                }
+
+
             }
+
            var data =  COVID19USCountry.GetCountiesLSTMInputWithSplit();
 
             var train_data = data.trainData.SelectMany(s => new List<float[][]> {
                     s.Features.Select(d => new float[]
                     {
                       (float)d.Cases,
-                      (float)d.MedianAge,
-                      (float)d.Population
+                      //(float)d.MedianAge,
+                      //(float)d.Population
                     }).ToArray()
 
                 }).ToList();
@@ -101,8 +104,8 @@ namespace AdvanceNN
                     s.Features.Select(d => new float[]
                     {
                       (float)d.Cases,
-                      (float)d.MedianAge,
-                      (float)d.Population
+                      //(float)d.MedianAge,
+                      //(float)d.Population
                     }).ToArray()
 
                 }).ToList();
@@ -112,16 +115,17 @@ namespace AdvanceNN
         }
 
 
-        public static ( NDarray trainX , NDarray trainY, (int FD, int SD) inputDimention)  GetTrainDataWithDimentions(ExecutedData executedData)
+        public static ( NDarray trainX , NDarray trainY, (int FD, int SD) inputDimention)  
+            GetTrainDataWithDimentions(ExecutedData executedData , FeatureCases featureCases)
         {
-            var dataResult = GetData(executedData);
+            var dataResult = GetData(executedData , featureCases);
 
             return (ParseToNumpy(dataResult.train), ParseToNumpy(dataResult.test)
                 , (dataResult.train.FirstOrDefault().Length, dataResult.train.FirstOrDefault().FirstOrDefault().Length));
         }
 
 
-        public static void TrainNN(NNType nNType , ExecutedData executedData)
+        public static void TrainNN(NNType nNType , ExecutedData executedData , FeatureCases featureCases)
         {
 
             SetPythonPath();
@@ -129,15 +133,15 @@ namespace AdvanceNN
             {
                 if(nNType == NNType.Conv_LSTM)
                 {
-                    ConvLSTM_NN.Train_CNN(executedData);
+                    ConvLSTM_NN.Train_CNN(executedData , featureCases);
                 }
                 if(nNType == NNType.LSTM)
                 {
-                    LSTM_NN.TrainLSTM(executedData);
+                    LSTM_NN.TrainLSTM(executedData , featureCases);
                 }
                 if(nNType == NNType.GRU)
                 {
-                    GRU_NN.Train_GRU(executedData);
+                    GRU_NN.Train_GRU(executedData , featureCases);
                 }
             }
         }
@@ -168,23 +172,24 @@ namespace AdvanceNN
             {
                 string rv = "";
              
-                string modelPath = Path.GetFullPath(@"modles\GRU\2021-07-0200-50-13.7059485.h5");
+               // string modelPath = Path.GetFullPath(@"modles\GRU\2021-07-0200-50-13.7059485.h5");
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                modelPath = Path.Combine(projectDirectory, @"modles\GRU\2021-07-0200-50-13.7059485.h5");
+                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-07-0822-50-16.0591005.h5");
                 //  string modelPath = Path.GetFullPath("model.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
 
                 if (File.Exists(modelPath))
                 {
-                    // var img = ImageUtil.LoadImg(path, target_size: new Shape(32, 32));
-                    NDarray x = ParseToNumpy(new List<float[][]>() {
-                  sample.Features.Select(d => new float[]
-                    {
-                      (float)d.Cases,
-                      (float)d.MedianAge,
-                      (float)d.Population
-                    }).ToArray()
-                });
+                    var img = GetData(ExecutedData.all , FeatureCases.Only_Cases);
+                    NDarray x = ParseToNumpy(img.train);
+                    //    NDarray x = ParseToNumpy(new List<float[][]>() {
+                    //  sample.Features.Select(d => new float[]
+                    //    {
+                    //      (float)d.Cases,
+                    //      //(float)d.MedianAge,
+                    //      //(float)d.Population
+                    //    }).ToArray()
+                    //});
                     var model = Sequential.LoadModel(modelPath);
                     var y = model.Predict(x);
                 }

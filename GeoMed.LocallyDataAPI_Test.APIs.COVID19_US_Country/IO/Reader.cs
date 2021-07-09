@@ -278,8 +278,8 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     Features = item.Select(feature => new Feature()
                     {
                         Cases = feature.Cases,
-                        MedianAge = feature.MedianAge,
-                        Population = feature.Population
+                        //MedianAge = feature.MedianAge,
+                        //Population = feature.Population
                     }).ToList()
                 })
                 .ToList();
@@ -291,21 +291,21 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     Features = item.Select(feature => new Feature()
                     {
                         Cases = feature.Cases,
-                        MedianAge = feature.MedianAge,
-                        Population = feature.Population
+                        //MedianAge = feature.MedianAge,
+                        //Population = feature.Population
                     }).ToList()
                 })
                 .ToList();
 
             //var allData = Data.TakePercent(50, 50).GroupBy(s => s.Date.Date)
-            //   .Select(item => new LSTMSample()
+            //   .Select(item => new Sample()
             //   {
             //       Date = item.Key,
             //       Features = item.Select(feature => new Feature()
             //       {
             //           Cases = feature.Cases,
-            //           MedianAge = feature.MedianAge,
-            //           Population = feature.Population
+            //           //MedianAge = feature.MedianAge,
+            //           //Population = feature.Population
             //       }).ToList()
             //   })
             //   .ToList();
@@ -314,17 +314,20 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
         }
 
 
-        public static IEnumerable<Sample>  ReadCountiesLSTMInput(this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
+        public static IList<T>  ReadCountiesLSTMInput<T>
+            (this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
         {
-            const int saveCount = 1000;
+            const int saveCount = 10000;
 
             var usDiseaseInfo = Select<DiseaseInfoModel>(paths.diseaseInfoPath);
 
             var usCases = usDiseaseInfo.Sum(s => s.Cases);
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
-            var fList = usDiseaseInfo.ToList().Difference()
-                   .GroupBy(data => new {
+            var fList = usDiseaseInfo.ToList()
+                .Difference().Where(a=>a.Cases >= 0)
+                   .GroupBy(data => new
+                   {
                        data.FipsCode,
                        data.Date
                    })
@@ -333,10 +336,10 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
                        date = item.Key.Date,
 
-                       fips = item.FirstOrDefault().FipsCode,
+                       fips = item.Key.FipsCode,
 
                        Cases = item.FirstOrDefault().Cases
-                      / usCases,
+                    //  / usCases,
 
                    })
                    .Take(saveMemory ? saveCount : getMaxAllowCount)
@@ -349,11 +352,11 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             var sList = UsInfoList
                     .Select(g => new USInfoModel()
                     {
-                        MedianAge = g.MedianAge
-                        / USAgesCount,
+                        MedianAge = g.MedianAge,
+                      //  / USAgesCount,
 
-                        Population = g.Population
-                        / USPopulationCount,
+                        Population = g.Population,
+                    //    / USPopulationCount,
 
                         FipsCode = g.FipsCode,
                     })
@@ -364,7 +367,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                  , s => s.fips,
                  f => f.FipsCode,
                  (a, b) => new { a, b })
-                .Select((item, index) => new
+                .Select((item, index) => new 
                 {
                     Date = item.a.date,
                     Cases = item.a.Cases,
@@ -373,21 +376,34 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 }).ToList();
 
 
+            //var allData = Data.GroupBy(s => s.Date.Date)
+            //   .Select(item => item.Select(feature => feature.Cases).ToList()).Where(s=>s.Count == 109)
+            //   .ToList();
+
+            if(typeof(T) == typeof(Sample))
+            {
+                return (IList<T>) Data.GroupBy(s => s.Date.Date)
+             .Select(item => new Sample()
+             {
+                 Date = item.Key,
+                 Features = item.Select(feature => new Feature()
+                 {
+                     Cases = feature.Cases,
+                     MedianAge = feature.MedianAge,
+                     Population = feature.Population
+                 }).ToList()
+             })
+             .ToList();
+            }
             var allData = Data.GroupBy(s => s.Date.Date)
-               .Select(item => new Sample()
-               {
-                   Date = item.Key,
-                   Features = item.Select(feature => new Feature()
-                   {
-                       Cases = feature.Cases,
-                       MedianAge = feature.MedianAge,
-                       Population = feature.Population
-                   }).ToList()
-               })
+               .Select(item => item.Select(feature => new float[] { (float)feature.Cases }).ToList())
+                .Where(s => s.Count == 3142)
                .ToList();
 
-            return allData;
+            return (IList<T>)allData; 
         }
+
+
 
 
 

@@ -15,22 +15,68 @@ namespace AdvanceNN
 
 
 
-            //AdvanceNetwork.Forecasting("", new GeoMed.NN.Base.LSTMDTOs.Sample()
+            //var dd = AdvanceNetwork.Forecasting("", new GeoMed.NN.Base.LSTMDTOs.Sample()
             //{
             //    Features = new System.Collections.Generic.List<GeoMed.NN.Base.LSTMDTOs.Feature>()
             //    {
             //       new GeoMed.NN.Base.LSTMDTOs.Feature()
             //       {
-            //           Cases = 0.000000323,
-            //           MedianAge = 0.32493,
-            //           Population = 0.123
+            //           Cases = 0,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },
+            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 1,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },
+            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 4,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },
+            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 1,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },
+            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 0,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },
+            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 0,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       } ,new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 0,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 2,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
+            //       },new GeoMed.NN.Base.LSTMDTOs.Feature()
+            //       {
+            //           Cases = 0,
+            //           //MedianAge = 0.32493,
+            //           //Population = 0.123
             //       }
             //    }
+
             //});
 
 
 
-            AdvanceNetwork.TrainNN(NNType.LSTM, ExecutedData.all);
+            AdvanceNetwork.TrainNN(NNType.Conv_LSTM, ExecutedData.all , FeatureCases.Only_Cases);
 
            // var serviceProvider = new ServiceCollection()
            //.AddSingleton<INNRepository, NNRepository>()

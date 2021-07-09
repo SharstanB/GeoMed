@@ -14,11 +14,11 @@ namespace AdvanceNN
     public static class GRU_NN
     {
         
-        public static void Train_GRU(ExecutedData executedData)
+        public static void Train_GRU(ExecutedData executedData , FeatureCases featureCases)
         {
             Parallel.Invoke(() =>
             {
-                var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData);
+                var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData , featureCases);
 
                 var trainX_data_numpy = data.trainX;
 

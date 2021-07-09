@@ -16,10 +16,10 @@ namespace AdvanceNN
     public static class ConvLSTM_NN
     {
 
-        public static void Train_CNN(ExecutedData executedData)
+        public static void Train_CNN(ExecutedData executedData , FeatureCases featureCases)
         {
            
-                var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData);
+                var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData , featureCases);
 
                 var trainX_data_numpy = data.trainX;
 
@@ -29,13 +29,13 @@ namespace AdvanceNN
                 var model = new Sequential();
 
                 model.Add(new Conv1D(128, kernel_size: 5 , strides: 1
-                    , activation: "relu", padding: "causal", input_shape: new Shape(
+                    , activation: "sigmoid", padding: "causal", input_shape: new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD)
                     ));
 
-                model.Add(new LSTM(128, activation: "relu", return_sequences: true));
-                model.Add(new LSTM(128, activation: "relu", return_sequences: true));
+                model.Add(new LSTM(128, activation: "sigmoid", return_sequences: true));
+                model.Add(new LSTM(128, activation: "sigmoid", return_sequences: true));
                 model.Add(new Dense(1, activation: "linear"));
 
                 //Compile and train

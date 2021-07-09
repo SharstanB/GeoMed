@@ -62,8 +62,8 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         /// get Elman Neural Network Input 
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<Sample> GetCountiesLSTMInput() =>
-            (diseaseDataset_path, usInfoDataset_path).ReadCountiesLSTMInput();
+        public static IEnumerable<T> GetCountiesLSTMInput<T>() =>
+            (diseaseDataset_path, usInfoDataset_path).ReadCountiesLSTMInput<T>();
 
 
         /// <summary>
