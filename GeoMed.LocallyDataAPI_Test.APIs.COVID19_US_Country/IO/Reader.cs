@@ -397,7 +397,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             }
             var allData = Data.GroupBy(s => s.Date.Date)
                .Select(item => item.Select(feature => new float[] { (float)feature.Cases }).ToList())
-                .Where(s => s.Count == 3142)
+                .Where(s => s.Count == 109)
                .ToList();
 
             return (IList<T>)allData; 
