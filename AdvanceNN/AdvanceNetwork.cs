@@ -163,7 +163,7 @@ namespace AdvanceNN
         }
 
 
-        public static string Forecasting(string path , Sample sample)
+        public static string Forecasting(string path , List<float[][]> sample)
         {
 
             SetPythonPath();
@@ -180,8 +180,8 @@ namespace AdvanceNN
 
                 if (File.Exists(modelPath))
                 {
-                    var img = GetData(ExecutedData.all , FeatureCases.Only_Cases);
-                    NDarray x = ParseToNumpy(img.train);
+                  //  var img = GetData(ExecutedData.all , FeatureCases.Only_Cases);
+                    NDarray x = ParseToNumpy(sample);
                     //    NDarray x = ParseToNumpy(new List<float[][]>() {
                     //  sample.Features.Select(d => new float[]
                     //    {
@@ -191,7 +191,10 @@ namespace AdvanceNN
                     //    }).ToArray()
                     //});
                     var model = Sequential.LoadModel(modelPath);
-                    var y = model.Predict(x);
+                    var y = model.Predict(x).real.self;
+
+                  //  PyTuple b = new PyTuple(trendln.calc_support_resistance(y));
+
                 }
                 else
                 {

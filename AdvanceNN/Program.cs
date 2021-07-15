@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GeoMed.Main.Data.Repositories;
 using GeoMed.Main.IData.IRepositories;
 using GeoMed.NN.Base.Enums;
@@ -14,23 +15,19 @@ namespace AdvanceNN
         {
 
 
+            var hh = new float[][]{ new float[]{4} };
+            var list = new List<float[][]>() { hh };
 
-            //var dd = AdvanceNetwork.Forecasting("", new GeoMed.NN.Base.LSTMDTOs.Sample()
+            //var list = new List<float[][]>(new float[][] { new float[] { 0 }, new float[] { 1 }, new float[] { 4 }, new float[] { 1 }, new float[] { 0 }, new float[] { 0 }, new float[] { 0 }, new float[] { 2 }, new float[] { 0 } });
+
+            var dd = AdvanceNetwork.Forecasting("", list);
+
+            //new GeoMed.NN.Base.LSTMDTOs.Feature()
             //{
-            //    Features = new System.Collections.Generic.List<GeoMed.NN.Base.LSTMDTOs.Feature>()
-            //    {
-            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
-            //       {
-            //           Cases = 0,
-            //           //MedianAge = 0.32493,
-            //           //Population = 0.123
-            //       },
-            //       new GeoMed.NN.Base.LSTMDTOs.Feature()
-            //       {
-            //           Cases = 1,
-            //           //MedianAge = 0.32493,
-            //           //Population = 0.123
-            //       },
+            //    Cases = 1,
+            //    //MedianAge = 0.32493,
+            //    //Population = 0.123
+            //},
             //       new GeoMed.NN.Base.LSTMDTOs.Feature()
             //       {
             //           Cases = 4,
@@ -68,15 +65,9 @@ namespace AdvanceNN
             //       {
             //           Cases = 0,
             //           //MedianAge = 0.32493,
-            //           //Population = 0.123
-            //       }
-            //    }
-
-            //});
 
 
-
-            AdvanceNetwork.TrainNN(NNType.Conv_LSTM, ExecutedData.all , FeatureCases.Only_Cases);
+                       AdvanceNetwork.TrainNN(NNType.Conv_LSTM, ExecutedData.all , FeatureCases.Only_Cases);
 
            // var serviceProvider = new ServiceCollection()
            //.AddSingleton<INNRepository, NNRepository>()

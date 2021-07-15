@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="modles\GRU\" />
-    <Folder Include="modles\LSTM\" />
   </ItemGroup>
 
 </Project>
