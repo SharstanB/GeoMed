@@ -375,11 +375,6 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     Population = item.b.Population,
                 }).ToList();
 
-
-            //var allData = Data.GroupBy(s => s.Date.Date)
-            //   .Select(item => item.Select(feature => feature.Cases).ToList()).Where(s=>s.Count == 109)
-            //   .ToList();
-
             if(typeof(T) == typeof(Sample))
             {
                 return (IList<T>) Data.GroupBy(s => s.Date.Date)

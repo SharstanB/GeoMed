@@ -36,14 +36,14 @@ namespace AdvanceNN
                     data.inputDimention.SD) 
                     , return_sequences: true
                     ));
-                model.Add(new Dropout(0.2));
-                model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
-                model.Add(new Dropout(0.2));
-                model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
-                model.Add(new Dropout(0.2));
+            model.Add(new Dropout(0.2));
+            model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
+            model.Add(new Dropout(0.2));
+            model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
+            model.Add(new Dropout(0.2));
 
                 //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
-             model.Add(new Dense(1, activation: "linear"));
+             model.Add(new Dense(1 , activation: "relu"));
 
             //Compile and train
             //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });

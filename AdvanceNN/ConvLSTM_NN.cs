@@ -3,6 +3,7 @@ using GeoMed.NN.Base.Enums;
 using Keras;
 using Keras.Layers;
 using Keras.Models;
+using Keras.Optimizers;
 using Numpy;
 using Python.Runtime;
 using System;
@@ -28,20 +29,21 @@ namespace AdvanceNN
                 //Build sequential model
                 var model = new Sequential();
 
-                model.Add(new Conv1D(128, kernel_size: 5 , strides: 1
-                    , activation: "sigmoid", padding: "causal", input_shape: new Shape(
+                model.Add(new Conv1D(32, kernel_size: 2 , strides: 1
+                    , activation: "sigmoid", padding: "same", input_shape: new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD)
                     ));
+                model.Add(new Flatten());
+                //model.Add(new Dropout(0.2));
+                //model.Add(new Dense(1800));
+                model.Add(new Dense(100));
+                model.Add(new Dense(1));
 
-                model.Add(new LSTM(128, activation: "sigmoid", return_sequences: true));
-                model.Add(new LSTM(128, activation: "sigmoid", return_sequences: true));
-                model.Add(new Dense(1, activation: "linear"));
-
-                //Compile and train
-                //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
-
-                model.Compile(optimizer: "rmsprop", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
+            //Compile and train
+            //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
+           // var sgd = new SGD(0.0001f, 0.0f, 0.0f, false);
+            model.Compile(optimizer: "adam", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
 
                 model.Fit(trainX_data_numpy,
                     (executedData == ExecutedData.all) ? trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 10, verbose: 1);

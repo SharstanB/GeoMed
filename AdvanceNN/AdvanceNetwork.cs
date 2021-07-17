@@ -163,44 +163,31 @@ namespace AdvanceNN
         }
 
 
-        public static string Forecasting(string path , List<float[][]> sample)
+        public static double Forecasting(string path , List<float[][]> sample)
         {
-
+            double result = 0.0;
             SetPythonPath();
 
             using (Py.GIL())
             {
-                string rv = "";
-             
-               // string modelPath = Path.GetFullPath(@"modles\GRU\2021-07-0200-50-13.7059485.h5");
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-07-0822-50-16.0591005.h5");
-                //  string modelPath = Path.GetFullPath("model.h5");
+                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-07-1617-11-17.4863960.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
 
                 if (File.Exists(modelPath))
                 {
-                  //  var img = GetData(ExecutedData.all , FeatureCases.Only_Cases);
                     NDarray x = ParseToNumpy(sample);
-                    //    NDarray x = ParseToNumpy(new List<float[][]>() {
-                    //  sample.Features.Select(d => new float[]
-                    //    {
-                    //      (float)d.Cases,
-                    //      //(float)d.MedianAge,
-                    //      //(float)d.Population
-                    //    }).ToArray()
-                    //});
+                   
                     var model = Sequential.LoadModel(modelPath);
-                    var y = model.Predict(x).real.self;
+                    result = Convert.ToDouble(model.Predict(x).ToString().Replace("[",String.Empty).Replace("]",String.Empty));
 
-                  //  PyTuple b = new PyTuple(trendln.calc_support_resistance(y));
 
                 }
                 else
                 {
                     throw (new Exception($"No model found at: { modelPath}"));
                 }
-                return rv;
+                return Math.Abs(result);
 
             }
 
