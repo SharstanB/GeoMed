@@ -14,10 +14,10 @@ using System.Linq;
 
 namespace AdvanceNN
 {
-    public static class ConvLSTM_NN
+    public static class Conv_NN
     {
 
-        public static void Train_ConvLSTM(ExecutedData executedData , FeatureCases featureCases)
+        public static void Train_CNN(ExecutedData executedData , FeatureCases featureCases)
         {
            
                 var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData , featureCases);
@@ -38,17 +38,9 @@ namespace AdvanceNN
                     ));
             model.Add(new MaxPooling1D(pool_size: 2));
             model.Add(new Dropout(0.2));
-            model.Add(new LSTM(16, activation: "softplus", return_sequences: true));
-            //  model.Add(new Conv1D(filters: 16, kernel_size: 3, activation: "sigmoid"));
             model.Add(new Flatten());
             model.Add(new Dropout(0.2));
-            //model.Add(new Dense(100, activation: "relu"));
             model.Add(new Dense(1, activation:"linear"));
-            //model.Add(new Dense(1800));
-            //model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
-            //model.Add(new Dropout(0.2));
-            //model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
-          //  model.Add(new Dense(1));
 
             //Compile and train
             //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
@@ -75,7 +67,7 @@ namespace AdvanceNN
                 
                 
                // model.SaveWeight("model.h5");
-                model.SaveModel(NNType.Conv_LSTM);
+                model.SaveModel(NNType.Conv);
 
                 //Load model and weight
                 //var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));

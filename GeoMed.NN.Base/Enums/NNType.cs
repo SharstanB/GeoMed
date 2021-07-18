@@ -26,5 +26,7 @@ namespace GeoMed.NN.Base.Enums
         Conv_LSTM,
 
         GRU ,
+
+        Conv
     }
 }

@@ -155,11 +155,15 @@ namespace AdvanceNN
             SetPythonPath();
             using (Py.GIL())
             {
-                if(nNType == NNType.Conv_LSTM)
+                if (nNType == NNType.Conv_LSTM)
                 {
-                    ConvLSTM_NN.Train_CNN(executedData , featureCases);
+                    ConvLSTM_NN.Train_ConvLSTM(executedData, featureCases);
                 }
-                if(nNType == NNType.LSTM)
+                    if (nNType == NNType.Conv)
+                    {
+                     Conv_NN.Train_CNN(executedData, featureCases);
+                    }
+                    if (nNType == NNType.LSTM)
                 {
                     LSTM_NN.TrainLSTM(executedData , featureCases);
                 }
