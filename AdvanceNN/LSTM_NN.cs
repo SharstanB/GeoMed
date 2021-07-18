@@ -31,15 +31,15 @@ namespace AdvanceNN
                 //Build sequential model
                 var model = new Sequential();
                 
-                model.Add(new LSTM(64 , activation: "sigmoid", input_shape: new Shape(
+                model.Add(new LSTM(64 , activation: "softplus", input_shape: new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD) 
                     , return_sequences: true
                     ));
             model.Add(new Dropout(0.2));
-            model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
+            model.Add(new LSTM(32, activation: "softplus", return_sequences: true));
             model.Add(new Dropout(0.2));
-            model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
+            model.Add(new LSTM(16, activation: "softplus", return_sequences: true));
             model.Add(new Dropout(0.2));
 
                 //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));

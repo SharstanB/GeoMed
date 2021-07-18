@@ -53,6 +53,30 @@ namespace AdvanceNN
 
         }
 
+
+
+        private static NDarray ParseToNumpy2(IEnumerable<float[]> sourceList)
+        {
+            NDarray result = np.empty();
+            if (sourceList.Any())
+            {
+                float[,] x = new float[sourceList.Count(), 1];
+
+                var list = sourceList.ToList();
+
+                for (int i = 0; i < sourceList.Count(); i++)
+
+                {
+                            x[ 0 , i] = list[0][i];
+                }
+                result = np.array(x);
+            }
+
+            return result;
+
+        }
+
+
         private static (List<float[][]> train , List<float[][]> test ) GetData(ExecutedData executedData 
             , FeatureCases featureCases)
         {
@@ -156,7 +180,7 @@ namespace AdvanceNN
                 Directory.CreateDirectory(path);
             }
             string modelsDirectory = Path.Combine( path
-                , $"{ DateTime.Now.ToString("yyyy-MM-dd") + DateTime.Now.TimeOfDay.ToString().Replace(":", "-")}.h5");
+                , $"{ DateTime.Now.ToString("yyyy-MM-dd") + "_" + DateTime.Now.TimeOfDay.ToString().Replace(":", "-")}.h5");
 
             sequential.Save(modelsDirectory);
 
@@ -171,7 +195,7 @@ namespace AdvanceNN
             using (Py.GIL())
             {
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-07-1617-11-17.4863960.h5");
+                var modelPath = Path.Combine(projectDirectory, @"modles\Conv_LSTM\2021-07-18_19-23-12.2950839.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
 
                 if (File.Exists(modelPath))
@@ -179,7 +203,9 @@ namespace AdvanceNN
                     NDarray x = ParseToNumpy(sample);
                    
                     var model = Sequential.LoadModel(modelPath);
-                    result = Convert.ToDouble(model.Predict(x).ToString().Replace("[",String.Empty).Replace("]",String.Empty));
+
+                    var res = model.Predict(x);
+                   // result = Convert.ToDouble(model.Predict(x).ToString().Replace("[",String.Empty).Replace("]",String.Empty));
 
 
                 }

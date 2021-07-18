@@ -15,12 +15,30 @@ namespace AdvanceNN
         {
 
 
-            var hh = new float[][]{ new float[]{ 109797 } };
-            var list = new List<float[][]>() { hh };
+            //var hh = new float[][] {
+            //    new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,new float[] { 4 } ,new float[] { 4 } ,
+            //  new float[] { 4 } ,new float[] { 4 } ,
+            //  new float[] { 4 } ,new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //  new float[] { 4 } ,
+            //};
+            //var list = new List<float[][]>() { hh };
 
-            //var list = new List<float[][]>(new float[][] { new float[] { 0 }, new float[] { 1 }, new float[] { 4 }, new float[] { 1 }, new float[] { 0 }, new float[] { 0 }, new float[] { 0 }, new float[] { 2 }, new float[] { 0 } });
+            ////var hh = new float[] { 4.0f };
+            ////var list = new List<float[]>() { hh };
 
-           //var dd = AdvanceNetwork.Forecasting("", list);
+            ////var list = new List<float[][]>(new float[][] { new float[] { 0 }, new float[] { 1 }, new float[] { 4 }, new float[] { 1 }, new float[] { 0 }, new float[] { 0 }, new float[] { 0 }, new float[] { 2 }, new float[] { 0 } });
+
+            //  var dd = AdvanceNetwork.Forecasting("", list);
 
             //new GeoMed.NN.Base.LSTMDTOs.Feature()
             //{
@@ -67,7 +85,7 @@ namespace AdvanceNN
             //           //MedianAge = 0.32493,
 
 
-           AdvanceNetwork.TrainNN(NNType.Conv_LSTM, ExecutedData.splited , FeatureCases.Only_Cases);
+            AdvanceNetwork.TrainNN(NNType.Conv_LSTM, ExecutedData.all , FeatureCases.Only_Cases);
 
            // var serviceProvider = new ServiceCollection()
            //.AddSingleton<INNRepository, NNRepository>()
