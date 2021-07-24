@@ -16,20 +16,7 @@ namespace AdvanceNN
 
 
             //var hh = new float[][] {
-            //    new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,new float[] { 4 } ,new float[] { 4 } ,
-            //  new float[] { 4 } ,new float[] { 4 } ,
-            //  new float[] { 4 } ,new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,
-            //  new float[] { 4 } ,
+            //    new float[] { 4 }
             //};
             //var list = new List<float[][]>() { hh };
 
@@ -38,7 +25,7 @@ namespace AdvanceNN
 
             ////var list = new List<float[][]>(new float[][] { new float[] { 0 }, new float[] { 1 }, new float[] { 4 }, new float[] { 1 }, new float[] { 0 }, new float[] { 0 }, new float[] { 0 }, new float[] { 2 }, new float[] { 0 } });
 
-            //  var dd = AdvanceNetwork.Forecasting("", list);
+            //var dd = AdvanceNetwork.Forecasting("", list);
 
             //new GeoMed.NN.Base.LSTMDTOs.Feature()
             //{

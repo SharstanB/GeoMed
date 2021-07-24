@@ -325,7 +325,8 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
             var fList = usDiseaseInfo.ToList()
-                .Difference().Where(a=>a.Cases >= 0)
+               // .Difference()
+                .Where(a=>a.Cases >= 0)
                    .GroupBy(data => new
                    {
                        data.FipsCode,
@@ -390,9 +391,9 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
              })
              .ToList();
             }
-            var allData = Data.GroupBy(s => s.Date.Date)
+            var allData = Data.GroupBy(s => s.Date)
                .Select(item => item.Select(feature => new float[] { (float)feature.Cases }).ToList())
-                .Where(s => s.Count == 109)
+               // .Where(s => s.Count == 109)
                .ToList();
 
             return (IList<T>)allData; 
