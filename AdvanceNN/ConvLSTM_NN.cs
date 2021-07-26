@@ -30,15 +30,15 @@ namespace AdvanceNN
                 var model = new Sequential();
             var shape = trainX_data_numpy.shape;
 
-                model.Add(new Conv1D(8, kernel_size: 3
-                    , activation: "softplus", input_shape: new Shape(
+                model.Add(new Conv1D(32, kernel_size: 3
+                    , activation: "relu", input_shape: new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD
                     )
                     ));
             model.Add(new MaxPooling1D(pool_size: 2));
             model.Add(new Dropout(0.2));
-            model.Add(new LSTM(16, activation: "softplus", return_sequences: true));
+            model.Add(new LSTM(16, activation: "relu", return_sequences: true));
             //  model.Add(new Conv1D(filters: 16, kernel_size: 3, activation: "sigmoid"));
             model.Add(new Flatten());
             model.Add(new Dropout(0.2));
@@ -52,11 +52,11 @@ namespace AdvanceNN
 
             //Compile and train
             //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
-            var sgd = new SGD(0.0001f, 0.0f, 0.0f, false);
-            model.Compile(optimizer: sgd, loss: "mse", metrics: new string[] { "accuracy" });
+            var sgd = new SGD(0.001f, 0.0f, 0.0f, false);
+            model.Compile(optimizer: "adam", loss: "mse", metrics: new string[] { "accuracy" });
 
               var result =  model.Fit(trainX_data_numpy,
-                    (executedData == ExecutedData.all) ? trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 20, verbose: 1);
+                    (executedData == ExecutedData.all) ? trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 20, verbose: 1 , validation_split: 0.2f);
 
             dynamic mpl = Py.Import("matplotlib");
             mpl.use("TkAgg");

@@ -72,7 +72,7 @@ namespace AdvanceNN
             //           //MedianAge = 0.32493,
 
 
-            AdvanceNetwork.TrainNN(NNType.Conv_LSTM, ExecutedData.all , FeatureCases.Only_Cases);
+            AdvanceNetwork.TrainNN(NNType.LSTM, ExecutedData.all , FeatureCases.Only_Cases);
 
            // var serviceProvider = new ServiceCollection()
            //.AddSingleton<INNRepository, NNRepository>()

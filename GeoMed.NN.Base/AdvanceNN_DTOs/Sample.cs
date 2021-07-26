@@ -10,6 +10,8 @@ namespace GeoMed.NN.Base.LSTMDTOs
     {
         public DateTime Date { get; set; }
 
+        public string Code { get; set; }
+
         public List<Feature> Features { get; set; }
 
 

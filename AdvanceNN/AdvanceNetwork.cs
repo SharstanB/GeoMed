@@ -143,8 +143,16 @@ namespace AdvanceNN
             GetTrainDataWithDimentions(ExecutedData executedData , FeatureCases featureCases)
         {
             var dataResult = GetData(executedData , featureCases);
-
-            return (ParseToNumpy(dataResult.train), ParseToNumpy(dataResult.test)
+            var dd = dataResult.train;
+            var list = new List<float[][]>();
+            dd.ForEach(item =>
+            {
+                var dd = item.TakeLast(200).ToList();
+                dd.Add(new float[] { dd.LastOrDefault().LastOrDefault()});
+              //  item.ToList().RemoveAt(0);
+                list.Add(dd.ToArray());
+            });
+            return (ParseToNumpy(dataResult.train), ParseToNumpy(list)
                 , (dataResult.train.FirstOrDefault().Length, dataResult.train.FirstOrDefault().FirstOrDefault().Length));
         }
 

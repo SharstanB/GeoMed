@@ -325,7 +325,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
             var fList = usDiseaseInfo.ToList()
-               // .Difference()
+               //.Difference()
                 .Where(a=>a.Cases >= 0)
                    .GroupBy(data => new
                    {
@@ -374,14 +374,18 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     Cases = item.a.Cases,
                     MedianAge = item.b.MedianAge,
                     Population = item.b.Population,
+                    Code = item.b.FipsCode,
                 }).ToList();
 
             if(typeof(T) == typeof(Sample))
             {
-                return (IList<T>) Data.GroupBy(s => s.Date.Date)
+                return (IList<T>) Data.GroupBy(s => s.Code
+                //new { s.Code , s.Date.Date }
+                )
              .Select(item => new Sample()
              {
-                 Date = item.Key,
+                // Date = item.Key.Date,
+                 Code = item.Key,
                  Features = item.Select(feature => new Feature()
                  {
                      Cases = feature.Cases,
@@ -391,12 +395,19 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
              })
              .ToList();
             }
-            var allData = Data.GroupBy(s => s.Date)
+            var allData = Data.GroupBy(s => new { s.Code})
                .Select(item => item.Select(feature => new float[] { (float)feature.Cases }).ToList())
-               // .Where(s => s.Count == 109)
+                
                .ToList();
 
-            return (IList<T>)allData; 
+            var list = new List<List<float[]>>();
+            allData.ForEach(item =>
+            {
+                list.Add(item.Take(201).ToList());
+                list.Add(item.TakeLast(201).ToList());
+            });
+
+            return (IList<T>)list; 
         }
 
 
