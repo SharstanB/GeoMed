@@ -30,20 +30,23 @@ namespace AdvanceNN
                 var model = new Sequential();
             var shape = trainX_data_numpy.shape;
 
-                model.Add(new Conv1D(32, kernel_size: 3
+                model.Add(new Conv1D(64, kernel_size: 3
                     , activation: "relu", input_shape: new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD
                     )
                     ));
-            model.Add(new MaxPooling1D(pool_size: 2));
+            model.Add(new MaxPooling1D(pool_size: 3));
+            model.Add(new Conv1D(filters: 32, kernel_size: 3, activation: "relu"));
+            model.Add(new MaxPooling1D(pool_size: 3));
             model.Add(new Dropout(0.2));
             model.Add(new LSTM(16, activation: "relu", return_sequences: true));
-            //  model.Add(new Conv1D(filters: 16, kernel_size: 3, activation: "sigmoid"));
+           // model.Add(new Dropout(0.2));
+           // model.Add(new LSTM(64, activation: "relu", return_sequences: true));
             model.Add(new Flatten());
             model.Add(new Dropout(0.2));
-            //model.Add(new Dense(100, activation: "relu"));
-            model.Add(new Dense(1, activation:"linear"));
+            model.Add(new Dense(32));
+            model.Add(new Dense(1));
             //model.Add(new Dense(1800));
             //model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
             //model.Add(new Dropout(0.2));
@@ -56,7 +59,8 @@ namespace AdvanceNN
             model.Compile(optimizer: "adam", loss: "mse", metrics: new string[] { "accuracy" });
 
               var result =  model.Fit(trainX_data_numpy,
-                    (executedData == ExecutedData.all) ? trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 20, verbose: 1 , validation_split: 0.2f);
+                    (executedData == ExecutedData.all) ? 
+                    trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 20, verbose: 1 , validation_split: 0.2f);
 
             dynamic mpl = Py.Import("matplotlib");
             mpl.use("TkAgg");

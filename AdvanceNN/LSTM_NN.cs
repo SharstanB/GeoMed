@@ -36,18 +36,22 @@ namespace AdvanceNN
                     data.inputDimention.SD) 
                     , return_sequences: true
                     ));
-                model.Add(new Dropout(0.2));
-                model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-                model.Add(new Dropout(0.2));
-                model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //    model.Add(new Dropout(0.2));
+            //model.Add(new Dropout(0.5));
+            //model.Add(new LSTM(64, activation: "relu", return_sequences: true));
+            //model.Add(new Dropout(0.2));
+            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            //model.Add(new Dropout(0.2));
             //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
             //model.Add(new Dropout(0.2));
             //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
-            //model.Add(new Dropout(0.5));
-
-            //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
-            model.Add(new Dense(1, activation: "linear"));
+            model.Add(new Dropout(0.5));
+            model.Add(new Dense(32));
+            model.Add(new Dense(1));
 
             //Compile and train
             //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
@@ -57,9 +61,9 @@ namespace AdvanceNN
                 model.Compile(optimizer: "adam", loss: "mse", metrics: new string[] { "accuracy" });
 
              var result =  model.Fit(trainx_data_numpy,
-                  (executedData == ExecutedData.all)? trainx_data_numpy :
+                 // (executedData == ExecutedData.all)? trainx_data_numpy :
                     trainY_data_numpy, batch_size: 1, 
-                    epochs: 100, verbose: 1 , validation_split:0.2f);
+                    epochs: 10, verbose: 1 , validation_split:0.2f);
 
 
             dynamic mpl = Py.Import("matplotlib");

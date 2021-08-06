@@ -272,7 +272,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                     Population = item.b.Population,
                 }).ToList();
 
-           var finalTrainData = Data.TakePercent(50 , 0 ).GroupBy(s=>s.Date.Date)
+           var finalTrainData = Data.TakePercent(50 , 0).GroupBy(s=>s.Date.Date)
                 .Select(item => new Sample() {
                     Date = item.Key,
                     Features = item.Select(feature => new Feature()
@@ -284,7 +284,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
                 })
                 .ToList();
 
-            var finalTestData = Data.TakePercent(50, 50 ).GroupBy(s => s.Date.Date)
+            var finalTestData = Data.TakePercent(50, 50).GroupBy(s => s.Date.Date)
                 .Select(item => new Sample()
                 {
                     Date = item.Key,
@@ -325,7 +325,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
             var fList = usDiseaseInfo.ToList()
-               //.Difference()
+              // .Difference()
                 .Where(a=>a.Cases >= 0)
                    .GroupBy(data => new
                    {
