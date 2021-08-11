@@ -45,7 +45,7 @@ namespace AdvanceNN
 
             //Compile and train
             //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
-            var sgd = new SGD(0.0001f, 0.0f, 0.0f, false);
+            var sgd = new SGD(0.001f, 0.0f, 0.0f, false);
             model.Compile(optimizer: sgd, loss: "mse", metrics: new string[] { "accuracy" });
 
             //var result =  model.Fit(trainX_data_numpy,

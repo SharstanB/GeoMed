@@ -22,48 +22,42 @@ namespace AdvanceNN
 
             var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData , featureCases);
 
-                var trainx_data_numpy = data.trainX;
+             var trainx_data_numpy = data.trainX.reshape(218 , 201 , 1 );
 
 
-                var trainY_data_numpy = data.trainY;
+             var trainY_data_numpy = data.trainY.reshape(218, 201, 1);
+
             
+            var train = new Keras.PreProcessing
+                .sequence.TimeseriesGenerator(data: trainx_data_numpy,
+             targets: trainx_data_numpy, length: 201, sampling_rate: 1, stride: 1, batch_size: 3);
 
-                //Build sequential model
-                var model = new Sequential();
+
+            var model = new Sequential();
                 
-                model.Add(new LSTM(64 , activation: "relu", input_shape: new Shape(
+                model.Add(new LSTM(64, activation: "sigmoid", input_shape: new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD) 
                     , return_sequences: true
                     ));
-            //model.Add(new Dropout(0.5));
-            //model.Add(new LSTM(64, activation: "relu", return_sequences: true));
-            //model.Add(new Dropout(0.2));
-            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //model.Add(new LSTM(32, activation: "relu", return_sequences: true));
-            //model.Add(new Dropout(0.2));
-            //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
-            //model.Add(new Dropout(0.2));
-            //model.Add(new LSTM(16, activation: "sigmoid", return_sequences: true));
-            model.Add(new Dropout(0.5));
-            model.Add(new Dense(32));
-            model.Add(new Dense(1));
+            model.Add(new Dropout(0.2));
+            model.Add(new LSTM(32, activation: "relu", return_sequences: true));
+            model.Add(new Dropout(0.2));
+            model.Add(new Dense(8, activation: "sigmoid"));
+            model.Add(new Dropout(0.2));
+            model.Add(new Dense(1 ));
 
-            //Compile and train
-            //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
+            var sgd = new SGD(0.01f);
+            model.Compile(optimizer: "adam", loss: "mean_squared_error", metrics: new string[] { "mse" });
 
-              var sgd = new SGD(0.01f, 0.0f, 0.0f, false);
+            var result = model.Fit(trainx_data_numpy,
+                   trainY_data_numpy, batch_size: 1,
+                   epochs: 15 , verbose: 1, validation_split: 0.4f);
 
-                model.Compile(optimizer: "adam", loss: "mse", metrics: new string[] { "accuracy" });
 
-             var result =  model.Fit(trainx_data_numpy,
-                 // (executedData == ExecutedData.all)? trainx_data_numpy :
-                    trainY_data_numpy, batch_size: 1, 
-                    epochs: 10, verbose: 1 , validation_split:0.2f);
+            //   var result = model.FitGenerator(train, epochs: 20);
+
+            model.SaveModel(NNType.LSTM);
 
 
             dynamic mpl = Py.Import("matplotlib");
@@ -71,9 +65,9 @@ namespace AdvanceNN
             dynamic plt_loss = Py.Import("matplotlib.pyplot");
             dynamic plt_accuracy = Py.Import("matplotlib.pyplot");
             var loss = result.HistoryLogs["loss"].Select(s => (float)s).ToList();
-            var accuracy = result.HistoryLogs["accuracy"].Select(s => (float)s).ToList();
+            var accuracy = result.HistoryLogs["mse"].Select(s => (float)s).ToList();
             var val_loss = result.HistoryLogs["val_loss"].Select(s => (float)s).ToList();
-            var val_accuracy = result.HistoryLogs["val_accuracy"].Select(s => (float)s).ToList();
+            var val_accuracy = result.HistoryLogs["val_mse"].Select(s => (float)s).ToList();
             plt_loss.plot(loss);
             plt_loss.plot(val_loss);
             plt_loss.show();
@@ -86,9 +80,7 @@ namespace AdvanceNN
             string json = model.ToJson();
                 File.WriteAllText("model.json", json);
 
-                
-                model.SaveModel(NNType.LSTM);
-
+             
            
             ////Load model and weight
             //var loaded_model = Sequential.ModelFromJson(File.ReadAllText("model.json"));

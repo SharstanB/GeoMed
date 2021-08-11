@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Keras.NET" Version="3.8.5" />
     <PackageReference Include="Python.Runtime" Version="2.7.9" />
-    <PackageReference Include="TensorFlow.Keras" Version="0.5.1" />
+    <PackageReference Include="TensorFlow.Keras" Version="0.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="modles\Conv\" />
+    <Folder Include="modles\GRU\" />
   </ItemGroup>
 
 </Project>

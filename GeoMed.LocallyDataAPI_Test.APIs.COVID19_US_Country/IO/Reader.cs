@@ -395,17 +395,22 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
              })
              .ToList();
             }
-            var allData = Data.GroupBy(s => new { s.Code})
-               .Select(item => item.Select(feature => new float[] { (float)feature.Cases }).ToList())
-                
+            var allData = Data.GroupBy(s => new { s.Code })
+               .Select(item => item.Select(feature => new float[] { (float)((feature.Cases - item.Min(a=>a.Cases))
+               /(item.Max(a=>a.Cases - item.Min(a=>a.Cases))))}).ToList())
                .ToList();
-
+            //var allData = Data.GroupBy(s => new { s.Code })
+            //   .Select(item => item.Select(feature => new float[] { (float)(feature.Cases)}).ToList())
+            //   .ToList();
+            ////var ff = allData.Select(item => item.Select(d => d.FirstOrDefault()));
+            //  Write(ff);
             var list = new List<List<float[]>>();
             allData.ForEach(item =>
             {
                 list.Add(item.Take(201).ToList());
                 list.Add(item.TakeLast(201).ToList());
             });
+
 
             return (IList<T>)list; 
         }

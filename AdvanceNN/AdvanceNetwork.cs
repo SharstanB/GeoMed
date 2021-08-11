@@ -67,7 +67,7 @@ namespace AdvanceNN
                 for (int i = 0; i < sourceList.Count(); i++)
 
                 {
-                            x[ 0 , i] = list[0][i];
+                     x[ 0 , i] = list[0][i];
                 }
                 result = np.array(x);
             }
@@ -207,7 +207,7 @@ namespace AdvanceNN
             using (Py.GIL())
             {
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                var modelPath = Path.Combine(projectDirectory, @"modles\Conv_LSTM\2021-07-19_01-35-15.7459876.h5");
+                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-08-09_00-11-29.2757161.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
 
                 if (File.Exists(modelPath))
@@ -218,8 +218,6 @@ namespace AdvanceNN
 
                     var res = model.Predict(x);
                    // result = Convert.ToDouble(model.Predict(x).ToString().Replace("[",String.Empty).Replace("]",String.Empty));
-
-
                 }
                 else
                 {

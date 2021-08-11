@@ -21,46 +21,49 @@ namespace AdvanceNN
         {
            
                 var data = AdvanceNetwork.GetTrainDataWithDimentions(executedData , featureCases);
+          
+                var trainX_data_numpy =  data.trainX.reshape(218, 201, 1);
+            var trainY_data_numpy = data.trainY.reshape(218, 201, 1);
 
-                var trainX_data_numpy = data.trainX;
+            //dynamic sk = Py.Import("sklearn.preprocessing");
+            //trainX_data_numpy = sk.MinMaxScaler(trainX_data_numpy);
 
-                var trainY_data_numpy = data.trainY;
+            var train = new Keras.PreProcessing.sequence.TimeseriesGenerator(data: trainX_data_numpy, 
+                targets: trainX_data_numpy, length: 201,  sampling_rate: 1, stride: 1 , batch_size: 3 ) ;
 
-                //Build sequential model
-                var model = new Sequential();
-            var shape = trainX_data_numpy.shape;
 
-                model.Add(new Conv1D(64, kernel_size: 3
-                    , activation: "relu", input_shape: new Shape(
+            var ff = trainX_data_numpy.shape;
+
+            //Build sequential model
+            var model = new Sequential();
+
+            model.Add(new Conv1D(128, kernel_size: 3
+                    , activation: "sigmoid", input_shape:
+
+                    //(trainX_data_numpy.shape[1])
+                    new Shape(
                     data.inputDimention.FD,
                     data.inputDimention.SD
                     )
                     ));
             model.Add(new MaxPooling1D(pool_size: 3));
-            model.Add(new Conv1D(filters: 32, kernel_size: 3, activation: "relu"));
-            model.Add(new MaxPooling1D(pool_size: 3));
             model.Add(new Dropout(0.2));
-            model.Add(new LSTM(16, activation: "relu", return_sequences: true));
-           // model.Add(new Dropout(0.2));
-           // model.Add(new LSTM(64, activation: "relu", return_sequences: true));
+            model.Add(new LSTM(64, activation: "sigmoid", return_sequences: true));
             model.Add(new Flatten());
             model.Add(new Dropout(0.2));
-            model.Add(new Dense(32));
-            model.Add(new Dense(1));
-            //model.Add(new Dense(1800));
-            //model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
-            //model.Add(new Dropout(0.2));
-            //model.Add(new LSTM(32, activation: "sigmoid", return_sequences: true));
-          //  model.Add(new Dense(1));
+            model.Add(new Dense(32 , activation: "sigmoid"));
+            model.Add(new Dense(1 , activation: "sigmoid"));
+           
 
             //Compile and train
             //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
             var sgd = new SGD(0.001f, 0.0f, 0.0f, false);
-            model.Compile(optimizer: "adam", loss: "mse", metrics: new string[] { "accuracy" });
+            var adam = new Adam (0.001f, 0.000001f );
+            model.Compile(optimizer: adam , loss: "mse", metrics: new string[] { "accuracy" });
 
-              var result =  model.Fit(trainX_data_numpy,
-                    (executedData == ExecutedData.all) ? 
-                    trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 20, verbose: 1 , validation_split: 0.2f);
+            var result = model.Fit(trainX_data_numpy,
+                 trainY_data_numpy, batch_size: 1,
+                 epochs: 10, verbose: 1, validation_split: 0.1f);
 
             dynamic mpl = Py.Import("matplotlib");
             mpl.use("TkAgg");

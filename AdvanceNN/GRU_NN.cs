@@ -42,10 +42,11 @@ namespace AdvanceNN
                 //Compile and train
                 //model.Compile(optimizer: "sgd", loss: "categorical_crossentropy", metrics: new string[] { "accuracy" });
 
-                model.Compile(optimizer: "rmsprop", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
+                model.Compile(optimizer: "adam", loss: "mean_squared_error", metrics: new string[] { "accuracy" });
 
                 model.Fit(trainX_data_numpy,
-                    (executedData == ExecutedData.all) ? trainX_data_numpy : trainY_data_numpy, batch_size: 1, epochs: 10 , verbose: 1);
+                    //(executedData == ExecutedData.all) ? trainX_data_numpy : 
+                    trainY_data_numpy, batch_size: 1, epochs: 50 , verbose: 1);
 
               //  model.Fit(trainX_data_numpy, trainX_data_numpy, batch_size: 1, epochs: 10, verbose: 1);
 
