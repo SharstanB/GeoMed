@@ -325,7 +325,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
             var fList = usDiseaseInfo.ToList()
-              // .Difference()
+               // .Difference()
                 .Where(a=>a.Cases >= 0)
                    .GroupBy(data => new
                    {
@@ -395,6 +395,10 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
              })
              .ToList();
             }
+
+            var allData2 = Data.GroupBy(s => new { s.Code })
+               .Select(item => item.Select(feature => new float[] { (float)(feature.Cases) }).ToList())
+               .ToList();
             var allData = Data.GroupBy(s => new { s.Code })
                .Select(item => item.Select(feature => new float[] { (float)((feature.Cases - item.Min(a=>a.Cases))
                /(item.Max(a=>a.Cases - item.Min(a=>a.Cases))))}).ToList())
@@ -405,7 +409,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             ////var ff = allData.Select(item => item.Select(d => d.FirstOrDefault()));
             //  Write(ff);
             var list = new List<List<float[]>>();
-            allData.ForEach(item =>
+            allData.TakePercent(80 , 0).ToList().ForEach(item =>
             {
                 list.Add(item.Take(201).ToList());
                 list.Add(item.TakeLast(201).ToList());

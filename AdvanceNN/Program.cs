@@ -16,7 +16,7 @@ namespace AdvanceNN
 
 
             //var hh = new float[][] {
-            //    new float[] { 40}
+            //    new float[] { 0.00288092182f}
             //};
             //var list = new List<float[][]>() { hh };
 
@@ -72,7 +72,7 @@ namespace AdvanceNN
             //           //MedianAge = 0.32493,
 
 
-            AdvanceNetwork.TrainNN(NNType.LSTM, ExecutedData.all, FeatureCases.Only_Cases);
+            AdvanceNetwork.TrainNN(NNType.GRU, ExecutedData.all, FeatureCases.Only_Cases);
 
            // var serviceProvider = new ServiceCollection()
            //.AddSingleton<INNRepository, NNRepository>()
