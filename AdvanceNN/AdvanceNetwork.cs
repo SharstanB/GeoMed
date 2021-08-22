@@ -54,30 +54,7 @@ namespace AdvanceNN
         }
 
 
-
-        private static NDarray ParseToNumpy2(IEnumerable<float[]> sourceList)
-        {
-            NDarray result = np.empty();
-            if (sourceList.Any())
-            {
-                float[,] x = new float[sourceList.Count(), 1];
-
-                var list = sourceList.ToList();
-
-                for (int i = 0; i < sourceList.Count(); i++)
-
-                {
-                     x[ 0 , i] = list[0][i];
-                }
-                result = np.array(x);
-            }
-
-            return result;
-
-        }
-
-
-        private static (List<float[][]> train , List<float[][]> test ) GetData(ExecutedData executedData 
+        public static (List<float[][]> train , List<float[][]> test ) GetData(ExecutedData executedData 
             , FeatureCases featureCases)
         {
             
@@ -95,7 +72,7 @@ namespace AdvanceNN
                       (float)d.Population
                     }).ToArray()
 
-                }).ToList(), new List<float[][]>());
+                   }).ToList(), new List<float[][]>());
 
                 }
                 else
@@ -104,7 +81,6 @@ namespace AdvanceNN
                         GetCountiesLSTMInput<List<float[]>>()
                         .Select(s=>s.ToArray()).ToList();
 
-                    //var dd = Data.Select(a => a.ToArray()).ToArray();
                     return (Data , new List<float[][]>());
 
                 }
@@ -118,8 +94,6 @@ namespace AdvanceNN
                     s.Features.Select(d => new float[]
                     {
                       (float)d.Cases,
-                      //(float)d.MedianAge,
-                      //(float)d.Population
                     }).ToArray()
 
                 }).ToList();
@@ -128,8 +102,6 @@ namespace AdvanceNN
                     s.Features.Select(d => new float[]
                     {
                       (float)d.Cases,
-                      //(float)d.MedianAge,
-                      //(float)d.Population
                     }).ToArray()
 
                 }).ToList();
@@ -149,7 +121,6 @@ namespace AdvanceNN
             {
                 var dd = item.TakeLast(200).ToList();
                 dd.Add(new float[] { dd.LastOrDefault().LastOrDefault()});
-              //  item.ToList().RemoveAt(0);
                 list.Add(dd.ToArray());
             });
             return (ParseToNumpy(dataResult.train), ParseToNumpy(list)
@@ -199,7 +170,7 @@ namespace AdvanceNN
         }
 
 
-        public static double Forecasting(string path , List<float[][]> sample)
+        public static double Forecasting(List<float[][]> sample)
         {
             double result = 0.0;
             SetPythonPath();
@@ -207,17 +178,27 @@ namespace AdvanceNN
             using (Py.GIL())
             {
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-08-11_19-59-46.0303474.h5");
+                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-08-11_18-33-18.9559072.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
-
                 if (File.Exists(modelPath))
                 {
                     NDarray x = ParseToNumpy(sample);
-                   
                     var model = Sequential.LoadModel(modelPath);
-
                     var res = model.Predict(x);
-                   // result = Convert.ToDouble(model.Predict(x).ToString().Replace("[",String.Empty).Replace("]",String.Empty));
+                    var dd = model.Predict(x).ToString().Split("\n");
+                    var lis = new List<double>();
+
+                    foreach (var item in dd)
+                    {
+                        var d = item.Replace('\n', ' ');
+                        var f =  d.Replace(']', ' ').Replace('[', ' ').Replace('"' , ' ').Trim();
+                        lis.Add(Convert.ToDouble(f));
+                    }
+                    var j = sample.LastOrDefault();
+                    var gg = j[j.Length - 1 ][0] *  lis.Min() + j[j.Length - 1][0]; 
+
+                    dd.ToList().ForEach(s => s.Replace(']', ' ').Replace('[' , ' ')
+                    );
                 }
                 else
                 {

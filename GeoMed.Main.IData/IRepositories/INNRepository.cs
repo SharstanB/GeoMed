@@ -15,7 +15,9 @@ namespace GeoMed.Main.IData.IRepositories
 
         OperationResult<NNResult> TrainNeuralNetwork(TrainNeuralNetworkDto trainNeural);
 
-        public OperationResult<NNResult> LoadModel();
+        OperationResult<NNResult> LoadModel();
+
+        OperationResult<List<int>> LoadPredicateData();
 
 
 

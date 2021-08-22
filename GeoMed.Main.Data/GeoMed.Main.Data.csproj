@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdvanceNN\AdvanceNN.csproj" />
     <ProjectReference Include="..\GeoMed.Base\GeoMed.Base.csproj" />
     <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
     <ProjectReference Include="..\GeoMed.NN.BPNeuralNetwork\GeoMed.NN.BPNeuralNetwork.csproj" />

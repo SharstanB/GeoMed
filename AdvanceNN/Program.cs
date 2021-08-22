@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeoMed.Main.Data.Repositories;
-using GeoMed.Main.IData.IRepositories;
 using GeoMed.NN.Base.Enums;
 using GeoMed.NN.BPNeuralNetwork;
-using GeoMed.SqlServer;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AdvanceNN
@@ -16,14 +13,27 @@ namespace AdvanceNN
 
 
             //var hh = new float[][] {
-            //    new float[] { 0.00288092182f}
+            //    new float[] { 0.98300f , 0.98415f, 0.98529f,0.98682f,0.99159f , 0.99255f,0.994272f}
             //};
-            //var list = new List<float[][]>() { hh };
+            var data = AdvanceNetwork.GetData(ExecutedData.all, FeatureCases.Only_Cases);
 
-            //////var hh = new float[] { 4.0f };
-            //////var list = new List<float[]>() { hh };
+            var trainX_data_numpy = data.train[0];
+            var list = new List<float[][]>() { trainX_data_numpy };
 
-            //////var list = new List<float[][]>(new float[][] { new float[] { 0 }, new float[] { 1 }, new float[] { 4 }, new float[] { 1 }, new float[] { 0 }, new float[] { 0 }, new float[] { 0 }, new float[] { 2 }, new float[] { 0 } });
+            //var hh1 = new float[][] { new float[] { 40f } };
+            //var hh2 = new float[][] { new float[] { 100f } };
+            //var hh3 = new float[][] { new float[] { 150f } };
+            //var hh4 = new float[][] { new float[] { 200f } };
+            //var hh5 = new float[][] { new float[] { 250f } };
+            //var hh6 = new float[][] { new float[] { 300f } };
+            //var hh7 = new float[][] { new float[] { 350f} };
+            //var list = new List<float[][]>() { hh1 , hh2 , hh3 , hh4, hh5 , hh6 , hh7 };
+
+            //var list = new List<float[][]>
+            //    (new float[][](new float[] { 0.98300f },
+            //        new float[] { 0.98415f }, new float[] { 0.98529f },
+            //        new float[] { 0.98682f }, new float[] { 0.99159f },
+            //        new float[] { 0.99255f }, new float[] { 0.994272f } });
 
             //var dd = AdvanceNetwork.Forecasting("", list);
 
@@ -70,6 +80,7 @@ namespace AdvanceNN
             //       {
             //           Cases = 0,
             //           //MedianAge = 0.32493,
+
 
 
             AdvanceNetwork.TrainNN(NNType.GRU, ExecutedData.all, FeatureCases.Only_Cases);
