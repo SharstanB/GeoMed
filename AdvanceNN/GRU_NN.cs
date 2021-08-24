@@ -25,30 +25,31 @@ namespace AdvanceNN
                 var trainX_data_numpy = data.trainX;
 
                 var trainY_data_numpy = data.trainY;
-
-                //Build sequential model
+                
                 var model = new Sequential();
 
-                model.Add(new GRU(units: 16, return_sequences: true,
-                       activation: "relu"));
-                model.Add(new Dropout(0.2));
+                //model.Add(new GRU(units: 128, return_sequences: true,
+                //       activation: "relu"));
+                //model.Add(new Dropout(0.5));
 
-                model.Add(new GRU(16, activation: "relu", return_sequences: true));
+                //model.Add(new GRU(64, activation: "relu", return_sequences: true));
 
-                model.Add(new Dropout(0.2));
+                //model.Add(new Dropout(0.5));
 
-                model.Add(new GRU(8, activation: "relu", return_sequences: true));
+                model.Add(new GRU(32, activation: "relu", return_sequences: true));
+
+                model.Add(new Dense(8, activation: "relu"));
+
+                model.Add(new Dropout(0.5));
 
                 model.Add(new Dense(1, activation: "relu"));
 
-                var sgd = new SGD(0.0001f, 0.0f, 0.0f, false);
+                var sgd = new SGD(0.001f);
                 var adam = new Adam(0.001f, 0.000001f);
-                model.Compile(optimizer: adam, loss: "mean_squared_logarithmic_error", metrics: new string[] { "mse" });
+                model.Compile(optimizer: adam  , loss: "mean_absolute_error", metrics: new string[] { "mse" });
 
                 var result = model.Fit(trainX_data_numpy,
-                    trainY_data_numpy, batch_size: 1, epochs: 50 , verbose: 1 , validation_split:0.2f);
-                //string json = model.ToJson();
-                //File.WriteAllText("model.json", json);
+                    trainY_data_numpy, batch_size: 1, epochs: 20 , verbose: 1 , validation_split:0.2f);
 
                 model.SaveModel(NNType.GRU);
 

@@ -15,10 +15,10 @@ namespace AdvanceNN
             //var hh = new float[][] {
             //    new float[] { 0.98300f , 0.98415f, 0.98529f,0.98682f,0.99159f , 0.99255f,0.994272f}
             //};
-            var data = AdvanceNetwork.GetData(ExecutedData.all, FeatureCases.Only_Cases);
+            //var data = AdvanceNetwork.GetData(ExecutedData.all, FeatureCases.Only_Cases);
 
-            var trainX_data_numpy = data.train[0];
-            var list = new List<float[][]>() { trainX_data_numpy };
+            //var trainX_data_numpy = data.train[0];
+            //var list = new List<float[][]>() { trainX_data_numpy };
 
             //var hh1 = new float[][] { new float[] { 40f } };
             //var hh2 = new float[][] { new float[] { 100f } };
