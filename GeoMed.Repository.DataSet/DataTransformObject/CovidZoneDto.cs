@@ -25,6 +25,8 @@ namespace GeoMed.Repository.DataSet.DataTransformObject
         {
             return new CovidZoneDto()
             {
+                Id = item.Id,//to check
+                DeleteDate = item.DeleteDate,//check
                 Cases = item.Cases,
                 Country = item.SpatialInfo.Country,
                 Date = item.Date,

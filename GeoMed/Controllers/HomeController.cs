@@ -22,7 +22,7 @@ namespace GeoMed.Controllers
 
         public IActionResult Index()
         {
-            var equation = COVID19USCountry.GetDataInput(NN.Base.Enums.ExecutedData.County);
+            //var equation = COVID19USCountry.GetDataInput(NN.Base.Enums.ExecutedData.County);
 
             ViewData["Title"] = "الرئيسية";
             return View();
