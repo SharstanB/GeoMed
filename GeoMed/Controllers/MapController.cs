@@ -30,7 +30,7 @@ namespace GeoMed.Controllers
 
         public async Task<IActionResult> USA()
         {
-            var das = (await zone.USAAggregate()).Result;
+            //var das = (await zone.USAAggregate()).Result;
             return View("VectorMap");
         }
 

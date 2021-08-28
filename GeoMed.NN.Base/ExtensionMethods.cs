@@ -35,7 +35,18 @@ namespace GeoMed.NN.Base
 
 
 
-   
+        public static IEnumerable<TSource> DistinctBy<TSource, TKey>
+         (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            HashSet<TKey> seenKeys = new HashSet<TKey>();
+            foreach (TSource element in source)
+            {
+                if (seenKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
+        }
 
         //static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(IList<TOuter> outer, IList<TInner> inner, Func<TOuter, TInner, TResult> resultSelector)
         //{
@@ -56,7 +67,7 @@ namespace GeoMed.NN.Base
         //        }
 
         //    }
-           
+
         //}
     }
 }

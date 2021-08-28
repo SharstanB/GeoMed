@@ -1,5 +1,6 @@
 ﻿using GeoMed.Base;
 using GeoMed.Model.DataSet;
+using GeoMed.NN.Base;
 using GeoMed.Repository.DataSet.DataTransformObject;
 using GeoMed.Repository.DataSet.Interface;
 using GeoMed.SqlServer;
@@ -22,65 +23,76 @@ namespace GeoMed.Repository.DataSet.Repository
         {
             if (!Context.CovidZones.Any())
             {
-                var data = LocallyDataAPI_Test.APIs.COVID19_US_Country.COVID19USCountry.ALLUSA();
-                var usaData = LocallyDataAPI_Test.APIs.COVID19_US_Country.COVID19USCountry.ALLUSAInfo();
+               
+                //Context.SpatialInfos.AddAsync(list.Select(spatial => new SpatialInfo() { 
+                //   Country = spatial.a.Country,
+                //   CreateDate = spatial.a.Date,
+                //   fib = spatial.a.FipsCode,
+                //   Lat = spatial.a.Lat,
+                //   Long = spatial.a.Long,
+                //   MedianAge = spatial.b.MedianAge,
+                //   Population= spatial.b.Population,
+                //   State = spatial.a.State,
+                //   CovidZones = list.Select(covid => new CovidZone()
+                //   {
+                //       Cases = covid.a.Cases,
+                //       Date = covid.a.Date,
+                //       Deaths =covid.a.Deaths,
+                //       FipsCode = covid.a.FipsCode,
+                //       StateCode = covid.a.StateCode
+                //   }).ToList()
+                //}).ToList());
+                //.Select((item, index) => new CovidZone
+                //{
+                //    //Population = item.b.Population,
+                //    //MedianAge = item.b.MedianAge,
+                //    //Long = item.a.Long,
+                //    //State = item.a.State,
+                //    //Country = item.a.Country,
+                //    //Lat = item.a.Lat,
+                //    //CovidZones =
+                //    Deaths = item.a.Deaths,
+                //    FipsCode = item.a.FipsCode,
+                //    Cases = item.a.Cases,
+                //    Date = item.a.Date,
+                //    StateCode = item.a.StateCode,
+                //    SpatialInfo = new SpatialInfo()
+                //    {
+                //        Country = item.a.Country,
+                //        Lat = item.a.Lat,
+                //        Long = item.a.Long,
+                //        Population = item.b.Population,
+                //        MedianAge = item.b.MedianAge,
+                //        State = item.a.State,
+                //    }
+
+                //}).ToList();
+                //Context.ChangeTracker.AutoDetectChangesEnabled = false;
+                //int inter = 100;
+
+                //foreach (var item in list.Select(s=>s.SpatialInfo) )
+                //{
+                //    if (!Context.SpatialInfos.Any(s => s.fib == item.fib))
+                //    {
+                //       var it =  Context.SpatialInfos.Add(new SpatialInfo()
+                //        {
+                //            Country = item.Country,
+                //            Lat = item.Lat,
+                //            Long = item.Long,
+                //            State = item.State,
+                //            MedianAge = item.MedianAge,
+                //            Population = item.Population,
+
+                //        });
+                //        Context.SaveChanges();
+
+                //        Context.CovidZones.AddRange(list.Where(s => s.FipsCode == item.fib));
+                //        Context.SaveChanges();
+
+                //    }
+                //}
 
 
-                var list = data.Join(usaData
-                 , s => s.FipsCode,
-                 f => f.FipsCode,
-                 (a, b) => new { a, b })
-                .Select((item, index) => new CovidZone
-                {
-                    //Population = item.b.Population,
-                    //MedianAge = item.b.MedianAge,
-                    //Long = item.a.Long,
-                    //State = item.a.State,
-                    //Country = item.a.Country,
-                    //Lat = item.a.Lat,
-                    //CovidZones =
-                    Deaths = item.a.Deaths,
-                    FipsCode = item.a.FipsCode,
-                    Cases = item.a.Cases,
-                    Date = item.a.Date,
-                    StateCode = item.a.StateCode,
-                    SpatialInfo = new SpatialInfo()
-                    {
-                        Country = item.a.Country,
-                        Lat = item.a.Lat,
-                        Long = item.a.Long,
-                        Population = item.b.Population,
-                        MedianAge = item.b.MedianAge,
-                        State = item.a.State,
-                    }
-
-                }).ToList();
-                Context.ChangeTracker.AutoDetectChangesEnabled = false;
-                int inter = 100;
-
-                foreach (var item in list.Select(s=>s.SpatialInfo) )
-                {
-                    if (!Context.SpatialInfos.Any(s => s.fib == item.fib))
-                    {
-                       var it =  Context.SpatialInfos.Add(new SpatialInfo()
-                        {
-                            Country = item.Country,
-                            Lat = item.Lat,
-                            Long = item.Long,
-                            State = item.State,
-                            MedianAge = item.MedianAge,
-                            Population = item.Population,
-                           
-                        });
-                        Context.SaveChanges();
-
-                        Context.CovidZones.AddRange(list.Where(s => s.FipsCode == item.fib));
-                        Context.SaveChanges();
-
-                    }
-                }
-                   
-                    
 
                 //    foreach (var item in list)
                 //{

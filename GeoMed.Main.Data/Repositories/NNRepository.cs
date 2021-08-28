@@ -14,6 +14,7 @@ using GeoMed.NN.BPNeuralNetwork;
 using GeoMed.SqlServer;
 using GeoMed.Model.DataSet;
 using AdvanceNN;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeoMed.Main.Data.Repositories
 {
@@ -186,13 +187,12 @@ namespace GeoMed.Main.Data.Repositories
 
         public OperationResult<List<int>> LoadPredicateData()
         {
-            var data = Context.SpatialInfos.ToList()
-                .GroupBy(g=>g.fib).SelectMany(item => item.Select(covid => 
-                covid.CovidZones.Select(cov => cov.Cases))).ToList();
-            //var trainX_data_numpy = data.train[0];
-            //var list = new List<float[][]>() { trainX_data_numpy };
+            var data = Context.SpatialInfos.Include(a=>a.CovidZones).
+                ToList()
+                .GroupBy(g => g.fib).SelectMany(item => item.Select(covid =>
+                  covid.CovidZones.Select(cov => cov.Cases))).ToList();
 
-            //AdvanceNetwork.Forecasting();
+
             return new OperationResult<List<int>>();
         } 
 
