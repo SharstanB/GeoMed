@@ -64,62 +64,6 @@ namespace GeoMed.Repository.DataSet.Repository
                 }
                 Context.SaveChanges();
 
-                var list = data.Join(usaData
-                 , s => s.FipsCode,
-                 f => f.FipsCode,
-                 (a, b) => new { a, b })
-                .Select((item, index) => new CovidZone
-                {
-                    //Population = item.b.Population,
-                    //MedianAge = item.b.MedianAge,
-                    //Long = item.a.Long,
-                    //State = item.a.State,
-                    //Country = item.a.Country,
-                    //Lat = item.a.Lat,
-                    //CovidZones =
-                    Deaths = item.a.Deaths,
-                    FipsCode = item.a.FipsCode,
-                    Cases = item.a.Cases,
-                    Date = item.a.Date,
-                    StateCode = item.a.StateCode,
-                    SpatialInfo = new SpatialInfo()
-                    {
-                        Country = item.a.Country,
-                        Lat = item.a.Lat,
-                        Long = item.a.Long,
-                        Population = item.b.Population,
-                        MedianAge = item.b.MedianAge,
-                        State = item.a.State,
-                    }
-
-                }).ToList();
-                Context.ChangeTracker.AutoDetectChangesEnabled = false;
-                int inter = 100;
-
-                foreach (var item in list.Select(s=>s.SpatialInfo) )
-                {
-                    if (!Context.SpatialInfos.Any(s => s.fib == item.fib))
-                    {
-                       var it =  Context.SpatialInfos.Add(new SpatialInfo()
-                        {
-                            Country = item.Country,
-                            Lat = item.Lat,
-                            Long = item.Long,
-                            State = item.State,
-                            MedianAge = item.MedianAge,
-                            Population = item.Population,
-                           
-                        });
-                        Context.SaveChanges();
-
-                        Context.CovidZones.AddRange(list.Where(s => s.FipsCode == item.fib));
-                        Context.SaveChanges();
-
-                    }
-                }
-                   
-                    
-
                     //    foreach (var item in list)
                     //{
 
@@ -170,7 +114,7 @@ namespace GeoMed.Repository.DataSet.Repository
 
                 }
 
-            }
+         //   }
 
             // data = Context.SpatialInfos.Where(s => s.CovidZones.Any());
 

@@ -23,9 +23,12 @@ namespace GM.QueueService.Repositories
             Bus.PubSub.Publish(queueMessage);
         }
 
-        public Task PublishAsync<TData>(TData data) where TData : class
+        public async Task PublishAsync<TData>(TData data) where TData : class
         {
-            throw new NotImplementedException();
+            var queueMessage = new QueueMessage()
+                .SetData(data)
+                .SetType(typeof(TData));
+            await Bus.PubSub.PublishAsync(queueMessage);
         }
     }
 }

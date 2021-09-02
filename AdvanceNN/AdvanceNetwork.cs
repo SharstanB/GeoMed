@@ -119,8 +119,8 @@ namespace AdvanceNN
             var list = new List<float[][]>();
             dd.ForEach(item =>
             {
-                var dd = item.TakeLast(200).ToList();
-                dd.Add(new float[] { dd.LastOrDefault().LastOrDefault()});
+                var dd = item.TakeLast(1).ToList();
+               // dd.Add(new float[] { dd.LastOrDefault().LastOrDefault()});
                 list.Add(dd.ToArray());
             });
             return (ParseToNumpy(dataResult.train), ParseToNumpy(list)
@@ -170,7 +170,7 @@ namespace AdvanceNN
         }
 
 
-        public static double Forecasting(List<float[][]> sample)
+        public static int Forecasting(List<float[][]> sample)
         {
             double result = 0.0;
             SetPythonPath();
@@ -178,33 +178,39 @@ namespace AdvanceNN
             using (Py.GIL())
             {
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                var modelPath = Path.Combine(projectDirectory, @"modles\LSTM\2021-08-11_18-33-18.9559072.h5");
+                var modelPath = Path.Combine(projectDirectory, @"GM\GeoMed\AdvanceNN\modles\LSTM\2021-08-11_18-33-18.9559072.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
                 if (File.Exists(modelPath))
                 {
                     NDarray x = ParseToNumpy(sample);
                     var model = Sequential.LoadModel(modelPath);
-                    var res = model.Predict(x);
+                  //  var res = model.Predict(x);
                     var dd = model.Predict(x).ToString().Split("\n");
                     var lis = new List<double>();
 
                     foreach (var item in dd)
                     {
-                        var d = item.Replace('\n', ' ');
-                        var f =  d.Replace(']', ' ').Replace('[', ' ').Replace('"' , ' ').Trim();
-                        lis.Add(Convert.ToDouble(f));
+                        if (item.Any(Char.IsDigit))
+                        {
+                            var d = item.Replace('\n', ' ');
+                            var f = d.Replace(']', ' ').Replace('[', ' ').Replace('"', ' ').Trim();
+                            lis.Add(Convert.ToDouble(f));
+                        }
                     }
-                    var j = sample.LastOrDefault();
-                    var gg = j[j.Length - 1 ][0] *  lis.Min() + j[j.Length - 1][0]; 
+                    var sampleslist = sample.Select(s => s[0][0]);
+                    result = 
+                        //sampleslist.LastOrDefault() +
+                         lis.FirstOrDefault()
+                         * (sampleslist.Max() - sampleslist.Min()) + sampleslist.Min(); 
 
-                    dd.ToList().ForEach(s => s.Replace(']', ' ').Replace('[' , ' ')
-                    );
+                    //dd.ToList().ForEach(s => s.Replace(']', ' ').Replace('[' , ' ')
+                    //);
                 }
                 else
                 {
                     throw (new Exception($"No model found at: { modelPath}"));
                 }
-                return Math.Abs(result);
+                return Math.Abs((int)result);
 
             }
 
