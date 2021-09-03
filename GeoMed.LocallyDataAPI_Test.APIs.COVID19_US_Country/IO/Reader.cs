@@ -325,7 +325,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
             var fList = usDiseaseInfo.ToList()
-                 .Difference()
+                 //.Difference()
                 .Where(a=>a.Cases >= 0)
                    .GroupBy(data => new
                    {

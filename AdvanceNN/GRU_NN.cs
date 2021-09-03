@@ -28,13 +28,13 @@ namespace AdvanceNN
                 
                 var model = new Sequential();
 
-                //model.Add(new GRU(units: 128, return_sequences: true,
-                //       activation: "relu"));
-                //model.Add(new Dropout(0.5));
+                model.Add(new GRU(units: 128, return_sequences: true,
+                       activation: "relu"));
+                model.Add(new Dropout(0.5));
 
-                //model.Add(new GRU(64, activation: "relu", return_sequences: true));
+                model.Add(new GRU(64, activation: "relu", return_sequences: true));
 
-                //model.Add(new Dropout(0.5));
+                model.Add(new Dropout(0.5));
 
                 model.Add(new GRU(32, activation: "relu", return_sequences: true));
 
@@ -46,10 +46,10 @@ namespace AdvanceNN
 
                 var sgd = new SGD(0.001f);
                 var adam = new Adam(0.001f, 0.000001f);
-                model.Compile(optimizer: adam  , loss: "mean_absolute_error", metrics: new string[] { "mse" });
+                model.Compile(optimizer: sgd  , loss: "mean_absolute_error", metrics: new string[] { "mse" });
 
                 var result = model.Fit(trainX_data_numpy,
-                    trainY_data_numpy, batch_size: 1, epochs: 20 , verbose: 1 , validation_split:0.2f);
+                    trainY_data_numpy, batch_size: 1, epochs: 50 , verbose: 1 , validation_split:0.2f);
 
                 model.SaveModel(NNType.GRU);
 

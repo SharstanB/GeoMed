@@ -27,10 +27,10 @@ namespace AdvanceNN
 
              var trainY_data_numpy = data.trainY;
 
-            //var d1 = trainx_data_numpy.shape;
-            //var d2 = trainY_data_numpy.shape;
+            var d1 = trainx_data_numpy.shape;
+            var d2 = trainY_data_numpy.shape;
 
-            
+
             //var train = new Keras.PreProcessing
             //    .sequence.TimeseriesGenerator(data: trainx_data_numpy,
             // targets: trainx_data_numpy, length: 201, sampling_rate: 1, stride: 1, batch_size: 3);
@@ -55,7 +55,7 @@ namespace AdvanceNN
 
             var result = model.Fit(trainx_data_numpy,
                    trainY_data_numpy, batch_size: 1,
-                   epochs: 100 , verbose: 1, validation_split: 0.2f);
+                   epochs: 20 , verbose: 1, validation_split: 0.2f);
 
 
             //   var result = model.FitGenerator(train, epochs: 20);
