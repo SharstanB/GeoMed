@@ -7,8 +7,10 @@ using GeoMed.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GeoMed.Repository.DataSet.Repository
@@ -142,7 +144,11 @@ namespace GeoMed.Repository.DataSet.Repository
                 GroupBy(model => (model.SpatialInfo.State, model.SpatialInfo.Country))//.Select(x => x.OrderByDescending(x => x.Cases))
                 .Select(x => (CovidZoneDto)x.First());
 
-            
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+            var path = Path.Combine(projectDirectory, @"GeoMed\GeoMed\wwwroot\results\CovidZoneDtoResult.json");
+            await System.IO.File.WriteAllTextAsync(path, System.Text.Json.JsonSerializer.Serialize(operation.Result ,  new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, }));
+
+
             return operation;
         }
 

@@ -124,7 +124,13 @@ am4core.ready(function () {
         var loader = new am4core.DataSource();
         loader.url = "https://localhost:44363/Map/USA_Covid";
         loader.events.on("parseended", function (ev) {
-             setupStores(ev.target.data.filter(x => x.cases>0));
+
+            if (ev.target.data[0] === '[') {
+                var _data = JSON.parse(ev.target.data);
+                setupStores(_data.filter(x => x.cases > 0));
+            } else {
+                setupStores(ev.target.data.filter(x => x.cases>0));
+            }
           //  console.log("data", ev.target.data)
           //  setupStores(ev.target.data);
         });
