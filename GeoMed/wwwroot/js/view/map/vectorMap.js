@@ -147,7 +147,7 @@ am4core.ready(function () {
         template.horizontalCenter = "middle";
         template.propertyFields.latitude = "lat";
         template.propertyFields.longitude = "long";
-        template.tooltipText = "{name}:\n[bold]{cases} cases[/] \n {long} , {lat} \n {count}";
+        template.tooltipText = "{name}:\n[bold]{count} cases[/] \n {long} , {lat} \n {count}";
 
         var circle = template.createChild(am4core.Circle);
         circle.radius = 10;
@@ -190,7 +190,6 @@ am4core.ready(function () {
             }
             // Control zoom
             if (data.type == "state") {
-                console.log("once4");
 
                 var statePolygon = polygonSeries.getPolygonById("US-" + data.state);
                 chart.zoomToMapObject(statePolygon);
