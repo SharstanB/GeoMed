@@ -1,3 +1,13 @@
+//                    ##         .
+//              ## ## ##        ==
+//           ## ## ## ## ##    ===
+//       / """""""""""""""""\___/ ===
+//  ~~~ {
+//~~~~~~~~~~~~~~~~~ /  === -~~~
+//       \______ o           __ /
+//         \    \         __ /
+//          \____\_______ /
+
 using EasyNetQ;
 using GeoMed.Main.Data.Repositories;
 using GeoMed.Main.IData.IRepositories;
@@ -6,6 +16,8 @@ using GeoMed.Repository.DataSet.Repository;
 using GeoMed.Share.Data;
 using GeoMed.Share.IData.IRepositories;
 using GeoMed.SqlServer;
+using GM.QueueService.IRepositories;
+using GM.QueueService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -34,8 +46,10 @@ namespace GeoMed
 
             );
 
-            var bus = RabbitHutch.CreateBus(Configuration
-                .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value);
+            //var bus = RabbitHutch.CreateBus(Configuration
+            //    .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value); 
+            
+            var bus = RabbitHutch.CreateBus("host=localhost;virtualHost=/;username=guest;password=guest;timeout=120");
 
             services.AddSingleton(bus);
 
@@ -80,6 +94,7 @@ namespace GeoMed
             services.AddScoped<IStoreDataRepository, StoreDataRepository>();
             services.AddScoped<IZoneRepository, ZoneRepository>();
             services.AddScoped<INNRepository, NNRepository>();
+            services.AddScoped<IQueueService, QueueService>();
 
 
 
@@ -100,6 +115,7 @@ namespace GeoMed
             }
             app.UseStatusCodePagesWithReExecute("/Shared/Status", "?statusCode={0}");
 
+            
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();

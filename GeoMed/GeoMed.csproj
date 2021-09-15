@@ -166,11 +166,13 @@
   <ItemGroup>
     <ProjectReference Include="..\GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country\GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.csproj" />
     <ProjectReference Include="..\GeoMed.Main.Data\GeoMed.Main.Data.csproj" />
+    <ProjectReference Include="..\GeoMed.Main.Dto\GeoMed.Main.DTO.csproj" />
     <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
     <ProjectReference Include="..\GeoMed.Repository.DataSet\GeoMed.Repository.DataSet.csproj" />
     <ProjectReference Include="..\GeoMed.Share.Data\GeoMed.Share.Data.csproj" />
     <ProjectReference Include="..\GeoMed.Share.IData\GeoMed.Share.IData.csproj" />
     <ProjectReference Include="..\GeoMed.SqlServer\GeoMed.SqlServer.csproj" />
+    <ProjectReference Include="..\GM.QueueService\GM.QueueService.csproj" />
   </ItemGroup>
 
   <ItemGroup>
