@@ -3,6 +3,7 @@ using GeoMed.Main.DTO.Patients;
 using GeoMed.Main.IData.IRepositories;
 using GeoMed.SharedKernal.Enums;
 using GeoMed.SqlServer;
+using GM.QueueService.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,38 @@ namespace GeoMed.Main.Data.Repositories
 {
     public class PatientRepository : BaseRepository  , IPatientRepository
     {
-        public PatientRepository (GMContext context):
+
+        public IQueueService QueueService { get; }
+        public PatientRepository (GMContext context , IQueueService queueService):
             base(context)
         {
+            QueueService = queueService;
+        }
 
+        public async Task<OperationResult<bool>> ActionPatient(ActionPatientDto actionPatient)
+        {
+            var result = new OperationResult<bool>();
+
+            Context.Patients.Add(new Model.Main.Patient()
+            {
+                AreaId = actionPatient.AreaId,
+                BirthDate = actionPatient.BirthDate,
+                FirstName = actionPatient.FirstName,
+                Gender = actionPatient.Gender,
+                LastName = actionPatient.LastName,
+                UserType = (int)UserType.patient,
+            });
+
+             QueueService.Publish(new GetPatientDto()
+             {
+                 Address = "sd",
+                 Gender = Gender.famale.ToString(),
+                 Age = 23,
+                 LastInComeDate = DateTime.Now,
+                 PatientName = "sddmf lsldkkmf ",
+             });
+
+            return result;
         }
 
         public async Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData()
@@ -48,5 +77,6 @@ namespace GeoMed.Main.Data.Repositories
 
             return operationResult;
         }
+
     }
 }

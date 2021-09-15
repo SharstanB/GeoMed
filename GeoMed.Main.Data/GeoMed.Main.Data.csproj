@@ -10,6 +10,7 @@
     <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
     <ProjectReference Include="..\GeoMed.NN.BPNeuralNetwork\GeoMed.NN.BPNeuralNetwork.csproj" />
     <ProjectReference Include="..\GeoMed.SharedKernal\GeoMed.SharedKernal.csproj" />
+    <ProjectReference Include="..\GM.QueueService\GM.QueueService.csproj" />
   </ItemGroup>
 
 </Project>

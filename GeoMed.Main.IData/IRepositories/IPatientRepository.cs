@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace GeoMed.Main.IData.IRepositories
 {
-    public interface IPatientRepository
+    public interface IPatientRepository 
     {
 
         public Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData();
+
+        public  Task<OperationResult<bool>> ActionPatient(ActionPatientDto actionPatient);
     }
 }
