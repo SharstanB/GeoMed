@@ -12,6 +12,10 @@ namespace GeoMed.Model.Main
         public Patient()
         {
             PatientRecords = new HashSet<PatientRecord>();
+            Chats = new HashSet<Chat>();
+            KindredLefts = new HashSet<Kindred>();
+            KindredRights = new HashSet<Kindred>();
+            Reviews = new HashSet<Review>();
         }
 
         [Column(TypeName = "nvarchar(50)")]
@@ -27,7 +31,7 @@ namespace GeoMed.Model.Main
         public int UserType { get; set; }  // enum(UserTypes)
 
         [Column(TypeName = "datetime2")]
-        public DateTime BirthDate { get; set; }
+        public DateTime Birthdate { get; set; }
 
         [ForeignKey(nameof(AreaId))]
         public Area Area { get; set; }
@@ -36,5 +40,14 @@ namespace GeoMed.Model.Main
         public int AreaId { get; set; }
 
         public ICollection<PatientRecord> PatientRecords { get; set; }
+        public ICollection<Chat> Chats { get; set; }
+
+        [InverseProperty(nameof(Kindred.PatientLeft))]
+        public ICollection<Kindred> KindredLefts { get; set; }
+
+        [InverseProperty(nameof(Kindred.PatientRightId))]
+        public ICollection<Kindred> KindredRights { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
     }
 }

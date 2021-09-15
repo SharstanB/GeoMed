@@ -28,7 +28,7 @@ namespace GeoMed.Main.Data.Repositories
                 operationResult.Result = await Context.Patients.Select(patient => new GetPatientDto()
                 {
                     Address = patient.Area.Name,
-                    Age =  EF.Functions.DateDiffYear(patient.BirthDate, DateTime.Now),
+                    Age =  EF.Functions.DateDiffYear(patient.Birthdate, DateTime.Now),
                     Gender = Enum.GetName(typeof(Gender), patient.Gender),
                     Id = patient.Id,
                      LastInComeDate = patient.PatientRecords.OrderBy(order => order.InComingDate)
