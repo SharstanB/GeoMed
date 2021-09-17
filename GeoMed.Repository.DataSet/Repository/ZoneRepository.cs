@@ -7,8 +7,10 @@ using GeoMed.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GeoMed.Repository.DataSet.Repository
@@ -138,11 +140,30 @@ namespace GeoMed.Repository.DataSet.Repository
             //    // FipsCode
             //});
 
-            operation.Result = (await Context.CovidZones.Include(x=>x.SpatialInfo).Where(zone => zone.Cases > 0).AsNoTracking().ToListAsync()).
+            operation.Result = (await Context.CovidZones.Include(x => x.SpatialInfo).Where(zone => zone.Cases > 0).AsNoTracking().ToListAsync()).
                 GroupBy(model => (model.SpatialInfo.State, model.SpatialInfo.Country))//.Select(x => x.OrderByDescending(x => x.Cases))
-                .Select(x => (CovidZoneDto)x.First());
+              .Select(group => new CovidZoneDto()    //.Select(x => (CovidZoneDto)x.First());
+              {
+                //Cases=x.Aggregate(0d,(all,next)=> all+=next.Cases),
+                //Deaths=x.Aggregate(0,(all,next)=> all+=next.Deaths),
+                Cases = group.Sum(x => x.Cases),
+                Deaths = group.Sum(x => x.Deaths),
+                Country = group.Key.Country,
+                State = group.Key.State,
+                StateCode = group.First().StateCode,
+                Lat = group.First().SpatialInfo.Lat,
+                Long = group.First().SpatialInfo.Long,
+                FipsCode  =group.First().FipsCode,
+                Date = group.First().Date,
+                DeleteDate = group.First().DeleteDate,
+                Id = group.First().Id,
+            });
 
-            
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+            var path = Path.Combine(projectDirectory, @"GeoMed\GeoMed\wwwroot\results\CovidZoneDtoResult.json");
+            await System.IO.File.WriteAllTextAsync(path, System.Text.Json.JsonSerializer.Serialize(operation.Result ,  new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, }));
+
+
             return operation;
         }
 

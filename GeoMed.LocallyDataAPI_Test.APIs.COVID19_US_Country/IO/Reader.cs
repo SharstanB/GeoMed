@@ -314,8 +314,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
         }
 
 
-        public static IList<T>  ReadCountiesLSTMInput<T>
-            (this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
+        public static IList<T>  ReadCountiesLSTMInput<T> (this (string diseaseInfoPath, string usInfoPath) paths, bool saveMemory = false)
         {
             const int saveCount = 10000;
 
@@ -325,7 +324,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
 
             //var countFib = usDiseaseInfo.Select(s => s.FipsCode).Distinct();
             var fList = usDiseaseInfo.ToList()
-                 //.Difference()
+                 .Difference()
                 .Where(a=>a.Cases >= 0)
                    .GroupBy(data => new
                    {

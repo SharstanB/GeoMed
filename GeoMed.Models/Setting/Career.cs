@@ -11,10 +11,12 @@ namespace GeoMed.Model.Setting
         public Career()
         {
             Patients = new HashSet<Patient>();
+            Doctors = new HashSet<Doctor>();
         }
         [Column(TypeName = "nvarchar(50)")]
         public string Name { get; set; }
 
         public ICollection<Patient>  Patients { get; set; }
+        public ICollection<Doctor> Doctors { get; set; }
     }
 }

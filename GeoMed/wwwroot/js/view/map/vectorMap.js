@@ -124,7 +124,13 @@ am4core.ready(function () {
         var loader = new am4core.DataSource();
         loader.url = "https://localhost:44363/Map/USA_Covid";
         loader.events.on("parseended", function (ev) {
-             setupStores(ev.target.data.filter(x => x.cases>0));
+
+            if (ev.target.data[0] === '[') {
+                var _data = JSON.parse(ev.target.data);
+                setupStores(_data.filter(x => x.cases > 0));
+            } else {
+                setupStores(ev.target.data.filter(x => x.cases>0));
+            }
           //  console.log("data", ev.target.data)
           //  setupStores(ev.target.data);
         });
@@ -141,7 +147,7 @@ am4core.ready(function () {
         template.horizontalCenter = "middle";
         template.propertyFields.latitude = "lat";
         template.propertyFields.longitude = "long";
-        template.tooltipText = "{name}:\n[bold]{cases} cases[/] \n {long} , {lat} \n {count}";
+        template.tooltipText = "{name}:\n[bold]{count} cases[/] \n {long} , {lat} \n {count}";
 
         var circle = template.createChild(am4core.Circle);
         circle.radius = 10;
@@ -184,7 +190,6 @@ am4core.ready(function () {
             }
             // Control zoom
             if (data.type == "state") {
-                console.log("once4");
 
                 var statePolygon = polygonSeries.getPolygonById("US-" + data.state);
                 chart.zoomToMapObject(statePolygon);
