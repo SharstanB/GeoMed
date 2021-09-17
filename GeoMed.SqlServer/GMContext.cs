@@ -27,6 +27,22 @@ namespace GeoMed.SqlServer
 
         public DbSet<Symptom> Symptoms { get; set; }
 
+        public DbSet<Kindred> Kindreds { get; set; }
+
+
+        public DbSet<HealthCenter> HealthCenters { get; set; }
+
+        public DbSet<Doctor> Doctors { get; set; }
+
+        public DbSet<DoctorReview> DoctorReviews { get; set; }
+
+        public DbSet<DoctorReviewDisease> DoctorReviewDiseases { get; set; }
+
+        public DbSet<Chat> Chats { get; set; }
+
+        public DbSet<Review> Reviews { get; set;}
+
+        public DbSet<Notification> Notifications { get; set; }
 
         #endregion
 
