@@ -42,7 +42,7 @@ namespace GeoMed.Views.Shared.Components
         {
 
             _links = new List<PagingLink>();
-            _links.Add(new PagingLink(CurrentPage - 1, HasPrevious, ">"));
+            _links.Add(new PagingLink(CurrentPage - 1, HasPrevious, "<"));
             for (int i = 1; i <= TotalPages; i++)
             {
                 if (i >= CurrentPage - Spread && i <= CurrentPage + Spread)
@@ -50,7 +50,7 @@ namespace GeoMed.Views.Shared.Components
                     _links.Add(new PagingLink(i, true, i.ToString()) { Active = CurrentPage == i });
                 }
             }
-            _links.Add(new PagingLink(CurrentPage + 1, HasNext, "<"));
+            _links.Add(new PagingLink(CurrentPage + 1, HasNext, ">"));
         }
         private async Task OnSelectedPage(PagingLink link)
         {
@@ -77,13 +77,5 @@ namespace GeoMed.Views.Shared.Components
         }
     }
 
-    //public class MetaData
-    //{
-    //    public int CurrentPage { get; set; }
-    //    public int TotalPages { get; set; }
-    //    public int PageSize { get; set; }
-    //    public int TotalCount { get; set; }
-    //    public bool HasPrevious => CurrentPage > 1;
-    //    public bool HasNext => CurrentPage < TotalPages;
-    //}
+   
 }

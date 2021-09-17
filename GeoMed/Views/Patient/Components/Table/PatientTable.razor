@@ -1,6 +1,7 @@
 ﻿@using GeoMed.Views.Shared.Components;
+@using GeoMed.Views.Patient.Components.Modal;
 
-<div class="portlet light ">
+<div class="portlet light" style="width: 100%; height: 100%">
     <div class="portlet-title">
         <div class="caption font-dark">
             <i class="icon-settings font-dark"></i>
@@ -21,7 +22,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
-                <button @onclick="(()=> OpenModal())" type="button" class="btn btn-success mt-ladda-btn ladda-button btn-circle" data-style="expand-up">
+                <button @onclick="(()=> OpenModal())" type="button" style="float:left; margin-left:10px" class="btn btn-success btn-circle">
                     <span class="ladda-label">إضافة الجديد</span>
                     <span class="ladda-spinner"></span>
                 </button>
@@ -65,7 +66,15 @@
             </CascadingValue>
         </div>
     </div>
-    <PatientModal @ref="@ModalPatient" ></PatientModal>
+            <PatientModal @ref="child"></PatientModal>
 
 </div>
+
+
+@*<div class="modal " @ref="ModalPatient">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>*@
 
