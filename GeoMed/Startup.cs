@@ -49,7 +49,8 @@ namespace GeoMed
             //var bus = RabbitHutch.CreateBus(Configuration
             //    .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value); 
             
-            var bus = RabbitHutch.CreateBus("host=localhost;virtualHost=/;username=guest;password=guest;timeout=120");
+            var bus = RabbitHutch.CreateBus(Configuration
+               .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value);
 
             services.AddSingleton(bus);
 

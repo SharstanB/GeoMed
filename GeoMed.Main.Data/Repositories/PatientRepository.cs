@@ -29,7 +29,7 @@ namespace GeoMed.Main.Data.Repositories
             Context.Patients.Add(new Model.Main.Patient()
             {
                 AreaId = actionPatient.AreaId,
-                BirthDate = actionPatient.BirthDate,
+                Birthdate = actionPatient.BirthDate,
                 FirstName = actionPatient.FirstName,
                 Gender = actionPatient.Gender,
                 LastName = actionPatient.LastName,
