@@ -11,7 +11,16 @@
 
 
 //using EasyNetQ;
+using EasyNetQ;
+using GeoMed.Main.Data.Repositories;
+using GeoMed.Main.IData.IRepositories;
+using GeoMed.Repository.DataSet.Interface;
+using GeoMed.Repository.DataSet.Repository;
+using GeoMed.Share.Data;
+using GeoMed.Share.IData.IRepositories;
 using GeoMed.SqlServer;
+using GM.QueueService.IRepositories;
+using GM.QueueService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -37,54 +46,53 @@ namespace GeoMed
             services.AddDbContext<GMContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("GMConnectionString"))
             );
-            services.AddMvc();
-            //var bus = RabbitHutch.CreateBus(Configuration
-            //   .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value);
+            var bus = RabbitHutch.CreateBus(Configuration
+               .GetSection("RabbitMqConnection").GetSection("RMQConnection").Value);
 
-            //services.AddSingleton(bus);
+            services.AddSingleton(bus);
 
-            //services.AddServerSideBlazor();
+            services.AddServerSideBlazor();
 
-            //services.AddControllersWithViews();
+            services.AddControllersWithViews();
 
-            //var indentityInfo = Configuration.GetSection("IdentityInfo");
+            var indentityInfo = Configuration.GetSection("IdentityInfo");
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultScheme = "Cookies";
-            //    options.DefaultChallengeScheme = "oidc";
-            //})
-            //    .AddCookie("Cookies"
-            //    , options =>
-            //    {
-            //        options.LoginPath = "/Account/Login";
-            //        options.LogoutPath = "/Account/SignOut";
-            //    }
-            //    )
-            //    .AddOpenIdConnect("oidc", options =>
-            //    {
-            //        options.Authority = indentityInfo.GetSection("Authority").Value;
-            //        options.ClientId = indentityInfo.GetSection("ClientId").Value;
-            //        options.RequireHttpsMetadata = false;
-            //        options.ClientSecret = indentityInfo.GetSection("ClientSecret").Value;
-            //        options.SignInScheme = "Cookies";
-            //        options.ResponseType = "code";
-            //        options.Scope.Clear();
-            //        options.Scope.Add("dashscope");
-            //        options.Scope.Add("openid");
-            //        options.SaveTokens = true;
-            //    });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+                .AddCookie("Cookies"
+                , options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/SignOut";
+                }
+                )
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = indentityInfo.GetSection("Authority").Value;
+                    options.ClientId = indentityInfo.GetSection("ClientId").Value;
+                    options.RequireHttpsMetadata = false;
+                    options.ClientSecret = indentityInfo.GetSection("ClientSecret").Value;
+                    options.SignInScheme = "Cookies";
+                    options.ResponseType = "code";
+                    options.Scope.Clear();
+                    options.Scope.Add("dashscope");
+                    options.Scope.Add("openid");
+                    options.SaveTokens = true;
+                });
 
-            //services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
-            //.AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+            .AllowAnyMethod().AllowAnyHeader().AllowCredentials()));
 
-            //  services.AddHttpClient();
+            services.AddHttpClient();
 
-            //services.AddScoped<IPatientRepository, PatientRepository>();
-            //services.AddScoped<IStoreDataRepository, StoreDataRepository>();
-            //services.AddScoped<IZoneRepository, ZoneRepository>();
-            //services.AddScoped<INNRepository, NNRepository>();
-            //services.AddScoped<IQueueService, QueueService>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IStoreDataRepository, StoreDataRepository>();
+            services.AddScoped<IZoneRepository, ZoneRepository>();
+            services.AddScoped<INNRepository, NNRepository>();
+            services.AddScoped<IQueueService, QueueService>();
 
 
 
@@ -112,8 +120,8 @@ namespace GeoMed
 
             app.UseRouting();
 
-            //app.UseAuthentication(); // <-- Add it here.
-            //app.UseAuthorization();
+            app.UseAuthentication(); // <-- Add it here.
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
