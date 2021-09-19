@@ -18,7 +18,7 @@ namespace GeoMed.Controllers
         }
         public IActionResult Index()
         {
-           //NNRepository.LoadPredicateData();
+            NNRepository.LoadPredicateData();
             return View();
         }
     }
