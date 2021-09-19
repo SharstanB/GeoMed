@@ -16,6 +16,7 @@ namespace GeoMed.Model.Main
             KindredLefts = new HashSet<Kindred>();
             KindredRights = new HashSet<Kindred>();
             Reviews = new HashSet<Review>();
+            Patients = new HashSet<Patient>();
         }
 
         [Column(TypeName = "nvarchar(50)")]
@@ -39,15 +40,23 @@ namespace GeoMed.Model.Main
         [Column(TypeName = "int")]
         public int AreaId { get; set; }
 
+        [ForeignKey(nameof(CareerId))]
+        public Career Career { get; set; }
+
+
+        [Column(TypeName = "int")]
+        public int CareerId { get; set; }
+
         public ICollection<PatientRecord> PatientRecords { get; set; }
         public ICollection<Chat> Chats { get; set; }
 
         [InverseProperty(nameof(Kindred.PatientLeft))]
         public ICollection<Kindred> KindredLefts { get; set; }
 
-        [InverseProperty(nameof(Kindred.PatientRightId))]
+        [InverseProperty(nameof(Kindred.PatientRight))]
         public ICollection<Kindred> KindredRights { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
+        public ICollection<Patient> Patients { get; set; }
     }
 }

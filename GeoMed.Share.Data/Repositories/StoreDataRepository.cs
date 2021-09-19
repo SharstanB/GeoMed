@@ -57,10 +57,10 @@ namespace GeoMed.Share.Data
                                 !string.IsNullOrWhiteSpace(row.GetCell(j).ToString()))
                             {
                                 //rowList.Add(row.GetCell(j).ToString());
-                                Context.Patients.Add( new Patient()
-                                {                        
+                                //Context.Patients.Add( new Patient()
+                                //{                        
                                      
-                                });
+                                //});
                             }
                         }
 

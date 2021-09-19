@@ -17,6 +17,7 @@ namespace GeoMed.Model.Setting
             Symptoms = new HashSet<Symptom>();
             DoctorReviewDiseases = new HashSet<DoctorReviewDisease>();
             Notifications = new HashSet<Notification>();
+           Diseases = new HashSet<Disease>();
         }
         [Column(TypeName = "nvarchar(50)")]
         public string Name { get; set; }
@@ -24,5 +25,6 @@ namespace GeoMed.Model.Setting
         public ICollection<Symptom> Symptoms { get; set; }
         public ICollection<DoctorReviewDisease> DoctorReviewDiseases { get; set; }
         public ICollection<Notification> Notifications { get; set; }
+       public ICollection<Disease> Diseases { get; set; }
     }
 }

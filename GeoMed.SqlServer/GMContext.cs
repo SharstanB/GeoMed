@@ -40,7 +40,7 @@ namespace GeoMed.SqlServer
 
         public DbSet<Chat> Chats { get; set; }
 
-        public DbSet<Review> Reviews { get; set;}
+        public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }
 
@@ -52,7 +52,7 @@ namespace GeoMed.SqlServer
 
         public DbSet<Patient> Patients { get; set; }
 
-        #endregion
+#endregion
 
         #region == Templete Entities ==
 
@@ -73,101 +73,101 @@ namespace GeoMed.SqlServer
         #endregion
 
 
-        #region == Methods == 
+        //#region == Methods == 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
 
-            # region == Global Query Filter ==
-            #region  == Settings Filters == 
+        //    # region == Global Query Filter ==
+        //    #region  == Settings Filters == 
 
-            modelBuilder.Entity<Area>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-            modelBuilder.Entity<Career>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-            modelBuilder.Entity<Disease>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-            modelBuilder.Entity<Symptom>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-
-
-            #endregion
-
-            #region  == Main Filters == 
-            modelBuilder.Entity<PatientRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-             modelBuilder.Entity<TrackRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-
-            #endregion
-
-            #region == Templete Filters ==
-
-            modelBuilder.Entity<Field>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-
-            modelBuilder.Entity<Templete>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<Area>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<Career>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<Disease>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<Symptom>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
 
-            #endregion
+        //    #endregion
+
+        //    #region  == Main Filters == 
+        //    modelBuilder.Entity<PatientRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<TrackRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+
+        //    #endregion
+
+        //    #region == Templete Filters ==
+
+        //    modelBuilder.Entity<Field>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+
+        //    modelBuilder.Entity<Templete>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
 
-            #region == DbSet Default values ==
-
-            modelBuilder.Entity<CovidZone>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-            modelBuilder.Entity<ModelSet>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-            modelBuilder.Entity<SpatialInfo>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
-
-            #endregion
-
-            #endregion
-
-            #region == Set Default values ==
-            #region  == Settings Default values == 
-
-            modelBuilder.Entity<Area>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Career>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Disease>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<Symptom>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
+        //    #endregion
 
 
-            #endregion
+        //    #region == DbSet Default values ==
 
-            #region  == Main Default values == 
-            modelBuilder.Entity<PatientRecord>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
-            modelBuilder.Entity<TrackRecord>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<CovidZone>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<ModelSet>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+        //    modelBuilder.Entity<SpatialInfo>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
-            #endregion
+        //    #endregion
 
-            #region == Templete Default values ==
+        //    #endregion
 
-            modelBuilder.Entity<Field>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
+        //    #region == Set Default values ==
+        //    #region  == Settings Default values == 
 
-            modelBuilder.Entity<Templete>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<Area>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<Career>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<Disease>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<Symptom>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
 
 
-            #endregion
+        //    #endregion
+
+        //    #region  == Main Default values == 
+        //    modelBuilder.Entity<PatientRecord>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<TrackRecord>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
+
+        //    #endregion
+
+        //    #region == Templete Default values ==
+
+        //    modelBuilder.Entity<Field>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
+
+        //    modelBuilder.Entity<Templete>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
 
 
-            #region == DbSet Default values ==
+        //    #endregion
 
-            modelBuilder.Entity<CovidZone>().Property(b => b.CreateDate)
-            .HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<ModelSet>().Property(b => b.CreateDate)
-           .HasDefaultValueSql("getdate()");
+        //    #region == DbSet Default values ==
 
-            modelBuilder.Entity<SpatialInfo>().Property(b => b.CreateDate)
-         .HasDefaultValueSql("getdate()");
+        //    modelBuilder.Entity<CovidZone>().Property(b => b.CreateDate)
+        //    .HasDefaultValueSql("getdate()");
 
-            #endregion
+        //    modelBuilder.Entity<ModelSet>().Property(b => b.CreateDate)
+        //   .HasDefaultValueSql("getdate()");
 
-            #endregion 
-        }
+        //    modelBuilder.Entity<SpatialInfo>().Property(b => b.CreateDate)
+        // .HasDefaultValueSql("getdate()");
 
-        #endregion
+        //    #endregion
+
+        //    #endregion 
+        //}
+
+        //#endregion
 
 
     }

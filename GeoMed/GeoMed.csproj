@@ -157,7 +157,7 @@
     <PackageReference Include="EasyNetQ" Version="6.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -171,7 +171,6 @@
     <ProjectReference Include="..\GeoMed.Repository.DataSet\GeoMed.Repository.DataSet.csproj" />
     <ProjectReference Include="..\GeoMed.Share.Data\GeoMed.Share.Data.csproj" />
     <ProjectReference Include="..\GeoMed.Share.IData\GeoMed.Share.IData.csproj" />
-    <ProjectReference Include="..\GeoMed.SqlServer\GeoMed.SqlServer.csproj" />
     <ProjectReference Include="..\GM.QueueService\GM.QueueService.csproj" />
   </ItemGroup>
 
