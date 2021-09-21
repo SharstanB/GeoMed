@@ -1,14 +1,24 @@
 ﻿@using GeoMed.Views.Patient.Components.Table;
 @using GeoMed.Views.Patient.Components.Modal;
 
+
 <div class="col-12">
+    
     <div class="row">
         <component type="typeof(PatientTable)" render-mode="ServerPrerendered" />
     </div>
 </div>
+
+@section styles{
+    <link href="~/assets/demo/demo12/custom/components/datepicker/bootstrap-datepicker.css" rel="stylesheet" />
+}
 @section scripts{
 
     <script src="~/js/view/patient/patient.js"></script>
+    <script src="~/assets/demo/demo12/custom/components/datepicker/bootstrap-datepicker.min.js"></script>
+    <script>
+        $('.datepicker').datepicker();
+    </script>
 }
 
 

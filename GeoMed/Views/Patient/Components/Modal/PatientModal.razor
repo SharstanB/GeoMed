@@ -4,57 +4,91 @@
 <div  class="modal " @ref="ModalPatient">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <label>الاسم الاول</label>
-                            <input class="form-control" type="text" data-tabindex="1">
+                <EditForm Model="@ActionPatient" OnValidSubmit=@Save>
+                    <DataAnnotationsValidator />
+                    <div class="modal-body">
 
-                        </div> 
-                        <div class="col-6">
-                            <label>الاسم الثاني </label>
-                            <input class="form-control" type="text" data-tabindex="1">
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label>الاسم الاول</label>
+                                <InputText @bind-Value="@ActionPatient.FirstName" class="form-control" type="text" data-tabindex="1"></InputText>
+
+                            </div>
+                            <div class="col-6">
+                                <label>الاسم الثاني </label>
+                                <InputText class="form-control" @bind-Value="@ActionPatient.LastName" type="text"></InputText>
+                            </div>
                         </div>
-                    </div> 
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <label>الجنس</label>
-                            <div class="mt-radio-list row">
-                                <label class="mt-radio col-6 " style="margin: 0px 70px 0px -70px;">
-                                    انثى                                    <input type="radio" value="1" name="test" />
-                                    <span></span>
-                                </label>
-                                <label class="mt-radio col-6">
-                                    ذكر
-                                    <input type="radio" value="1" name="test" />
-                                    <span></span>
-                                </label>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label>الجنس</label>
+                                <div class="mt-radio-list row">
+                                    <label class="mt-radio col-6 " style="margin: 0px 70px 0px -70px;">
+                                        انثى                                    <input type="radio" value="1" name="test" />
+                                        <span></span>
+                                    </label>
+                                    <label class="mt-radio col-6">
+                                        ذكر
+                                        <input type="radio" value="1" name="test" />
+                                        <span></span>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <label>عنوان السكن</label>
+                                <InputSelect  @bind-Value="@ActionPatient.AreaId" class="form-control">
+                                    <option value="0" >حلب - جميلية</option>
+                                    <option value="1">حلب - سوق أنتاج</option>
+                                    <option value="2">حلب - محافظة</option>
+                                    <option value="3"> دمشق - سيدة زينب</option>
+                                    <option value="4"> حلب - عفرين</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label>تاريخ الميلاد</label>
+                                <InputDate @bind-Value="@ActionPatient.BirthDate" class="form-control" />
+                            </div>
+                            <div class="col-6">
+                                <label>المهنة</label>
+                                <InputSelect @bind-Value="@ActionPatient.CareerId" class="form-control">
+                                    <option value="0">نادل المطعم </option>
+                                    <option value="1">عامل تمديدات الصحية</option>
+                                    <option value="2">نجار</option>
+                                    <option value="3"> كهربة السيارات</option>
+                                    <option value="4">معلم</option>
+                                    <option value="5">شرطي مرور</option>
+                                    <option value="6">حارس</option>
+                                    <option value="7">طبيب أسنان</option>
+                                </InputSelect>
                             </div>
 
-                        </div> 
-                        <div class="col-6">
-                            <label>عنوان السكن</label>
-                            <select class="form-control">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
-                                <option>Option 4</option>
-                                <option>Option 5</option>
-                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label>زمرة الدم</label>
+                                <InputSelect @bind-Value="@ActionPatient.BloodType" class="form-control">
+                                    <option value="0">A+</option>
+                                    <option value="1">A-</option>
+                                    <option value="2">B+</option>
+                                    <option value="3">B-</option>
+                                    <option value="4">O+</option>
+                                    <option value="5">O-</option>
+                                    <option value="6">AB+</option>
+                                    <option value="7">AB-</option>
+                                </InputSelect>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <label>تاريخ الميلاد</label>
-                            <input class="form-control date-picker" size="16" type="text" value="" />
-                        </div>
-                        
+                    <div class="modal-footer ">
+                        <button type="button" data-dismiss="modal" class="btn btn-outline dark">Close</button>
+                        <button type="submit"  class="btn green">Ok</button>
                     </div>
-                </div>
-                <div class="modal-footer " >
-                    <button type="button" data-dismiss="modal" class="btn btn-outline dark">Close</button>
-                    <button type="button" class="btn green">Ok</button>
-                </div>
+                </EditForm>
+               
             </div>
         </div>
     </div>

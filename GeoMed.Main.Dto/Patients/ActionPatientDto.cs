@@ -16,9 +16,11 @@ namespace GeoMed.Main.DTO.Patients
 
         public int UserType { get; set; }  // enum(UserTypes)
 
-        public DateTime BirthDate { get; set; }
+        public Nullable<DateTime> BirthDate { get; set; }
+        public int BloodType { get; set; }
 
         public int AreaId { get; set; }
+        public int CareerId { get; set; }
 
     }
 }
