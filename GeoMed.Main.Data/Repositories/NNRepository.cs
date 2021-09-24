@@ -15,6 +15,7 @@ using GeoMed.SqlServer;
 using GeoMed.Model.DataSet;
 using AdvanceNN;
 using Microsoft.EntityFrameworkCore;
+using GeoMed.Main.DTO.Forcast;
 
 namespace GeoMed.Main.Data.Repositories
 {
@@ -185,24 +186,38 @@ namespace GeoMed.Main.Data.Repositories
         }
 
 
-        public OperationResult<List<int>> LoadPredicateData()
+        public OperationResult<List<ForcastDto>> LoadPredicateData()
         {
-            var data = Context.SpatialInfos.Include(a=>a.CovidZones).
-                ToList()
-                .GroupBy(g => g.fib).SelectMany(item => item.Select(covid => 
-                  covid.CovidZones.Where(a=>a.Cases >= 0).OrderBy(o=>o.Date).Select(cov => new { a = cov.Cases,
-                      b = cov.FipsCode , c = cov.SpatialInfoId , d= cov.Id}
-                 ).SkipLast(10).TakeLast(100))).Take(100).ToList();
+            var data = Context.SpatialInfos
+                .Include(a=>a.CovidZones).ToList()
+                .GroupBy(g => g.fib).Select(item => new {
+                 cases =  item.SelectMany(covid =>
+                  covid.CovidZones.Where(a => a.Cases >= 0)
+                  .OrderBy(o => o.Date)
+                  .Select(cov => cov.Cases).SkipLast(10).TakeLast(100)),
+                    fib = item.Key,
+                    state = item.FirstOrDefault().State,
+                    lat = item.FirstOrDefault().Lat,
+                    lng = item.FirstOrDefault().Long}
+                  ).Take(100).ToList();
 
-            var result = new List<int>();
-            var test = data.Select(a => a.Select(b => b)).ToList();
+            var result = new List<ForcastDto>();
+           // var test = data.Select(a => a.Select(b => b)).ToList();
             data.ForEach(item =>
             {
-                result.Add(AdvanceNetwork.Forecasting(item.Select(dd => new float[][] 
-                { new float[] { ((float)dd.a) } }).ToList()));
+                result.Add( 
+                    new ForcastDto{
+                Cases = AdvanceNetwork.Forecasting(item.cases
+                .Select(dd => new float[][]
+                { new float[] { (float)dd } }).ToList()),
+                    Fib = item.fib,
+                    Lang = item.lng,
+                    Lat = item.lat,
+                    StateCode = item.state
+                });
             });
 
-            return new OperationResult<List<int>>();
+            return result;
         } 
 
         private string ChooseMoreAccurateModel()

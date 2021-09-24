@@ -185,7 +185,7 @@ namespace AdvanceNN
                     NDarray x = ParseToNumpy(sample);
                     var model = Sequential.LoadModel(modelPath);
                   //  var res = model.Predict(x);
-                    var dd = model.Predict(x).ToString().Split("\n");
+                    var dd = model.Predict(x).ToString().Split("\n").ToList();
                     var lis = new List<double>();
 
                     foreach (var item in dd)

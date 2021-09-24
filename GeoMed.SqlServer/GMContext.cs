@@ -80,11 +80,11 @@ namespace GeoMed.SqlServer
             base.OnModelCreating(modelBuilder);
 
 
-           modelBuilder.Entity<Patient>()
-          .HasMany(a => a.KindredLefts)
-          .WithOne(b => b.PatientLeft)
-          .HasForeignKey(b=> b.PatientLeftId)
-          .OnDelete(DeleteBehavior.Cascade);
+          // modelBuilder.Entity<Patient>()
+          //.HasMany(a => a.KindredLefts)
+          //.WithOne(b => b.PatientLeft)
+          //.HasForeignKey(b=> b.PatientLeftId)
+          //.OnDelete(DeleteBehavior.Cascade);
 
 
 

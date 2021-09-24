@@ -1,4 +1,5 @@
 ﻿using GeoMed.Base;
+using GeoMed.Main.DTO.Forcast;
 using GeoMed.Main.DTO.Settings;
 using GeoMed.NN.BPNeuralNetwork.Basic;
 using System;
@@ -17,7 +18,7 @@ namespace GeoMed.Main.IData.IRepositories
 
         OperationResult<NNResult> LoadModel();
 
-        OperationResult<List<int>> LoadPredicateData();
+        OperationResult<List<ForcastDto>> LoadPredicateData();
 
 
 

@@ -17,5 +17,7 @@ namespace GeoMed.Main.DTO.Patients
         public int Age { get; set; }
 
         public string Gender { get; set; }
+        public string Career { get; set; }
+
     }
 }

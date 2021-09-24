@@ -1,9 +1,6 @@
-﻿using GeoMed.NN.Base;
-using GeoMed.NN.Base.Enums;
+﻿using GeoMed.NN.Base.Enums;
 using GeoMed.NN.BPNeuralNetwork.Layers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GeoMed.NN.BPNeuralNetwork
 {

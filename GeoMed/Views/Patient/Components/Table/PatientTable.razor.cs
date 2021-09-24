@@ -6,6 +6,7 @@ using GeoMed.Main.DTO.Patients;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using GeoMed.Views.Patient.Components.Modal;
+using System.Linq;
 
 namespace GeoMed.Views.Patient.Components.Table
 {
@@ -26,18 +27,22 @@ namespace GeoMed.Views.Patient.Components.Table
 
         public int PageSize { get; set; }
 
-        IEnumerable<GetPatientDto> Patients { get; set; }
+        List<GetPatientDto> Patients { get; set; }
         protected override async Task OnInitializedAsync()
         {
             Patients = (await PatientRepository.GetPatientsData())
-                .Result ?? new List<GetPatientDto>();
+                .Result.ToList() ?? new List<GetPatientDto>();
         }
         public void OnSearch()
         {
 
         }
 
-        public async Task OnSelectPage()
+        public void AddToTable(GetPatientDto patientDto)
+        {
+            Patients.Add(patientDto);
+        }
+        public  void OnSelectPage()
         {
 
         }

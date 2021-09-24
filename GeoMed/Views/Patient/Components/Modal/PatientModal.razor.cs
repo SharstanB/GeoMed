@@ -1,4 +1,6 @@
 ﻿using GeoMed.Main.DTO.Patients;
+using GeoMed.Main.IData.IRepositories;
+using GeoMed.Views.Patient.Components.Table;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -18,6 +20,11 @@ namespace GeoMed.Views.Patient.Components.Modal
 
         public ActionPatientDto ActionPatient;
 
+        private PatientTable child { get; set; } 
+
+        [Inject]
+        public IPatientRepository PatientRepository { get; set; }
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -27,7 +34,10 @@ namespace GeoMed.Views.Patient.Components.Modal
 
         public void Save(EditContext editContext)
         {
-
+          var newPatient =
+                PatientRepository.ActionPatient(ActionPatient);
+            if(newPatient.Issuccess)
+            child.AddToTable(newPatient.Result);
         }
         public async Task OpenModal()
         {

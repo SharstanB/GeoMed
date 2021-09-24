@@ -10,6 +10,6 @@ namespace GeoMed.Main.IData.IRepositories
 
         public Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData();
 
-        public  Task<OperationResult<bool>> ActionPatient(ActionPatientDto actionPatient);
+        public  OperationResult<GetPatientDto> ActionPatient(ActionPatientDto actionPatient);
     }
 }

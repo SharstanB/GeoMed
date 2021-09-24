@@ -22,11 +22,11 @@ namespace GeoMed.Main.Data.Repositories
             QueueService = queueService;
         }
 
-        public async Task<OperationResult<bool>> ActionPatient(ActionPatientDto actionPatient)
+        public OperationResult<GetPatientDto> ActionPatient(ActionPatientDto actionPatient)
         {
-            var result = new OperationResult<bool>();
 
-            Context.Patients.Add(new Model.Main.Patient()
+
+            var newPatient = new Model.Main.Patient()
             {
                 AreaId = actionPatient.AreaId,
                 Birthdate = actionPatient.BirthDate.Value,
@@ -34,18 +34,35 @@ namespace GeoMed.Main.Data.Repositories
                 Gender = actionPatient.Gender,
                 LastName = actionPatient.LastName,
                 UserType = (int)UserType.patient,
-            });
+            };
+           
+           Context.Patients.Add(newPatient);
 
-            QueueService.Publish(new GetPatientDto()
-             {
-                 Address = "sd",
-                 Gender = Gender.famale.ToString(),
-                 Age = 23,
-                 LastInComeDate = DateTime.Now,
-                 PatientName = "sddmf lsldkkmf ",
-             });
+            Context.SaveChanges();
+            //QueueService.Publish(new GetPatientDto()
+            // {
+            //     Address = "sd",
+            //     Gender = Gender.famale.ToString(),
+            //     Age = 23,
+            //     LastInComeDate = DateTime.Now,
+            //     PatientName = "sddmf lsldkkmf ",
+            // });
 
-            return result;
+            return new OperationResult<GetPatientDto>()
+            {
+                Result = new GetPatientDto()
+                {
+                    Address = Context.Areas
+                    .SingleOrDefault(area => area.Id == actionPatient.AreaId).Name,
+                    Age = Convert.ToDateTime(DateTime.Now - actionPatient.BirthDate).Year,
+                    Career = Context.Careers.SingleOrDefault(career => 
+                    career.Id == actionPatient.CareerId).Name,
+                    Id = newPatient.Id,
+                    Gender = Enum.GetName(typeof(Gender) , actionPatient.Gender),
+                    LastInComeDate = newPatient.CreateDate,
+                    PatientName = $"{newPatient.FirstName} {newPatient.LastName}"
+                }
+            };
         }
 
         public async Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData()
