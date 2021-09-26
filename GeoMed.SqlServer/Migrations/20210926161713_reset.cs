@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GeoMed.SqlServer.Migrations
 {
-    public partial class initialDB : Migration
+    public partial class reset : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,27 +44,19 @@ namespace GeoMed.SqlServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    DiseaseId = table.Column<int>(type: "int", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Diseases", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Kindreds",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Kindreds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Diseases_Diseases_DiseaseId",
+                        column: x => x.DiseaseId,
+                        principalTable: "Diseases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,6 +190,7 @@ namespace GeoMed.SqlServer.Migrations
                     Birthdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AreaId = table.Column<int>(type: "int", nullable: false),
                     CareerId = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -216,6 +209,12 @@ namespace GeoMed.SqlServer.Migrations
                         principalTable: "Careers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patients_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -300,8 +299,8 @@ namespace GeoMed.SqlServer.Migrations
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HasSeen = table.Column<bool>(type: "bit", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: true),
+                    DoctorId = table.Column<int>(type: "int", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -313,13 +312,42 @@ namespace GeoMed.SqlServer.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Chats_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Kindreds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    PatientLeftId = table.Column<int>(type: "int", nullable: true),
+                    PatientRightId = table.Column<int>(type: "int", nullable: true),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kindreds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Kindreds_Patients_PatientLeftId",
+                        column: x => x.PatientLeftId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Kindreds_Patients_PatientRightId",
+                        column: x => x.PatientRightId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -362,7 +390,7 @@ namespace GeoMed.SqlServer.Migrations
                     NextReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HealthCenterId = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: true),
                     DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -380,7 +408,7 @@ namespace GeoMed.SqlServer.Migrations
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -509,6 +537,11 @@ namespace GeoMed.SqlServer.Migrations
                 column: "SpatialInfoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Diseases_DiseaseId",
+                table: "Diseases",
+                column: "DiseaseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DiseaseSymptom_SymptomsId",
                 table: "DiseaseSymptom",
                 column: "SymptomsId");
@@ -554,6 +587,16 @@ namespace GeoMed.SqlServer.Migrations
                 column: "AreaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Kindreds_PatientLeftId",
+                table: "Kindreds",
+                column: "PatientLeftId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Kindreds_PatientRightId",
+                table: "Kindreds",
+                column: "PatientRightId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notifications_DiseaseId",
                 table: "Notifications",
                 column: "DiseaseId");
@@ -577,6 +620,11 @@ namespace GeoMed.SqlServer.Migrations
                 name: "IX_Patients_CareerId",
                 table: "Patients",
                 column: "CareerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_PatientId",
+                table: "Patients",
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_HealthCenterId",

@@ -12,9 +12,9 @@ namespace GeoMed.Model.Main
     {
         public KindredLevels Level { get; set; }
 
-        public int PatientLeftId { get; set; }
+        public int? PatientLeftId { get; set; }
         public Patient PatientLeft { get; set; }
-        public int PatientRightId { get; set; }
+        public int? PatientRightId { get; set; }
         public Patient PatientRight { get; set; }
     }
 }

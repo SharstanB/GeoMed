@@ -13,9 +13,9 @@ namespace GeoMed.Model.Main
         public DateTime Date { get; set; }
         public bool HasSeen { get; set; }
 
-        public int PatientId { get; set; }
+        public int? PatientId { get; set; }
         public Patient Patient { get; set; }
-        public int DoctorId { get; set; }
+        public int? DoctorId { get; set; }
         public Doctor Doctor { get; set; }
     }
 }

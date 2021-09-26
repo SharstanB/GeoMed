@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeoMed.SqlServer.Migrations
 {
     [DbContext(typeof(GMContext))]
-    [Migration("20210919212613_initialDB")]
-    partial class initialDB
+    [Migration("20210926161713_reset")]
+    partial class reset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,7 +159,7 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int?>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasSeen")
@@ -168,7 +168,7 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -325,7 +325,17 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PatientLeftId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PatientRightId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PatientLeftId");
+
+                    b.HasIndex("PatientRightId");
 
                     b.ToTable("Kindreds");
                 });
@@ -361,6 +371,9 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserType")
                         .HasColumnType("int");
 
@@ -369,6 +382,8 @@ namespace GeoMed.SqlServer.Migrations
                     b.HasIndex("AreaId");
 
                     b.HasIndex("CareerId");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("Patients");
                 });
@@ -432,7 +447,7 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -525,10 +540,15 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("DiseaseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DiseaseId");
 
                     b.ToTable("Diseases");
                 });
@@ -668,15 +688,11 @@ namespace GeoMed.SqlServer.Migrations
                 {
                     b.HasOne("GeoMed.Model.Main.Doctor", "Doctor")
                         .WithMany("Chats")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("GeoMed.Model.Main.Patient", "Patient")
                         .WithMany("Chats")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Doctor");
 
@@ -743,6 +759,21 @@ namespace GeoMed.SqlServer.Migrations
                     b.Navigation("Area");
                 });
 
+            modelBuilder.Entity("GeoMed.Model.Main.Kindred", b =>
+                {
+                    b.HasOne("GeoMed.Model.Main.Patient", "PatientLeft")
+                        .WithMany("KindredLefts")
+                        .HasForeignKey("PatientLeftId");
+
+                    b.HasOne("GeoMed.Model.Main.Patient", "PatientRight")
+                        .WithMany("KindredRights")
+                        .HasForeignKey("PatientRightId");
+
+                    b.Navigation("PatientLeft");
+
+                    b.Navigation("PatientRight");
+                });
+
             modelBuilder.Entity("GeoMed.Model.Main.Patient", b =>
                 {
                     b.HasOne("GeoMed.Model.Setting.Area", "Area")
@@ -756,6 +787,10 @@ namespace GeoMed.SqlServer.Migrations
                         .HasForeignKey("CareerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("GeoMed.Model.Main.Patient", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Area");
 
@@ -791,9 +826,7 @@ namespace GeoMed.SqlServer.Migrations
 
                     b.HasOne("GeoMed.Model.Main.Patient", "Patient")
                         .WithMany("Reviews")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("HealthCenter");
 
@@ -809,6 +842,13 @@ namespace GeoMed.SqlServer.Migrations
                         .IsRequired();
 
                     b.Navigation("PatientRecord");
+                });
+
+            modelBuilder.Entity("GeoMed.Model.Setting.Disease", b =>
+                {
+                    b.HasOne("GeoMed.Model.Setting.Disease", null)
+                        .WithMany("Diseases")
+                        .HasForeignKey("DiseaseId");
                 });
 
             modelBuilder.Entity("GeoMed.Model.Setting.Notification", b =>
@@ -865,7 +905,13 @@ namespace GeoMed.SqlServer.Migrations
                 {
                     b.Navigation("Chats");
 
+                    b.Navigation("KindredLefts");
+
+                    b.Navigation("KindredRights");
+
                     b.Navigation("PatientRecords");
+
+                    b.Navigation("Patients");
 
                     b.Navigation("Reviews");
                 });
@@ -901,6 +947,8 @@ namespace GeoMed.SqlServer.Migrations
 
             modelBuilder.Entity("GeoMed.Model.Setting.Disease", b =>
                 {
+                    b.Navigation("Diseases");
+
                     b.Navigation("DoctorReviewDiseases");
 
                     b.Navigation("Notifications");
