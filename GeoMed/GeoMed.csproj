@@ -175,7 +175,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\models\" />
     <Folder Include="wwwroot\results\" />
   </ItemGroup>
 

@@ -16,6 +16,7 @@ using GeoMed.Model.DataSet;
 using AdvanceNN;
 using Microsoft.EntityFrameworkCore;
 using GeoMed.Main.DTO.Forcast;
+using GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO;
 
 namespace GeoMed.Main.Data.Repositories
 {
@@ -194,28 +195,36 @@ namespace GeoMed.Main.Data.Repositories
                  cases =  item.SelectMany(covid =>
                   covid.CovidZones.Where(a => a.Cases >= 0)
                   .OrderBy(o => o.Date)
-                  .Select(cov => cov.Cases).SkipLast(10).TakeLast(100)),
+                  .Select(cov => cov.Cases).SkipLast(10)),
                     fib = item.Key,
                     state = item.FirstOrDefault().State,
                     lat = item.FirstOrDefault().Lat,
                     lng = item.FirstOrDefault().Long}
-                  ).Take(100).ToList();
+                  ).ToList();
 
-            var result = new List<ForcastDto>();
-           // var test = data.Select(a => a.Select(b => b)).ToList();
-            data.ForEach(item =>
+            var result = new OperationResult<List<ForcastDto>>();
+            result.Result = new List<ForcastDto>();
+            // var test = data.Select(a => a.Select(b => b)).ToList();
+            foreach (var item in data)
             {
-                result.Add( 
-                    new ForcastDto{
-                Cases = AdvanceNetwork.Forecasting(item.cases
+                var ff = AdvanceNetwork.Forecasting(item.cases
                 .Select(dd => new float[][]
-                { new float[] { (float)dd } }).ToList()),
-                    Fib = item.fib,
-                    Lang = item.lng,
-                    Lat = item.lat,
-                    StateCode = item.state
-                });
-            });
+                { new float[] { (float)dd } }).ToList());
+                result.Result.Add(
+                    new ForcastDto
+                    {
+                        Cases = ff ,
+                        Fib = item.fib,
+                        Lang = item.lng,
+                        Lat = item.lat,
+                        StateCode = item.state
+                    });
+            }
+            //data.ForEach(item =>
+            //{
+                
+            //});
+            Reader.Write(result.Result);
 
             return result;
         } 

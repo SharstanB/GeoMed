@@ -19,7 +19,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
     /// <summary>
     /// reader fast and easy with huge data csv  look for CsvHelper and more in github repos
     /// </summary>
-    internal static class Reader
+    public static class Reader
     {
 
         private static string ModelPath = "wwwroot/models";

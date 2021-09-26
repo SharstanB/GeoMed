@@ -178,7 +178,7 @@ namespace AdvanceNN
             using (Py.GIL())
             {
                 string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-                var modelPath = Path.Combine(projectDirectory, @"GM\GeoMed\AdvanceNN\modles\LSTM\2021-08-11_18-33-18.9559072.h5");
+                var modelPath = Path.Combine(projectDirectory, @"GM\GeoMed\AdvanceNN\modles\LSTM\2021-08-11_23-12-26.8134521.h5");
                 string weightsPath = Path.GetFullPath("weights.h5");
                 if (File.Exists(modelPath))
                 {
