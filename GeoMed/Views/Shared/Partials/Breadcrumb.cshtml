@@ -30,15 +30,66 @@
 
         </div>
         <div>
+
+
+            <div hidden="@(ViewContext.RouteData.Values["action"].ToString().ToUpper()!="USA")" class="m-dropdown m-dropdown--inline  m-dropdown--arrow" m-dropdown-toggle="click">
+                <a href="#" class="m-dropdown__toggle btn btn-success dropdown-toggle">
+                    تمرير
+                </a>
+                <div  class="m-dropdown__wrapper">
+                    <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
+                    <div class="m-dropdown__inner">
+                        <div class="m-dropdown__body">
+                            <div class="m-dropdown__content">
+                                <ul class="m-nav">
+                                    <li class="m-nav__section m-nav__section--first">
+                                        <span class="m-nav__section-text">تقديم</span>
+                                    </li>
+                                    <li id="skip_default_day" class="m-nav__item">
+                                        <a  class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">افتراضي</span>
+                                        </a>
+                                    </li>
+                                    <li id="skip_one_day" class="m-nav__item">
+                                        <a  class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">بعد يوم واحد</span>
+                                        </a>
+                                    </li>
+                                    <li id="skip_ten_day" class="m-nav__item">
+                                        <a class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">بعد عشرة ايام</span>
+                                        </a>
+                                    </li>
+                                    <li id="skip_all_day" class="m-nav__item">
+                                        <a href="" class="m-nav__link">
+                                            <i class="m-nav__link-icon flaticon-share"></i>
+                                            <span class="m-nav__link-text">الكل</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
                 <span class="m-subheader__daterange-label">
                     <span class="m-subheader__daterange-title"></span>
                     <span class="m-subheader__daterange-date m--font-brand"></span>
                 </span>
-                <a  class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--square">
+                <a class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--square">
                     <i class="la la-angle-down"></i>
                 </a>
             </span>
+
+
+
+
         </div>
     </div>
 </div>

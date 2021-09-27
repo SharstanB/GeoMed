@@ -45,7 +45,7 @@ namespace GeoMed.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> USA_CovidAsync([FromQuery]string state)
+        public async Task<IActionResult> USA_Covid([FromQuery]string state)
         {
             var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneDtoResult.json");
             var res = System.IO.File.ReadAllText(fullpath);
@@ -54,6 +54,24 @@ namespace GeoMed.Controllers
 
             return Json( (await zone.USAAggregate()).Result);
             return Ok(LocallyDataAPI_Test.APIs.COVID19_US_Country.COVID19USCountry.USAAggregate());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> USA_CovidOneDay()
+        {
+            var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneDtoResult.json");
+            var res = System.IO.File.ReadAllText(fullpath);
+            // var data = System.Text.Json.JsonSerializer.Deserialize<CovidZoneDto>(res);
+            return Json(res);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> USA_CovidTenDay()
+        {
+            var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneDtoResult.json");
+            var res = System.IO.File.ReadAllText(fullpath);
+            // var data = System.Text.Json.JsonSerializer.Deserialize<CovidZoneDto>(res);
+            return Json(res);
         }
     }
 }
