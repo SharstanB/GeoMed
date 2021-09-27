@@ -15,12 +15,28 @@ am4core.ready(function () {
             onOpen: function () { swal.showLoading() }
         });
 
+
+    $(document).on("click", '#skip_default_day', (event) => {
+        swal(
+            {
+                title: "USA Map", text: "Please wait while the data is processed", allowOutsideClick: false,
+                onOpen: function () { swal.showLoading() }
+            });
+        regionalSeries = {};
+        currentSeries = null;
+        loadCases("https://localhost:44363/Map/USA_Covid");
+
+
+    })
+
     $(document).on("click", '#skip_one_day', (event) => {
         swal(
             {
                 title: "Skip one day", text: "Please wait while the data is processed", allowOutsideClick: false,
                 onOpen: function () { swal.showLoading() }
             });
+        regionalSeries = {};
+        currentSeries=null;
         loadCases("https://localhost:44363/Map/USA_CovidOneDay");
 
     })
@@ -32,6 +48,8 @@ am4core.ready(function () {
                 title: "Skip ten day", text: "Please wait while the data is processed", allowOutsideClick: false,
                 onOpen: function () { swal.showLoading() }
             });
+        regionalSeries = {};
+        currentSeries=null;
         
         loadCases("https://localhost:44363/Map/USA_CovidTenDay");
 
@@ -329,6 +347,10 @@ am4core.ready(function () {
         });
 
         regionalSeries.US.series.data = regionalSeries.US.markerData;
+
+        chart.validateData();
+        chart.goHome();
+
 
         swal.close()
     }

@@ -59,19 +59,21 @@ namespace GeoMed.Controllers
         [HttpGet]
         public async Task<IActionResult> USA_CovidOneDay()
         {
-            var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneDtoResult.json");
+            var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneOneDtoResult.json");
             var res = System.IO.File.ReadAllText(fullpath);
-            // var data = System.Text.Json.JsonSerializer.Deserialize<CovidZoneDto>(res);
             return Json(res);
+
+           // return Json((await zone.USAOne()).Result);
         }
 
         [HttpGet]
         public async Task<IActionResult> USA_CovidTenDay()
         {
-            var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneDtoResult.json");
+            var fullpath = Path.Combine(webHost.WebRootPath, "results", "CovidZoneTenDtoResult.json");
             var res = System.IO.File.ReadAllText(fullpath);
-            // var data = System.Text.Json.JsonSerializer.Deserialize<CovidZoneDto>(res);
             return Json(res);
+
+            //return Json((await zone.USATen()).Result);
         }
     }
 }

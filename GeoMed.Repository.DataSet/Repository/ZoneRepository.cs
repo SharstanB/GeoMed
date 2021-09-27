@@ -167,6 +167,72 @@ namespace GeoMed.Repository.DataSet.Repository
             return operation;
         }
 
+
+        public async Task<OperationResult<IEnumerable<CovidZoneDto>>> USAOne()
+        {
+                var usa = LocallyDataAPI_Test.APIs.COVID19_US_Country.COVID19USCountry.OneUSA();
+
+            OperationResult<IEnumerable<CovidZoneDto>> operation = new OperationResult<IEnumerable<CovidZoneDto>>();
+
+            operation.Result = (usa).
+                GroupBy(model => (model.State, model.Country))
+              .Select(group => new CovidZoneDto()
+              {
+                  Cases = group.Sum(x => x.Cases),
+                  Deaths = group.Sum(x => x.Deaths),
+                  Country = group.Key.Country,
+                  State = group.Key.State,
+                  StateCode = group.First().StateCode,
+                  Lat = group.First().Lat,
+                  Long = group.First().Long,
+                  FipsCode = group.First().FipsCode,
+                  Date = group.First().Date,
+                  DeleteDate = null,
+                  Id = 0,
+              });
+
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+            var path = Path.Combine(projectDirectory, @"GeoMed\GeoMed\wwwroot\results\CovidZoneOneDtoResult.json");
+            await System.IO.File.WriteAllTextAsync(path, System.Text.Json.JsonSerializer.Serialize(operation.Result, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, }));
+
+
+            return operation;
+        }
+
+
+        public async Task<OperationResult<IEnumerable<CovidZoneDto>>> USATen()
+        {
+            var usa = LocallyDataAPI_Test.APIs.COVID19_US_Country.COVID19USCountry.TenUSA();
+
+            OperationResult<IEnumerable<CovidZoneDto>> operation = new OperationResult<IEnumerable<CovidZoneDto>>();
+
+            operation.Result = (usa).
+                GroupBy(model => (model.State, model.Country))
+              .Select(group => new CovidZoneDto()
+              {
+                  Cases = group.Sum(x => x.Cases),
+                  Deaths = group.Sum(x => x.Deaths),
+                  Country = group.Key.Country,
+                  State = group.Key.State,
+                  StateCode = group.First().StateCode,
+                  Lat = group.First().Lat,
+                  Long = group.First().Long,
+                  FipsCode = group.First().FipsCode,
+                  Date = group.First().Date,
+                  DeleteDate = null,
+                  Id = 0,
+              });
+
+            string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
+            var path = Path.Combine(projectDirectory, @"GeoMed\GeoMed\wwwroot\results\CovidZoneTenDtoResult.json");
+            await System.IO.File.WriteAllTextAsync(path, System.Text.Json.JsonSerializer.Serialize(operation.Result, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, }));
+
+
+            return operation;
+        }
+
+
+
         public async Task<OperationResult<IEnumerable<CovidZoneDto>>> GetMapData(MapDataDto mapDataDto)
         {
             var result = new OperationResult<IEnumerable<CovidZoneDto>>();
