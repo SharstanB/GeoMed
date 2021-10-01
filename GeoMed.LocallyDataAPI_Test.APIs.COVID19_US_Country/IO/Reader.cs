@@ -53,7 +53,7 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country.IO
             {
                 Directory.CreateDirectory(ModelPath);
             }
-            using (var writer = new StreamWriter($"{ModelPath}\\file.csv"))
+            using (var writer = new StreamWriter($"{ModelPath}\\new1day.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecords(source);

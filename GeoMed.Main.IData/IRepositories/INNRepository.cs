@@ -20,6 +20,8 @@ namespace GeoMed.Main.IData.IRepositories
 
         OperationResult<List<ForcastDto>> LoadPredicateData();
 
+        public void FixPredicate();
+
 
 
 

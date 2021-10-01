@@ -231,5 +231,59 @@ namespace GeoMed.Main.Data.Repositories
 
         private string ChooseMoreAccurateModel()
         => Context.Models.OrderBy(o => o.ErrorRate).FirstOrDefault().Path;
+
+
+        public class Forcast
+        {
+            public string Fib { get; set; }
+
+            public string StateCode { get; set; }
+            public string Status { get; set; }
+            public string Country { get; set; }
+
+            public decimal Lat { get; set; }
+
+            public decimal Lang { get; set; }
+
+            public int Cases { get; set; }
+        }
+        public void FixPredicate()
+        {
+            var path = @"C:\Users\sharstan\Source\Repos\GM\GeoMed\GeoMed\wwwroot\models\1day.csv";
+            var elements =  Reader.Select<ForcastDto>(path).ToList();
+
+            var result = Context.SpatialInfos
+                .Include(a => a.CovidZones).ToList()
+                .GroupBy(g => g.fib).Select(item => new {
+                    cases = item.SelectMany(covid =>
+                    covid.CovidZones.Where(a => a.Cases >= 0)
+                    .OrderBy(o => o.Date)
+                    .Select(cov => cov.Cases).SkipLast(10)),
+                    fib = item.Key,
+                    state = item.FirstOrDefault().State,
+                    lat = item.FirstOrDefault().Lat,
+                    lng = item.FirstOrDefault().Long,
+                    stateCode = item.FirstOrDefault().CovidZones.FirstOrDefault().StateCode,
+                    coutry = item.FirstOrDefault().Country
+                }
+                  ).ToList();
+            var finalResult = new List<Forcast>(); 
+
+            elements.ForEach(item =>
+            {
+                finalResult.Add(new Forcast()
+                {
+                    Cases = item.Cases,
+                    Country = result.FirstOrDefault(f=>f.fib == item.Fib).coutry,
+                    Fib  = item.Fib,
+                    Lang = item.Lang,
+                    Lat = item.Lat,
+                    StateCode = result.FirstOrDefault(f=> f.fib == item.Fib ).stateCode,
+                    Status = item.StateCode
+                });
+            });
+
+            Reader.Write(finalResult);
+        }
     }
 }
