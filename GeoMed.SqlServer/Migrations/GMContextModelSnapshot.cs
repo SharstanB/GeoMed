@@ -163,7 +163,7 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int?>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasSeen")
@@ -172,7 +172,7 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -329,10 +329,10 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
-                    b.Property<int>("PatientLeftId")
+                    b.Property<int?>("PatientLeftId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PatientRightId")
+                    b.Property<int?>("PatientRightId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -453,7 +453,7 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -708,15 +708,11 @@ namespace GeoMed.SqlServer.Migrations
                 {
                     b.HasOne("GeoMed.Model.Main.Doctor", "Doctor")
                         .WithMany("Chats")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("GeoMed.Model.Main.Patient", "Patient")
                         .WithMany("Chats")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("Doctor");
 
@@ -787,15 +783,11 @@ namespace GeoMed.SqlServer.Migrations
                 {
                     b.HasOne("GeoMed.Model.Main.Patient", "PatientLeft")
                         .WithMany("KindredLefts")
-                        .HasForeignKey("PatientLeftId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientLeftId");
 
                     b.HasOne("GeoMed.Model.Main.Patient", "PatientRight")
                         .WithMany("KindredRights")
-                        .HasForeignKey("PatientRightId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientRightId");
 
                     b.Navigation("PatientLeft");
 
@@ -854,9 +846,7 @@ namespace GeoMed.SqlServer.Migrations
 
                     b.HasOne("GeoMed.Model.Main.Patient", "Patient")
                         .WithMany("Reviews")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientId");
 
                     b.Navigation("HealthCenter");
 

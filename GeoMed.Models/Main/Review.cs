@@ -20,7 +20,7 @@ namespace GeoMed.Model.Main
         public int HealthCenterId { get; set; }
         public HealthCenter HealthCenter { get; set; }
 
-        public int PatientId { get; set; }
+        public int? PatientId { get; set; }
         public Patient Patient { get; set; }
 
         public ICollection<DoctorReview> DoctorReviews { get; set; }

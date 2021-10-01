@@ -1,6 +1,11 @@
 ﻿
 
 
+$(document).ready(() => {
+
+    
+
+});
 
 am4core.ready(function () {
 
@@ -9,6 +14,46 @@ am4core.ready(function () {
             title: "USA Map", text: "Please wait while the data is processed", allowOutsideClick: false,
             onOpen: function () { swal.showLoading() }
         });
+
+
+    $(document).on("click", '#skip_default_day', (event) => {
+        swal(
+            {
+                title: "USA Map", text: "Please wait while the data is processed", allowOutsideClick: false,
+                onOpen: function () { swal.showLoading() }
+            });
+        regionalSeries = {};
+        currentSeries = null;
+        loadCases("https://localhost:44363/Map/USA_Covid");
+
+
+    })
+
+    $(document).on("click", '#skip_one_day', (event) => {
+        swal(
+            {
+                title: "Skip one day", text: "Please wait while the data is processed", allowOutsideClick: false,
+                onOpen: function () { swal.showLoading() }
+            });
+        regionalSeries = {};
+        currentSeries=null;
+        loadCases("https://localhost:44363/Map/USA_CovidOneDay");
+
+    })
+
+    $(document).on("click", '#skip_ten_day', (event) => {
+
+        swal(
+            {
+                title: "Skip ten day", text: "Please wait while the data is processed", allowOutsideClick: false,
+                onOpen: function () { swal.showLoading() }
+            });
+        regionalSeries = {};
+        currentSeries=null;
+        
+        loadCases("https://localhost:44363/Map/USA_CovidTenDay");
+
+    })
 
     var populations = [
         {id:'US-AL', value: 4887871,  },
@@ -117,12 +162,12 @@ am4core.ready(function () {
     polygonSeries.data = populations;
 
     // Load data when map polygons are ready
-    chart.events.on("ready", loadCases);
+    chart.events.on("ready", loadCases("https://localhost:44363/Map/USA_Covid"));
 
     // Loads store data
-    function loadCases() {
+    function loadCases(getdataurl) {
         var loader = new am4core.DataSource();
-        loader.url = "https://localhost:44363/Map/USA_Covid";
+        loader.url = getdataurl;
         loader.events.on("parseended", function (ev) {
 
             if (ev.target.data[0] === '[') {
@@ -302,6 +347,10 @@ am4core.ready(function () {
         });
 
         regionalSeries.US.series.data = regionalSeries.US.markerData;
+
+        chart.validateData();
+        chart.goHome();
+
 
         swal.close()
     }

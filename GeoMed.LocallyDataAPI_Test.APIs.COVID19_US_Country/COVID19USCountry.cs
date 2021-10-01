@@ -24,6 +24,10 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         /// </summary>
         private static string diseaseDataset_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "مشروع التخرج", "diseaseDataset", "covid_us_county.csv");
 
+        private static string diseaseDataset_one_day_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "مشروع التخرج", "diseaseDataset", "new1day.csv");
+
+        private static string diseaseDataset_ten_day_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "مشروع التخرج", "diseaseDataset", "10day.csv");
+
         /// <summary>
         ///  مجلد سطح المجلد بسمى مشروع التخرج يحوي مجلد داتا ست المعلومات
         /// </summary>
@@ -85,6 +89,9 @@ namespace GeoMed.LocallyDataAPI_Test.APIs.COVID19_US_Country
         public static IEnumerable<DiseaseInfoModel> USAAggregate() => Reader.Select<DiseaseInfoModel>(diseaseDataset_path).USACombine();
 
         public static IEnumerable<DiseaseInfoModel> ALLUSA() => Reader.Select<DiseaseInfoModel>(diseaseDataset_path).ToList().Difference();
+
+        public static IEnumerable<DiseaseInfoModel> OneUSA() => Reader.Select<DiseaseInfoModel>(diseaseDataset_one_day_path).ToList().Difference();
+        public static IEnumerable<DiseaseInfoModel> TenUSA() => Reader.Select<DiseaseInfoModel>(diseaseDataset_ten_day_path).ToList().Difference();
 
         public static IEnumerable<USInfoModel> ALLUSAInfo() => Reader.Select<USInfoModel>(usInfoDataset_path);
 

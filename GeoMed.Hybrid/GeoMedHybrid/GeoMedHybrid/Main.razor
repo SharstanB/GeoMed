@@ -1,18 +1,10 @@
 ﻿@inject CounterState CounterState
+@using Microsoft.MobileBlazorBindings.Elements
 
 <ContentView>
-    <StackLayout>
-
-        <StackLayout Margin="new Thickness(20)" Orientation="StackOrientation.Horizontal">
-            <Label Text="@($"Hello, World! {CounterState.CurrentCount}")" FontSize="40" HorizontalOptions="LayoutOptions.StartAndExpand" />
-            <Button Text="Increment" OnClick="@CounterState.IncrementCount" VerticalOptions="LayoutOptions.Center" Padding="10" />
-        </StackLayout>
-
-        <BlazorWebView VerticalOptions="LayoutOptions.FillAndExpand">
-            <GeoMedHybrid.WebUI.App />
-        </BlazorWebView>
-
-    </StackLayout>
+    <BlazorWebView VerticalOptions="LayoutOptions.FillAndExpand">
+        <GeoMedHybrid.WebUI.App />
+    </BlazorWebView>
 </ContentView>
 
 
