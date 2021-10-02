@@ -27,10 +27,10 @@ namespace GeoMed.Views.Patient.Components.Table
 
         public int PageSize { get; set; }
 
-        List<GetPatientDto> Patients { get; set; }
-        protected override async Task OnInitializedAsync()
+        List<GetPatientDto> Patients = new List<GetPatientDto>();
+        protected override void OnInitialized()
         {
-            Patients = (await PatientRepository.GetPatientsData())
+            Patients =  PatientRepository.GetPatientsData()
                 .Result.ToList() ?? new List<GetPatientDto>();
         }
         public void OnSearch()

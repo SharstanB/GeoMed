@@ -44,18 +44,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var Patient in Patients)
+                    @if (Patients != null)
                     {
-                        <tr>
-                            <td>@Patient.Id</td>
-                            <td>@Patient.PatientName</td>
-                            <td>@Patient.LastInComeDate.ToShortDateString()</td>
-                            <td>@Patient.Address</td>
-                            <td>@Patient.Age</td>
-                            <td>@Patient.Gender</td>
-                        </tr>
+                        @foreach (var Patient in Patients)
+                        {
+                            <tr>
+                                <td>@Patient.Id</td>
+                                <td>@Patient.PatientName</td>
+                                <td>@Patient.LastInComeDate.ToShortDateString()</td>
+                                <td>@Patient.Address</td>
+                                <td>@Patient.Age</td>
+                                <td>@Patient.Gender</td>
+                            </tr>
 
+                        }
                     }
+
                 </tbody>
             </table>
 

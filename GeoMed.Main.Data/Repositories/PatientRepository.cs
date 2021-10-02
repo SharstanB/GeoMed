@@ -34,6 +34,7 @@ namespace GeoMed.Main.Data.Repositories
                 Gender = actionPatient.Gender,
                 LastName = actionPatient.LastName,
                 UserType = (int)UserType.patient,
+                CareerId = actionPatient.CareerId  
             };
            
            Context.Patients.Add(newPatient);
@@ -54,7 +55,7 @@ namespace GeoMed.Main.Data.Repositories
                 {
                     Address = Context.Areas
                     .SingleOrDefault(area => area.Id == actionPatient.AreaId).Name,
-                    Age = Convert.ToDateTime(DateTime.Now - actionPatient.BirthDate).Year,
+                    Age = ((DateTime.Now - actionPatient.BirthDate).Value.Days / 365),
                     Career = Context.Careers.SingleOrDefault(career => 
                     career.Id == actionPatient.CareerId).Name,
                     Id = newPatient.Id,
@@ -65,23 +66,26 @@ namespace GeoMed.Main.Data.Repositories
             };
         }
 
-        public async Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData()
+        public OperationResult<IEnumerable<GetPatientDto>> GetPatientsData()
         {
             OperationResult<IEnumerable<GetPatientDto>> operationResult = new OperationResult<IEnumerable<GetPatientDto>>();
 
             try
             {
-                operationResult.Result = await Context.Patients.Select(patient => new GetPatientDto()
+                operationResult.Result = Context.Patients
+                    .Include(patient => patient.PatientRecords)
+                    .Include(patient => patient.Area)
+                    .ToList().Select(patient => new GetPatientDto()
                 {
                     Address = patient.Area.Name,
-                    Age = EF.Functions.DateDiffYear(patient.Birthdate, DateTime.Now),
+                    Age = ((DateTime.Now - patient.Birthdate).Days / 365),
                     Gender = Enum.GetName(typeof(Gender), patient.Gender),
                     Id = patient.Id,
                     LastInComeDate = patient.PatientRecords.OrderBy(order => order.InComingDate)
-                     .LastOrDefault().InComingDate,
+                     .LastOrDefault()?.InComingDate ?? DateTime.Now,
                     PatientName = patient.FirstName ?? "" + " " + patient.LastName ?? "",
 
-                }).ToListAsync();
+                });
 
                 operationResult.OperationResultType = OperationResultTypes.Success;
                

@@ -8,7 +8,7 @@ namespace GeoMed.Main.IData.IRepositories
     public interface IPatientRepository 
     {
 
-        public Task<OperationResult<IEnumerable<GetPatientDto>>> GetPatientsData();
+        public OperationResult<IEnumerable<GetPatientDto>> GetPatientsData();
 
         public  OperationResult<GetPatientDto> ActionPatient(ActionPatientDto actionPatient);
     }

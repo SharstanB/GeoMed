@@ -24,12 +24,19 @@
                                 <label>الجنس</label>
                                 <div class="mt-radio-list row">
                                     <label class="mt-radio col-6 " style="margin: 0px 70px 0px -70px;">
-                                        انثى                                    <input type="radio" value="1" name="test" />
+                                        انثى                                    
+                                        <input  type="radio"
+                                               @onchange="@(()=> ActionPatient.Gender = 1)"
+                                               checked="@(ActionPatient.Gender == 1)"
+                                               name="test" />
                                         <span></span>
                                     </label>
                                     <label class="mt-radio col-6">
                                         ذكر
-                                        <input type="radio" value="1" name="test" />
+                                        <input type="radio" 
+                                               @onchange="@(()=> ActionPatient.Gender = 2)"
+                                                checked="@(ActionPatient.Gender == 2)"
+                                               name="test" />
                                         <span></span>
                                     </label>
                                 </div>

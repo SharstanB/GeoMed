@@ -20,7 +20,7 @@ namespace GeoMed.Views.Patient.Components.Modal
 
         public ActionPatientDto ActionPatient;
 
-        private PatientTable child { get; set; } 
+        private PatientTable child = new PatientTable();
 
         [Inject]
         public IPatientRepository PatientRepository { get; set; }
