@@ -14,6 +14,8 @@
 using EasyNetQ;
 using GeoMed.Main.Data.Repositories;
 using GeoMed.Main.IData.IRepositories;
+using GeoMed.MobileService.Data;
+using GeoMed.MobileService.IData;
 using GeoMed.Repository.DataSet.Interface;
 using GeoMed.Repository.DataSet.Repository;
 using GeoMed.Share.Data;
@@ -93,8 +95,7 @@ namespace GeoMed
             services.AddScoped<IZoneRepository, ZoneRepository>();
             services.AddScoped<INNRepository, NNRepository>();
             services.AddScoped<IQueueService, QueueService>();
-
-
+            services.AddScoped<IMobileRepository, MobileRepository>();
 
         }
 

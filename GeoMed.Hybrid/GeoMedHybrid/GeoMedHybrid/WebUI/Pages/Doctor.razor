@@ -1,0 +1,86 @@
+﻿@page "/Doctors"
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="card media-card border-0 mb-3" data-toggle="modal" data-target="#chatModal">
+                    <div class="card-body border-0">
+                        <div class="avatar rounded-circle overflow-hidden mx-auto" style="width: 100px; height: 100px;">
+                            <img src="./assets/img/avatar.jpg" />
+                        </div>
+                        <h5 class="mt-1 mb-0 text-center"><strong>some title</strong></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card media-card border-0 mb-3" data-toggle="modal" data-target="#chatModal">
+                    <div class="card-body border-0">
+                        <div class="avatar rounded-circle overflow-hidden mx-auto" style="width: 100px; height: 100px;">
+                            <img src="./assets/img/avatar.jpg" />
+                        </div>
+                        <h5 class="mt-1 mb-0 text-center"><strong>some title</strong></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="chatModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-right">محادثة</h5>
+                    <button type="button" class="close ml-0 mr-auto" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="left message-container">
+                        <div class="message">
+                            some message gext
+                        </div>
+                    </div>
+                    <div class="left message-container">
+                        <div class="message">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe modi, totam perspiciatis molestias quaerat voluptates enim possimus debitis blanditiis doloribus quidem ab nulla hic cupiditate. Explicabo magni nulla doloremque voluptates?
+                        </div>
+                    </div>
+                    <div class="right message-container">
+                        <div class="message">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe modi, totam perspiciatis molestias quaerat voluptates enim possimus debitis blanditiis doloribus quidem ab nulla hic cupiditate. Explicabo magni nulla doloremque voluptates?
+                        </div>
+                    </div>
+                    <div class="left message-container">
+                        <div class="message">
+                            some message gext
+                        </div>
+                    </div>
+                    <div class="right message-container">
+                        <div class="message">
+                            some message gext
+                        </div>
+                    </div>
+                    <div class="right message-container">
+                        <div class="message">
+                            some message gext
+                        </div>
+                    </div>
+                    <div class="left message-container">
+                        <div class="message">
+                            some message gext
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="input-group" style="direction: ltr!important;">
+                        <input type="text" class="form-control" placeholder="اكتب هنا ...">
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-info py-0">
+                                <button class="btn btn-icon text-white p-0">
+                                    <i class="mdi mdi-send" style="font-size: 20px"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
