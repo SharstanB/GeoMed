@@ -1,92 +1,160 @@
 ﻿@page "/Reviews"
-    <div class="container">
-        <div class="row">
-            <div class="col-12 py-3">
-                <div class="card border-0 mb-3 media-card">
-                    <div class="card-body border-0 p-0">
-                        <div class="d-flex">
-                            <div>
-                                <img src="./assets/img/avatar.jpg" width="100" style="height: 100%; object-fit: cover">
-                            </div>
-                            <div class="px-3 py-2 flex-grow-1">
-                                <h6 class="mt-0 text-dark">Media heading</h6>
-                                <p class="my-1">المنطقة : مراجعة</p>
-                                <p class="m-0">آخر مراجعة : مراجعة</p>
-                                <p class="m-0">الاختصاص : مراجعة</p>
-                                <p class="m-0">عدد الاكواد : مراجعة</p>
-                            </div>
-                            <div class="px-3 py-2">
-                                <div class="h-50 d-flex justify-content-center">
-                                    <i class="mdi mdi-heart text-danger"></i>
-                                    <i class="mdi mdi-heart text-danger"></i>
-                                    <i class="mdi mdi-heart text-danger"></i>
+@inject AppData appdata
+@inject HttpClient client
+
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-12">
+            <div @onclick="OpenModal" class="avatar app-shadow rounded-circle overflow-hidden mx-auto d-flex
+                 align-items-center justify-content-center text-white"
+                 style="width: 30px; height: 30px; background: #34BFA3; font-weight: 400; border: solid 4px #fff;">
+                +
+            </div>
+        </div>
+
+
+        <div class="col-12 py-3">
+            @if (Data.Reviews != null)
+            {
+                foreach (var review in Data.Reviews)
+                {
+                    <div class="card border-0 mb-3 media-card">
+                        <div class="card-body border-0 p-0">
+                            <div class="d-flex">
+                                <div>
+                                    <img src="./assets/img/avatar.jpg" width="100" style="height: 100%; object-fit: cover">
                                 </div>
-                                <div class="h-50 d-flex align-items-end">
-                                    <span class="d-inline-block px-2" data-toggle="popover" data-content="Disabled popover">
-                                        <i class="mdi mdi-earth text-success" style="font-size: 18px;"></i>
-                                    </span>
-                                    <span class="px-2">
-                                        <i class="mdi mdi-clock text-success" style="font-size: 18px;"></i>
-                                    </span>
-                                    <span class="px-2">
-                                        <i class="mdi mdi-headphones-settings text-success" style="font-size: 18px;"></i>
-                                    </span>
+                                <div class="px-3 py-2 flex-grow-1">
+                                    <h6 class="mt-0 text-dark">@review.HealthCenter.Name</h6>
+                                    <p class="m-0">المنطقة : @review.HealthCenter.Area</p>
+                                    <p class="m-0">آخر مراجعة : @review.Date</p>
+                                    <p class="m-0">الاختصاص : @review.Doctor.Career</p>
+                                    <p class="m-0">عدد الاقسام : 1</p>
+                                </div>
+                                <div class="px-3 py-2">
+                                    <div class="h-50 d-flex justify-content-center">
+                                        <i class="mdi mdi-heart text-danger"></i>
+                                        <i class="mdi mdi-heart text-danger"></i>
+                                        <i class="mdi mdi-heart text-danger"></i>
+                                    </div>
+                                    <div class="h-50 d-flex align-items-end">
+                                        <span class="d-inline-block px-2" data-toggle="popover" data-content="Disabled popover">
+                                            <i class="mdi mdi-earth text-success" style="font-size: 18px;"></i>
+                                        </span>
+                                        <span class="px-2">
+                                            <i class="mdi mdi-clock text-success" style="font-size: 18px;"></i>
+                                        </span>
+                                        <span class="px-2">
+                                            <i class="mdi mdi-headphones-settings text-success" style="font-size: 18px;"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                }
+            }
         </div>
     </div>
+</div>
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mx-auto">مراجعة رقم 222</h5>
-                    <button type="button" class="close ml-0 mr-auto position-absolute" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="m-0 py-2 px-3 text-secondary">
-                        <strong>عام : </strong> بواسير
-                    </p>
-                    <p class="m-0 py-2 px-3 text-secondary">
-                        <strong>اسم الدكتور : </strong> عبود
-                    </p>
-                    <p class="m-0 py-2 px-3 text-secondary">
-                        <strong>الاختصاص : </strong> هضمية
-                    </p>
-                    <hr>
-                    <p class="m-0 py-2 px-3 text-secondary">
-                        <strong>المعاينة : </strong> فحص إيكو
-                    </p>
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="m-0 py-2 px-3 text-secondary">
-                                <strong>المرض : </strong> كورونا
-                            </p>
-                        </div>
-                        <div class="col-6">
-                            <p class="m-0 py-2 px-3 text-secondary">
-                                <strong>التكلفة : </strong> <small>2000</small>
-                            </p>
-                            <p class="m-0 py-2 px-3 text-secondary">
-                                <strong>التاريخ : </strong> <small>2020 - 2 - 2</small>
-                            </p>
-                        </div>
+<div class="modal fade @(IsModalOpen?"show":"")" id="exampleModal" style="@(IsModalOpen?"display: block;":"")" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mx-auto">مراجعة رقم 222</h5>
+                <button @onclick="CloseModal" type="button" class="close ml-0 mr-auto position-absolute" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="m-0 py-2 px-3 text-secondary">
+                    <strong>عام : </strong> بواسير
+                </p>
+                <p class="m-0 py-2 px-3 text-secondary">
+                    <strong>اسم الدكتور : </strong> عبود
+                </p>
+                <p class="m-0 py-2 px-3 text-secondary">
+                    <strong>الاختصاص : </strong> هضمية
+                </p>
+                <hr>
+                <p class="m-0 py-2 px-3 text-secondary">
+                    <strong>المعاينة : </strong> فحص إيكو
+                </p>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="m-0 py-2 px-3 text-secondary">
+                            <strong>المرض : </strong> كورونا
+                        </p>
                     </div>
-                    <p class="p-3 mt-3 rounded text-white bg-secondary">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, laboriosam. Tempore nihil dolorum ullam sit nemo numquam dignissimos expedita, neque deserunt, vel beatae, illo voluptatibus minus illum voluptate distinctio libero.
-                    </p>
+                    <div class="col-6">
+                        <p class="m-0 py-2 px-3 text-secondary">
+                            <strong>التكلفة : </strong> <small>2000</small>
+                        </p>
+                        <p class="m-0 py-2 px-3 text-secondary">
+                            <strong>التاريخ : </strong> <small>2020 - 2 - 2</small>
+                        </p>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary ml-1" data-dismiss="modal">Close</button>
-                </div>
+                <p class="p-3 mt-3 rounded text-white bg-secondary">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, laboriosam. Tempore nihil dolorum ullam sit nemo numquam dignissimos expedita, neque deserunt, vel beatae, illo voluptatibus minus illum voluptate distinctio libero.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button @onclick="CloseModal" type="button" class="btn btn-outline-secondary ml-1" data-dismiss="modal">إغلاق</button>
+                <button type="button" class="btn btn-outline-success ml-1" data-dismiss="modal">تأكيد</button>
             </div>
         </div>
     </div>
+</div>
+
+@if (IsModalOpen)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code
+{
+    public InfoReviewsDto Data { get; set; } = new InfoReviewsDto()
+    {
+        HealthCenters = new List<NominalDto>(),
+        Reviews = new List<ReviewDto>(),
+        Doctors = new List<NominalDto>(),
+    };
+
+    public bool IsModalOpen { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var res = await client.GetAsync($@"{AppData.BaseUrl}reviews/{appdata.UserId}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<InfoReviewsDto>(await res.Content.ReadAsStringAsync());
+
+            appdata.FullName = Data.FullName;
+            appdata.Area = Data.Area;
+            appdata.Career = Data.Career;
+
+            Bus.AppDataChanged.Invoke();
+        }
+    }
+
+    public void OpenModal()
+    {
+        IsModalOpen = true;
+    }
+    
+    public void CloseModal()
+    {
+        IsModalOpen = false;
+    }
+}

@@ -14,7 +14,7 @@
                     <strong>
                        @(Data.Reviews?.OrderBy(x=>x.Date).FirstOrDefault()?.Date.ToLongDateString()??"---:---:---")
                     </strong>
-                    <h6 class="text-center pt-1">@(Data.Reviews?.OrderBy(x => x.Date).FirstOrDefault()?.HealthCenterName??"---") - مستقر</h6>
+                    <h6 class="text-center pt-1">@(Data.Reviews?.OrderBy(x => x.Date).FirstOrDefault()?.HealthCenter.Name??"---") - مستقر</h6>
                 </div>
             </div>
         </div>
@@ -36,8 +36,8 @@
                                     <img src="./assets/img/avatar.jpg" width="100" style="height: 100%; object-fit: cover">
                                 </div>
                                 <div class="media-body px-2 py-2">
-                                    <h6 class="mt-0 media-head">@review.HealthCenterName</h6>
-                                    <p class="m-0">النوع : @review.DoctorCareer</p>
+                                    <h6 class="mt-0 media-head">@review.HealthCenter.Name</h6>
+                                    <p class="m-0">النوع : @review.Doctor.Career</p>
                                     <p class="m-0">الوصف : @review.Description</p>
                                     <p class="m-0">الاستطبابات : @review.Recipe</p>
                                     <p class="text-left m-0">

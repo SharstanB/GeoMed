@@ -43,5 +43,38 @@ namespace GeoMed.Controllers
             var res = await repository.Register(reg);
             return new JsonResult(res.Result) { StatusCode =res.Result?200:400 };
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Reviews([FromRoute] int id)
+        {
+            var res = await repository.Reviews(id);
+            return new JsonResult(res.Result) { StatusCode = 200 };
+        }
+        
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AddReview([FromRoute] int id, GeoMed.MobileService.Dto.ReviewDto review)
+        {
+            var res = await repository.AddReview(id, review);
+            return new JsonResult(res.Result) { StatusCode = res.Result ? 200 : 400 };
+        }
+
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Doctors([FromRoute] int id)
+        {
+            var res = await repository.Doctors(id);
+            return new JsonResult(res.Result) { StatusCode = 200 };
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Profile([FromRoute] int id)
+        {
+            var res = await repository.Profile(id);
+            return new JsonResult(res.Result) { StatusCode = 200 };
+        }
+
     }
 }

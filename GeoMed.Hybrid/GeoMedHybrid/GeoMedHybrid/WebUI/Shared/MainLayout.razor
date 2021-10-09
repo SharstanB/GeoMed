@@ -82,7 +82,7 @@
     [Parameter]
     public string TestMessage { get; set; }
 
-
+    public bool[] Shells { get; set; } = new bool[5] { false,false,true,false,false };
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,7 +92,7 @@
 
         //http://localhost:44336/mobile/test
         // http://10.0.2.2
-            try
+        try
         {
             // var res = await client.GetAsync(@"http://10.0.2.2:5000/mobile/test");
             // TestMessage = await res.Content.ReadAsStringAsync();
@@ -116,6 +116,11 @@
             && !uri.Contains("profile")
             && !uri.Contains("reviews");
         return res;
+    }
+
+    private void IsShell(int id)
+    {
+
     }
 
 

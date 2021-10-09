@@ -11,10 +11,9 @@ namespace GeoMed.MobileService.Dto
         public DateTime Date { get; set; }
         public DateTime NextReviewDate { get; set; }
         public string Note { get; set; }
-        public string HealthCenterName { get; set; }
-
+        public NominalDto HealthCenter { get; set; }
         public string Description { get; set; }
         public string Recipe { get; set; }
-        public string DoctorCareer { get; set; }
+        public NominalDto Doctor { get; set; }
     }
 }
