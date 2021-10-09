@@ -228,9 +228,9 @@ namespace GeoMed.MobileService.Data
                 PatientId = id,
                 HealthCenterId =review.HealthCenter.Id,
                 DoctorReviews = new List<DoctorReview>() { new DoctorReview() {
-                Description = review.Description,
-                DoctorId = review.Doctor.Id,
-                Recipe =review.Recipe,
+                    Description = review.Description,
+                    DoctorId = review.Doctor.Id,
+                    Recipe =review.Recipe,
                 } },
             };
 
