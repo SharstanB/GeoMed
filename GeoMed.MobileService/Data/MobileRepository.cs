@@ -104,7 +104,7 @@ namespace GeoMed.MobileService.Data
                          })
                  }).FirstOrDefaultAsync();
 
-            data.Reviews = data.Reviews.Take(3);
+           // data.Reviews = data.Reviews.Take(3);
 
             return new OperationResult<HomeDto>()
             {
