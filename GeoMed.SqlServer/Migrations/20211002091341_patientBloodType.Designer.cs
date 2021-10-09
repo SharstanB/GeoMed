@@ -4,14 +4,16 @@ using GeoMed.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GeoMed.SqlServer.Migrations
 {
     [DbContext(typeof(GMContext))]
-    partial class GMContextModelSnapshot : ModelSnapshot
+    [Migration("20211002091341_patientBloodType")]
+    partial class patientBloodType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,9 +157,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -197,9 +197,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -222,9 +220,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -258,9 +254,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -294,9 +288,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasColumnType("time");
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -331,9 +323,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -376,9 +366,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -453,9 +441,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -538,31 +524,31 @@ namespace GeoMed.SqlServer.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 225, DateTimeKind.Local).AddTicks(6415),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 181, DateTimeKind.Local).AddTicks(9595),
                             Name = "حلب - جميلية"
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 230, DateTimeKind.Local).AddTicks(5340),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 195, DateTimeKind.Local).AddTicks(9808),
                             Name = "حلب - سوق أنتاج"
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 230, DateTimeKind.Local).AddTicks(5809),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(379),
                             Name = "حلب - محافظة"
                         },
                         new
                         {
                             Id = 4,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 230, DateTimeKind.Local).AddTicks(5870),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(433),
                             Name = "دمشق - سيدة زينب"
                         },
                         new
                         {
                             Id = 5,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 230, DateTimeKind.Local).AddTicks(5910),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(470),
                             Name = " حلب - عفرين"
                         });
                 });
@@ -593,49 +579,49 @@ namespace GeoMed.SqlServer.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 230, DateTimeKind.Local).AddTicks(9281),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(4761),
                             Name = " عامل تمديدات الصحية"
                         },
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(9),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6221),
                             Name = "نجار"
                         },
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(56),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6317),
                             Name = " كهربة السيارات"
                         },
                         new
                         {
                             Id = 4,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(82),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6373),
                             Name = "معلم"
                         },
                         new
                         {
                             Id = 5,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(105),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6419),
                             Name = "شرطي مرور"
                         },
                         new
                         {
                             Id = 6,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(132),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6469),
                             Name = "حارس"
                         },
                         new
                         {
                             Id = 7,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(155),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6524),
                             Name = "طبيب أسنان"
                         },
                         new
                         {
                             Id = 8,
-                            CreateDate = new DateTime(2021, 10, 2, 20, 14, 8, 231, DateTimeKind.Local).AddTicks(177),
+                            CreateDate = new DateTime(2021, 10, 2, 12, 13, 40, 196, DateTimeKind.Local).AddTicks(6574),
                             Name = "نادل المطعم"
                         });
                 });
@@ -676,9 +662,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");

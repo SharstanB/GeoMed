@@ -2,6 +2,7 @@
 using GeoMed.Main.DTO.Patients;
 using GeoMed.Main.IData.IRepositories;
 using GeoMed.SharedKernal.Enums;
+using GeoMed.SharedKernal.Util;
 using GeoMed.SqlServer;
 using GM.QueueService.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,8 @@ namespace GeoMed.Main.Data.Repositories
                 Gender = actionPatient.Gender,
                 LastName = actionPatient.LastName,
                 UserType = (int)UserType.patient,
-                CareerId = actionPatient.CareerId  
+                CareerId = actionPatient.CareerId ,
+                BloodType = actionPatient.BloodType,
             };
            
            Context.Patients.Add(newPatient);
@@ -55,13 +57,14 @@ namespace GeoMed.Main.Data.Repositories
                 {
                     Address = Context.Areas
                     .SingleOrDefault(area => area.Id == actionPatient.AreaId).Name,
-                    Age = ((DateTime.Now - actionPatient.BirthDate).Value.Days / 365),
+                    Age = actionPatient.BirthDate.Value.ToformatingDate(),
                     Career = Context.Careers.SingleOrDefault(career => 
                     career.Id == actionPatient.CareerId).Name,
                     Id = newPatient.Id,
                     Gender = Enum.GetName(typeof(Gender) , actionPatient.Gender),
                     LastInComeDate = newPatient.CreateDate,
-                    PatientName = $"{newPatient.FirstName} {newPatient.LastName}"
+                    PatientName = $"{newPatient.FirstName} {newPatient.LastName}",
+                    BloodType = Enum.GetName(typeof(BloodType), actionPatient.BloodType),
                 }
             };
         }
@@ -74,18 +77,20 @@ namespace GeoMed.Main.Data.Repositories
             {
                 operationResult.Result = Context.Patients
                     .Include(patient => patient.PatientRecords)
+                    .Include(patient => patient.Career)
                     .Include(patient => patient.Area)
                     .ToList().Select(patient => new GetPatientDto()
                 {
                     Address = patient.Area.Name,
-                    Age = ((DateTime.Now - patient.Birthdate).Days / 365),
+                    Age = patient.Birthdate.ToformatingDate(),
                     Gender = Enum.GetName(typeof(Gender), patient.Gender),
                     Id = patient.Id,
                     LastInComeDate = patient.PatientRecords.OrderBy(order => order.InComingDate)
                      .LastOrDefault()?.InComingDate ?? DateTime.Now,
                     PatientName = patient.FirstName ?? "" + " " + patient.LastName ?? "",
-
-                });
+                    BloodType = Enum.GetName(typeof(Gender), patient.BloodType),
+                    Career = patient.Career.Name
+                    });
 
                 operationResult.OperationResultType = OperationResultTypes.Success;
                

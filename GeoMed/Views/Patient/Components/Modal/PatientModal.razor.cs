@@ -18,9 +18,9 @@ namespace GeoMed.Views.Patient.Components.Modal
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
-        public ActionPatientDto ActionPatient;
+        public ActionPatientDto ActionPatient { get;set; }
 
-        private PatientTable child = new PatientTable();
+        private PatientTable parent = new PatientTable();
 
         [Inject]
         public IPatientRepository PatientRepository { get; set; }
@@ -32,16 +32,20 @@ namespace GeoMed.Views.Patient.Components.Modal
 
         }
 
-        public void Save(EditContext editContext)
+        public async Task Save(EditContext editContext)
         {
           var newPatient =
                 PatientRepository.ActionPatient(ActionPatient);
             if(newPatient.Issuccess)
-            child.AddToTable(newPatient.Result);
+            await parent.AddToTable(newPatient.Result);
         }
         public async Task OpenModal()
         {
             await JSRuntime.InvokeVoidAsync("showModal", ModalPatient);
+        }
+        public async Task CloseModal()
+        {
+            await JSRuntime.InvokeVoidAsync("closeModal", ModalPatient);
         }
 
     }

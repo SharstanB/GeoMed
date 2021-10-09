@@ -6,6 +6,7 @@
             <div class="modal-content">
                 <EditForm Model="@ActionPatient" OnValidSubmit=@Save>
                     <DataAnnotationsValidator />
+                    <ValidationSummary></ValidationSummary>
                     <div class="modal-body">
 
                         <div class="form-group row">
@@ -45,11 +46,11 @@
                             <div class="col-6">
                                 <label>عنوان السكن</label>
                                 <InputSelect  @bind-Value="@ActionPatient.AreaId" class="form-control">
-                                    <option value="0" >حلب - جميلية</option>
-                                    <option value="1">حلب - سوق أنتاج</option>
-                                    <option value="2">حلب - محافظة</option>
-                                    <option value="3"> دمشق - سيدة زينب</option>
-                                    <option value="4"> حلب - عفرين</option>
+                                    <option value="1" >حلب - جميلية</option>
+                                    <option value="2">حلب - سوق أنتاج</option>
+                                    <option value="3">حلب - محافظة</option>
+                                    <option value="4"> دمشق - سيدة زينب</option>
+                                    <option value="5"> حلب - عفرين</option>
                                 </InputSelect>
                             </div>
                         </div>
@@ -57,11 +58,11 @@
                             <div class="col-6">
                                 <label>تاريخ الميلاد</label>
                                 <InputDate @bind-Value="@ActionPatient.BirthDate" class="form-control" />
+                                <ValidationMessage  For="() => ActionPatient.BirthDate" />
                             </div>
                             <div class="col-6">
                                 <label>المهنة</label>
                                 <InputSelect @bind-Value="@ActionPatient.CareerId" class="form-control">
-                                    <option value="0">نادل المطعم </option>
                                     <option value="1">عامل تمديدات الصحية</option>
                                     <option value="2">نجار</option>
                                     <option value="3"> كهربة السيارات</option>
@@ -69,6 +70,7 @@
                                     <option value="5">شرطي مرور</option>
                                     <option value="6">حارس</option>
                                     <option value="7">طبيب أسنان</option>
+                                    <option value="8">نادل المطعم </option>
                                 </InputSelect>
                             </div>
 

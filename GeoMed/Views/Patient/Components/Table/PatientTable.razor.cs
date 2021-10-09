@@ -20,9 +20,6 @@ namespace GeoMed.Views.Patient.Components.Table
 
         private PatientModal child { get; set; }
 
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
-
         public int Count { get; set; }
 
         public int PageSize { get; set; }
@@ -38,16 +35,21 @@ namespace GeoMed.Views.Patient.Components.Table
 
         }
 
-        public void AddToTable(GetPatientDto patientDto)
+        public async Task AddToTable(GetPatientDto patientDto)
         {
             Patients.Add(patientDto);
+            await CloseModal();
         }
+
         public  void OnSelectPage()
         {
 
         }
-      
 
+        public async Task CloseModal()
+        {
+            await child.CloseModal();
+        }
         public async Task OpenModal()
         {
             await child.OpenModal();

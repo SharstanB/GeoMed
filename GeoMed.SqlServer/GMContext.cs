@@ -3,6 +3,7 @@ using GeoMed.Model.Main;
 using GeoMed.Model.Setting;
 using GeoMed.Model.Templete;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace GeoMed.SqlServer
 {
@@ -95,12 +96,16 @@ namespace GeoMed.SqlServer
             modelBuilder.Entity<Career>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
             modelBuilder.Entity<Disease>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
             modelBuilder.Entity<Symptom>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<HealthCenter>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<Kindred>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<Notification>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
 
             #endregion
 
             #region  == Main Filters == 
             modelBuilder.Entity<PatientRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<Patient>().HasQueryFilter(patient => !patient.DeleteDate.HasValue);
             modelBuilder.Entity<TrackRecord>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
             #endregion
@@ -118,8 +123,13 @@ namespace GeoMed.SqlServer
             #region == DbSet Default values ==
 
             modelBuilder.Entity<CovidZone>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<Review>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
             modelBuilder.Entity<ModelSet>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
             modelBuilder.Entity<SpatialInfo>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<Doctor>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<Chat>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<DoctorReviewDisease>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
+            modelBuilder.Entity<DoctorReview>().HasQueryFilter(patientRecord => !patientRecord.DeleteDate.HasValue);
 
             #endregion
 
@@ -137,6 +147,9 @@ namespace GeoMed.SqlServer
             modelBuilder.Entity<Symptom>().Property(b => b.CreateDate)
             .HasDefaultValueSql("getdate()");
 
+             modelBuilder.Entity<Notification>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+
 
             #endregion
 
@@ -144,7 +157,29 @@ namespace GeoMed.SqlServer
             modelBuilder.Entity<PatientRecord>().Property(b => b.CreateDate)
             .HasDefaultValueSql("getdate()");
             modelBuilder.Entity<TrackRecord>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()"); 
+            
+            modelBuilder.Entity<Chat>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()"); 
+            
+            modelBuilder.Entity<Doctor>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()"); 
+            
+            modelBuilder.Entity<DoctorReview>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()"); 
+
+             modelBuilder.Entity<Review>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()"); 
+            
+            modelBuilder.Entity<DoctorReviewDisease>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()"); 
+            
+            modelBuilder.Entity<HealthCenter>().Property(b => b.CreateDate)
             .HasDefaultValueSql("getdate()");
+            
+            modelBuilder.Entity<Kindred>().Property(b => b.CreateDate)
+            .HasDefaultValueSql("getdate()");
+            
 
             #endregion
 
@@ -167,13 +202,94 @@ namespace GeoMed.SqlServer
 
             modelBuilder.Entity<ModelSet>().Property(b => b.CreateDate)
            .HasDefaultValueSql("getdate()");
+            
+            modelBuilder.Entity<Patient>().Property(b => b.CreateDate)
+           .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<SpatialInfo>().Property(b => b.CreateDate)
          .HasDefaultValueSql("getdate()");
 
             #endregion
+            #region Areas
+            modelBuilder.Entity<Area>().HasData(new Area
+            {
+                Id = 1,
+                CreateDate = DateTime.Now,
+                Name = "حلب - جميلية"
+            }); modelBuilder.Entity<Area>().HasData(new Area
+            {
+                Id = 2,
+                CreateDate = DateTime.Now,
+                Name = "حلب - سوق أنتاج"
+            }); modelBuilder.Entity<Area>().HasData(new Area
+            {
+                Id = 3,
+                CreateDate = DateTime.Now,
+                Name = "حلب - محافظة"
+            }); modelBuilder.Entity<Area>().HasData(new Area
+            {
+                Id = 4,
+                CreateDate = DateTime.Now,
+                Name = "دمشق - سيدة زينب"
+            }); modelBuilder.Entity<Area>().HasData(new Area
+            {
+                Id = 5,
+                CreateDate = DateTime.Now,
+                Name = " حلب - عفرين"
+            });
 
-            #endregion 
+            #endregion
+
+            #region Career
+            modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 1,
+                CreateDate = DateTime.Now,
+                Name = " عامل تمديدات الصحية"
+            }); modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 2,
+                CreateDate = DateTime.Now,
+                Name = "نجار"
+            }); modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 3,
+                CreateDate = DateTime.Now,
+                Name = " كهربة السيارات"
+            }); modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 4,
+                CreateDate = DateTime.Now,
+                Name = "معلم"
+            });modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 5,
+                CreateDate = DateTime.Now,
+                Name = "شرطي مرور"
+            });modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 6,
+                CreateDate = DateTime.Now,
+                Name = "حارس"
+            });modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 7,
+                CreateDate = DateTime.Now,
+                Name = "طبيب أسنان"
+            });modelBuilder.Entity<Career>().HasData(new Career
+            {
+                Id = 8,
+                CreateDate = DateTime.Now,
+                Name = "نادل المطعم"
+            });
+
+
+            #endregion
+
+
+
+
+            #endregion
         }
 
         #endregion

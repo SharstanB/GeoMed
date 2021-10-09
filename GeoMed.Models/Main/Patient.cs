@@ -26,6 +26,9 @@ namespace GeoMed.Model.Main
         public string LastName { get; set; }
 
         [Column(TypeName = "int")]
+        public int BloodType { get; set; }
+
+        [Column(TypeName = "int")]
         public int Gender { get; set; }  // enum (Gender)
 
         [Column(TypeName = "int")]
