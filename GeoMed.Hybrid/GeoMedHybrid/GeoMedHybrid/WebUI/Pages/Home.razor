@@ -1,5 +1,6 @@
-﻿@page "/"
-
+﻿@page "/Home"
+@inject AppData appdata
+@inject HttpClient client
 
 
 <div class="container">
@@ -11,9 +12,9 @@
                 </div>
                 <div class="card-body border-0 text-center pt-2 p-1 ">
                     <strong>
-                        2020 - 2 - 12
+                       @(Data.Reviews?.OrderBy(x=>x.Date).FirstOrDefault()?.Date.ToLongDateString()??"---:---:---")
                     </strong>
-                    <h6 class="text-center pt-1">عيادة الطبيب احمد - مستقر</h6>
+                    <h6 class="text-center pt-1">@(Data.Reviews?.OrderBy(x => x.Date).FirstOrDefault()?.HealthCenterName??"---") - مستقر</h6>
                 </div>
             </div>
         </div>
@@ -23,24 +24,32 @@
             </div>
         </div>
         <div class="col-12 py-3">
-            <div class="card border-0 mb-3 media-card app-white">
-                <div class="card-body border-0 p-0">
-                    <div class="d-flex">
-                        <div>
-                            <img src="./assets/img/avatar.jpg" width="100" style="height: 100%; object-fit: cover">
-                        </div>
-                        <div class="media-body px-2 py-2">
-                            <h6 class="mt-0 media-head">Media heading</h6>
-                            <p class="m-0">النوع : مراجعة</p>
-                            <p class="m-0">الوصف : مراجعة</p>
-                            <p class="m-0">الاستطبابات : مراجعة</p>
-                            <p class="text-left m-0">
-                                <small>2020 - 2 - 2</small>
-                            </p>
+            @if (Data.Reviews != null)
+            {
+
+                @foreach (var review in Data.Reviews)
+                {
+                    <div class="card border-0 mb-3 media-card app-white">
+                        <div class="card-body border-0 p-0">
+                            <div class="d-flex">
+                                <div>
+                                    <img src="./assets/img/avatar.jpg" width="100" style="height: 100%; object-fit: cover">
+                                </div>
+                                <div class="media-body px-2 py-2">
+                                    <h6 class="mt-0 media-head">@review.HealthCenterName</h6>
+                                    <p class="m-0">النوع : @review.DoctorCareer</p>
+                                    <p class="m-0">الوصف : @review.Description</p>
+                                    <p class="m-0">الاستطبابات : @review.Recipe</p>
+                                    <p class="text-left m-0">
+                                        <small>@review.Date</small>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                }
+            }
+
         </div>
     </div>
 </div>
@@ -49,4 +58,23 @@
 
 @code {
 
+    public HomeDto Data { get; set; } = new HomeDto() { Reviews = new List<ReviewDto>() };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var res = await client.GetAsync($@"{AppData.BaseUrl}home/{appdata.UserId}");
+
+        if(res.IsSuccessStatusCode)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<HomeDto>(await res.Content.ReadAsStringAsync());
+
+            appdata.FullName = Data.FullName;
+            appdata.Area = Data.Area;
+            appdata.Career = Data.Career;
+
+            Bus.AppDataChanged.Invoke();
+        }
+    }
 }

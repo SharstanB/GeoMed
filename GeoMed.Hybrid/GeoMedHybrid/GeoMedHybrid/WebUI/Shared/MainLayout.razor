@@ -1,28 +1,30 @@
 ﻿@inherits LayoutComponentBase
-@*<div class="sidebar">
-        <NavMenu />
-    </div>*@
+
 
 @inject HttpClient client
-@inject NavigationManager nav
+@inject NavigationManager NavigationManager
+@inject AppData appdata
 
-<nav class="navbar bg-light app-white">
-    <ul class="list-unstyled m-0 w-100 d-flex justify-content-between align-items-center">
-        <li class="d-flex">
-            <div class="avatar rounded-circle overflow-hidden">
-                <img @onclick="toLogin" src="_content/GeoMedHybrid/img/avatar.jpg" />
-            </div>
-            <div class="py-1">
-                <h6 class="d-block m-0 px-2">user name</h6>
-                <small class="d-block px-2">nick name</small>
-            </div>
-        </li>
-        <li class="d-flex align-items-center">
-            <small class="pl-2">الحالة</small>
-            <div class="d-inline-block badge badge-pill badge-primary p-2"></div>
-        </li>
-    </ul>
-</nav>
+@if (!IsHideNav())
+{
+    <nav class="navbar bg-light app-white" hidden="@IsHideNav()">
+        <ul class="list-unstyled m-0 w-100 d-flex justify-content-between align-items-center">
+            <li class="d-flex">
+                <div class="avatar rounded-circle overflow-hidden">
+                    <img src="_content/GeoMedHybrid/img/avatar.jpg" />
+                </div>
+                <div class="py-1">
+                    <h6 class="d-block m-0 px-2">@appdata.FullName</h6>
+                    <small class="d-block px-2">@appdata.Career</small>
+                </div>
+            </li>
+            <li class="d-flex align-items-center">
+                <small class="pl-2">الحالة</small>
+                <div class="d-inline-block badge badge-pill badge-primary p-2"></div>
+            </li>
+        </ul>
+    </nav>
+}
 
 
 <main class="main">
@@ -30,47 +32,49 @@
 </main>
 
 
-
-<footer class="footer bg-light">
-    <img class="footer-musk" height="46" src="_content/GeoMedHybrid/img/musk.svg">
-    <ul class="menu list-unstyled m-0 p-0 app-white">
-        <li>
-            <a href="/Doctors">
-                <span class="d-flex align-items-center justify-content-center">
-                    <img width="20" src="_content/GeoMedHybrid/img/footer_3.png">
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="/Reviews">
-                <span class="d-flex align-items-center justify-content-center">
-                    <img width="20" src="_content/GeoMedHybrid/img/footer_1.png">
-                </span>
-            </a>
-        </li>
-        <li class="active">
-            <a  href="/">
-                <span  class="d-flex align-items-center justify-content-center">
-                    <img width="30" src="_content/GeoMedHybrid/img/footer_5.png">
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="/Map">
-                <span class="d-flex align-items-center justify-content-center">
-                    <img width="14" src="_content/GeoMedHybrid/img/footer_4.png">
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="/Profile">
-                <span class="d-flex align-items-center justify-content-center">
-                    <img width="20" src="_content/GeoMedHybrid/img/footer_2.png">
-                </span>
-            </a>
-        </li>
-    </ul>
-</footer>
+@if (!IsHideNav())
+{
+    <footer class="footer bg-light" hidden="@IsHideNav()">
+        <img class="footer-musk" height="46" src="_content/GeoMedHybrid/img/musk.svg">
+        <ul class="menu list-unstyled m-0 p-0 app-white">
+            <li>
+                <a href="/Doctors">
+                    <span class="d-flex align-items-center justify-content-center">
+                        <img width="20" src="_content/GeoMedHybrid/img/footer_3.png">
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/Reviews">
+                    <span class="d-flex align-items-center justify-content-center">
+                        <img width="20" src="_content/GeoMedHybrid/img/footer_1.png">
+                    </span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="/Home">
+                    <span class="d-flex align-items-center justify-content-center">
+                        <img width="30" src="_content/GeoMedHybrid/img/footer_5.png">
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/Map">
+                    <span class="d-flex align-items-center justify-content-center">
+                        <img width="14" src="_content/GeoMedHybrid/img/footer_4.png">
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/Profile">
+                    <span class="d-flex align-items-center justify-content-center">
+                        <img width="20" src="_content/GeoMedHybrid/img/footer_2.png">
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </footer>
+}
 
 @code
 {
@@ -78,12 +82,17 @@
     [Parameter]
     public string TestMessage { get; set; }
 
+
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        Bus.AppDataChanged = StateHasChanged;
+
         //http://localhost:44336/mobile/test
         // http://10.0.2.2
-        try
+            try
         {
             // var res = await client.GetAsync(@"http://10.0.2.2:5000/mobile/test");
             // TestMessage = await res.Content.ReadAsStringAsync();
@@ -98,11 +107,22 @@
     }
 
 
-
-    private void toLogin()
+    private bool IsHideNav()
     {
-        nav.NavigateTo("\\Login", true);
+        var uri = NavigationManager.Uri.ToLower();
+        bool res = !uri.Contains("doctors")
+            && !uri.Contains("home")
+            && !uri.Contains("map")
+            && !uri.Contains("profile")
+            && !uri.Contains("reviews");
+        return res;
     }
 
-  
+
+    //private void toLogin()
+    //{
+    //    nav.NavigateTo("\\Login", true);
+    //}
+
+
 }

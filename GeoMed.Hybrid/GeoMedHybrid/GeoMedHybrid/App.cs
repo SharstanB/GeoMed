@@ -21,6 +21,7 @@ namespace GeoMedHybrid
 
                     // Register app-specific services
                     services.AddSingleton<CounterState>();
+                    services.AddSingleton<AppData>();
                     services.AddScoped<HttpClient>();
                 })
                 .UseWebRoot("wwwroot");

@@ -33,6 +33,7 @@ namespace GeoMed.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult USA()
         {
             return View("VectorMap");

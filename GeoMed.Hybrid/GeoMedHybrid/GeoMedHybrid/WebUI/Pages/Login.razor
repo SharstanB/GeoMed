@@ -1,26 +1,58 @@
-﻿@page "/Login"
+﻿@page "/"
+@page "/Login"
+
+@inject NavigationManager NavigationManager
+@inject HttpClient client
+@inject AppData appdata
 
 <div class="container">
     <h4 class="text-center pb-2">تسجيل الدخول</h4>
     <h1 class="text-center my-4"><strong style="color: #34BFA3">Geo<span class="text-danger">Med</span></strong></h1>
-    <form>
-        <div class="px-5">
-            <div class="form-group">
-                <label for="username">اسم المستخدم</label>
-                <input class="form-control" id="username">
-            </div>
-            <div class="form-group">
-                <label for="password">كلمة السر</label>
-                <input class="form-control" id="password">
-            </div>
+    <div class="px-5">
+        <div class="form-group">
+            <label for="username">اسم المستخدم</label>
+            <input @bind="Username" class="form-control" id="username">
         </div>
+        <div class="form-group">
+            <label for="password">كلمة السر</label>
+            <input @bind="Password" class="form-control" id="password">
+        </div>
+    </div>
 
-        <div class="text-center mt-5">
-            <button type="submit" class="submit-btn btn rounded-pill px-5 py-2 text-white">إنشاء حساب</button>
-        </div>
-    </form>
+    <div class="text-center mt-5">
+        <button type="submit" @onclick="GoToHome" class="submit-btn btn rounded-pill px-5 py-2 text-white">تسجيل دخول</button>
+        <a class="d-block text-center" href="/Register"> إنشاء حساب </a>
+    </div>
 </div>
 
-    @code {
+@code {
+
+    public string Username { get; set; }
+
+    public string Password { get; set; }
+
+
+
+    private async void GoToHome()
+    {
+        //http://10.0.2.2:5000/mobile/login
+
+        var json = System.Text.Json.JsonSerializer.Serialize(new login {  Username =Username, Password= Password });
+        var stringContent = new StringContent(json, System.Text.UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
+        var res = await client.PostAsync($@"{AppData.BaseUrl}login", stringContent);
+
+        if(res.IsSuccessStatusCode)
+        {
+            var ob=await res.Content.ReadAsStringAsync();
+            var login =  System.Text.Json.JsonSerializer.Deserialize<login>(ob);
+            appdata.UserId = login.Id;
+            NavigationManager.NavigateTo($"/Home", false);
+        }
+        else
+        {
+            Password = "Auth";
+        }
 
     }
+
+}

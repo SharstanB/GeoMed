@@ -170,6 +170,7 @@
     <ProjectReference Include="..\GeoMed.Main.IData\GeoMed.Main.IData.csproj" />
     <ProjectReference Include="..\GeoMed.MobileService\GeoMed.MobileService.csproj" />
     <ProjectReference Include="..\GeoMed.Repository.DataSet\GeoMed.Repository.DataSet.csproj" />
+    <ProjectReference Include="..\GeoMed.Security.Dto\GeoMed.Security.Dto.csproj" />
     <ProjectReference Include="..\GeoMed.Share.Data\GeoMed.Share.Data.csproj" />
     <ProjectReference Include="..\GeoMed.Share.IData\GeoMed.Share.IData.csproj" />
     <ProjectReference Include="..\GM.QueueService\GM.QueueService.csproj" />
