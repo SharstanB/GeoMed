@@ -1,0 +1,116 @@
+﻿@page "/Doctors"
+
+@inject AppData appdata
+@inject HttpClient client
+
+<div class="container">
+    <div class="row">
+
+        @if (Data.Doctors != null)
+        {
+            @foreach (var doctor in Data.Doctors)
+            {
+                <div class="col-6">
+                    <div @onclick="()=>OpenChat(doctor.Id)" class="card media-card border-0 mb-3" data-toggle="modal" data-target="#chatModal">
+                        <div class="card-body border-0">
+                            <div class="avatar rounded-circle overflow-hidden mx-auto" style="width: 100px; height: 100px;">
+                                <img src="_content/GeoMedHybrid/img/doctor.jpg" />
+                            </div>
+                            <h5 class="mt-1 mb-0 text-center"><strong>@doctor.Name</strong></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<div class="modal fade @(IsModalOpen?"show":"")" style="@(IsModalOpen?"display: block;":"")" id="chatModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-right">محادثة</h5>
+                <button @onclick="CloseModal" type="button" class="close ml-0 mr-auto" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                @foreach (var chat in Data.Doctors.FirstOrDefault(x=>x.Id==SelectedChatId)?.Chats??new List<ChatDto>())
+                {
+                    <div class="@(chat.Me?"right":"left") message-container">
+                        <div class="message">
+                            @chat.Message
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+            <div class="modal-footer">
+                <div class="input-group" style="direction: ltr!important;">
+                    <input type="text" class="form-control" placeholder="اكتب هنا ...">
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-info py-0">
+                            <button class="btn btn-icon text-white p-0">
+                                <i class="mdi mdi-send" style="font-size: 20px"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (IsModalOpen)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code
+{
+    public DoctorsDto Data { get; set; } = new DoctorsDto()
+    {
+        Doctors = new List<ChatDoctorDto>() { },
+    };
+
+    public bool IsModalOpen { get; set; }
+    public int SelectedChatId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var res = await client.GetAsync($@"{AppData.BaseUrl}doctors/{appdata.UserId}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<DoctorsDto>(await res.Content.ReadAsStringAsync());
+
+            appdata.FullName = Data.FullName;
+            appdata.Area = Data.Area;
+            appdata.Career = Data.Career;
+
+            Bus.AppDataChanged.Invoke();
+        }
+    }
+
+    public void OpenChat(int id)
+    {
+        SelectedChatId = id;
+        OpenModal();
+    }
+
+    public void OpenModal()
+    {
+        IsModalOpen = true;
+    }
+
+    public void CloseModal()
+    {
+        IsModalOpen = false;
+    }
+
+
+}

@@ -155,9 +155,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -197,9 +195,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -222,9 +218,7 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
@@ -331,6 +325,8 @@ namespace GeoMed.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+                    b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
@@ -369,12 +365,16 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<DateTime>("Birthdate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CareerId")
+                        .HasColumnType("int");
                     b.Property<int>("BloodType")
                         .HasColumnType("int");
 
                     b.Property<int>("CareerId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
                     b.Property<DateTime>("CreateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -392,11 +392,17 @@ namespace GeoMed.SqlServer.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<int?>("PatientId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserType")
                         .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

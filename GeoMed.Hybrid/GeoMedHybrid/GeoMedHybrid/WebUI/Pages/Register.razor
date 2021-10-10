@@ -1,0 +1,64 @@
+﻿@page "/Register"
+
+@inject NavigationManager NavigationManager
+@inject HttpClient client
+@inject AppData appdata
+
+<div class="container">
+    <h4 class="text-center pb-2">إنشاء حساب</h4>
+        <div class="px-5">
+            <div class="form-group">
+                <label for="username">اسم المستخدم</label>
+                <input @bind="Username" class="form-control" id="username">
+            </div>
+            <div class="form-group">
+                <label for="password">كلمة السر</label>
+                <input @bind="Password" class="form-control" id="password">
+            </div>
+            <div class="form-group">
+                <label for="fullname">الاسم الشخصي</label>
+                <input @bind="FullName" class="form-control" id="fullname">
+            </div>
+            <div class="form-group">
+                <label for="role">العمل/ الوصف</label>
+                <input @bind="Career" class="form-control" id="role">
+            </div>
+            <div class="form-group">
+                <label for="address">المكان</label>
+                <input @bind="Area" class="form-control" id="address">
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <button @onclick="GoToLogin" class="submit-btn btn rounded-pill px-5 py-2 text-white">إنشاء حساب</button>
+            <a class="d-block text-center" href="/Login"> العودة </a>
+        </div>
+</div>
+
+@code {
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string FullName { get; set; }
+    public string Career { get; set; }
+    public string Area { get; set; }
+
+    private async void GoToLogin()
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(new RegisterDto { Username = Username,
+            Password = Password,
+         FullName = FullName,
+         Area = Area,
+         Career = Career
+        });
+        var stringContent = new StringContent(json, System.Text.UnicodeEncoding.UTF8, "application/json");
+        var res = await client.PostAsync($@"{AppData.BaseUrl}register", stringContent);
+
+        if (res.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo($"/Login", false);
+        }
+        else
+        {
+            Password = "400";
+        }
+    }
+}

@@ -1,3 +1,88 @@
 ﻿@page "/Profile"
 
-<h1>Profile</h1>
+@inject AppData appdata
+@inject HttpClient client
+@inject NavigationManager NavigationManager
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 py-3 text-center">
+            <div class="avatar rounded-circle overflow-hidden mx-auto d-flex align-items-center justify-content-center text-white" style="width: 140px; height: 140px; border: solid 1px #000">
+                <img src="_content/GeoMedHybrid/img/avatar.jpg" class="w-100 h-100" style="object-fit: cover">
+            </div>
+            <h5 class="text-center pt-2">@Data.FullName</h5>
+            <small>@Data.Career</small>
+            <button @onclick="GoToLogin" class="submit-btn btn rounded-pill px-5 py-2 text-white d-block m-auto" >خروج</button>
+        </div>
+        <div class="col-12 py-3">
+            <div class="card border-0 mb-3 media-card">
+                <div class="card-body border-0 p-0">
+                    <div class="d-flex">
+                        <div>
+                            <img src="_content/GeoMedHybrid/img/finger.jpg" width="100" style="height: 100%; object-fit: cover">
+                        </div>
+                        <div class="media-body px-2 py-2">
+                            <p class="m-0">المكان : @Data.Area</p>
+                            <p class="m-0">عدد الأقارب : @Data.Kindreds?.Count()</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Data.Kindreds != null)
+        {
+            foreach (var kindred in Data.Kindreds)
+            {
+                <div class="col-6">
+                    <div class="card media-card border-0 mb-3" data-toggle="modal" data-target="#chatModal">
+                        <div class="card-body border-0">
+                            <div class="avatar rounded-circle overflow-hidden mx-auto" style="width: 100px; height: 100px;">
+                                <img src="_content/GeoMedHybrid/img/kindred.jpg" />
+                            </div>
+                            <h5 class="mt-1 mb-0 text-center"><strong>@kindred.Level @kindred.Name</strong></h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+@code
+{
+    public ProfileDto Data { get; set; } = new ProfileDto()
+    {
+        Kindreds = new List<KindredDto>()
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var res = await client.GetAsync($@"{AppData.BaseUrl}profile/{appdata.UserId}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<ProfileDto>(await res.Content.ReadAsStringAsync());
+
+            appdata.FullName = Data.FullName;
+            appdata.Area = Data.Area;
+            appdata.Career = Data.Career;
+
+            Bus.AppDataChanged.Invoke();
+        }
+    }
+
+
+    private  void GoToLogin()
+    {
+        appdata.UserId = default;
+        appdata.FullName = default;
+        appdata.Area = default;
+        appdata.Career = default;
+        NavigationManager.NavigateTo($"/Login", false);
+    }
+
+}

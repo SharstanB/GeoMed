@@ -1,79 +1,248 @@
 ﻿@page "/Reviews"
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="btn btn-primary" id="newReviewButton" data-toggle="modal" data-target="#newReview">new review</button>
+@inject AppData appdata
+@inject HttpClient client
 
-    <div class="modal fade" id="newReview" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
+
+
+
 <div class="container">
     <div class="row">
+
         <div class="col-12">
-            <h5>centers was visited</h5>
-        </div>
-        <div class="col-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    center name
-                </div>
-                <div class="card-body">
-                    <h6>doctor name</h6>
-                    <small>2020/20/10</small>
-                    <p class="m-0">This is a modified jumbotron that occupies ...</p>
-                </div>
+            <div @onclick="OpenModal" class="avatar app-shadow rounded-circle overflow-hidden mx-auto d-flex
+                 align-items-center justify-content-center text-white"
+                 style="width: 30px; height: 30px; background: #34BFA3; font-weight: 400; border: solid 4px #fff;">
+                +
             </div>
         </div>
-        <div class="col-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    center name
+
+
+        <div class="col-12 py-3">
+            @if (Data.Reviews != null)
+            {
+                foreach (var review in Data.Reviews)
+                {
+                    <div class="card border-0 mb-3 media-card">
+                        <div class="card-body border-0 p-0">
+                            <div class="d-flex">
+                                <div>
+                                    <img src="_content/GeoMedHybrid/img/hcenter.png" width="100" style="height: 100%; object-fit: cover">
+                                </div>
+                                <div class="px-3 py-2 flex-grow-1">
+                                    <h6 class="mt-0 text-dark">@review.HealthCenter.Name</h6>
+                                    <p class="m-0">المنطقة : @review.HealthCenter.Area</p>
+                                    <p class="m-0">آخر مراجعة : @review.Date</p>
+                                    <p class="m-0">الاختصاص : @review.Doctor.Career</p>
+                                    <p class="m-0">عدد الاقسام : 1</p>
+                                </div>
+                                <div class="px-3 py-2">
+                                    <div class="h-50 d-flex justify-content-center">
+                                        <i class="mdi mdi-heart text-danger"></i>
+                                        <i class="mdi mdi-heart text-danger"></i>
+                                        <i class="mdi mdi-heart text-danger"></i>
+                                    </div>
+                                    <div class="h-50 d-flex align-items-end">
+                                        <span class="d-inline-block px-2" data-toggle="popover" data-content="Disabled popover">
+                                            <i class="mdi mdi-earth text-success" style="font-size: 18px;"></i>
+                                        </span>
+                                        <span class="px-2">
+                                            <i class="mdi mdi-clock text-success" style="font-size: 18px;"></i>
+                                        </span>
+                                        <span class="px-2">
+                                            <i class="mdi mdi-headphones-settings text-success" style="font-size: 18px;"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade @(IsModalOpen?"show":"")" id="exampleModal" style="@(IsModalOpen?"display: block;":"")" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mx-auto">مراجعة رقم #@((Data.Reviews?.Count()??0)+1)</h5>
+                <button @onclick="CloseModal" type="button" class="close ml-0 mr-auto position-absolute" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>المركز</label>
+                            <select @bind="SelectedHelthCenterId" class="form-control">
+                                @if (Data.HealthCenters != null)
+                                {
+                                    @foreach (var center in Data.HealthCenters)
+                                    {
+                                        <option value="@center.Id">@center.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>الطبيب</label>
+                            <select @bind="SelectedDoctorId" class="form-control">
+                                @if (Data.HealthCenters != null)
+                                {
+                                    @foreach (var doctor in Data.Doctors)
+                                    {
+                                        <option value="@doctor.Id">@doctor.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+
+                        <div class="form-group">
+                            <label>الوصف</label>
+                            <input @bind="Description" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>الاستطباب</label>
+                            <textarea @bind="Recipe" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h6>doctor name</h6>
-                    <small>2020/20/10</small>
-                    <p class="m-0">This is a modified jumbotron that occupies ...</p>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="m-0 py-2 px-3 text-secondary">
+                            <strong>المرض : </strong> @Ill
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p class="m-0 py-2 px-3 text-secondary">
+                            <strong>التكلفة : </strong> <small>0000.0</small>
+                        </p>
+                        <p class="m-0 py-2 px-3 text-secondary">
+                            <strong>التاريخ : </strong> <small>@DateTime.Now.ToShortDateString()</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>ملاحظة</label>
+                        <textarea @bind="Note" class="form-control" rows="3"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    center name
-                </div>
-                <div class="card-body">
-                    <h6>doctor name</h6>
-                    <small>2020/20/10</small>
-                    <p class="m-0">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="card mb-3">
-                <div class="card-header">
-                    center name
-                </div>
-                <div class="card-body">
-                    <h6>doctor name</h6>
-                    <small>2020/20/10</small>
-                    <p class="m-0">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-                </div>
+            <div class="modal-footer">
+                <button @onclick="AddReview" disabled="@BlockAdd" type="button" class="btn btn-success ml-1" data-dismiss="modal">تأكيد</button>
+                <button @onclick="CloseModal"   disabled="@BlockAdd" type="button" class="btn btn-outline-secondary ml-1" data-dismiss="modal">إغلاق</button>
             </div>
         </div>
     </div>
 </div>
+
+@if (IsModalOpen)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code
+{
+    public InfoReviewsDto Data { get; set; } = new InfoReviewsDto()
+    {
+        HealthCenters = new List<NominalDto>(),
+        Reviews = new List<ReviewDto>(),
+        Doctors = new List<NominalDto>(),
+    };
+
+    public int SelectedHelthCenterId { get; set; }
+    public int SelectedDoctorId { get; set; }
+    public string Note { get; set; }
+    public string Description { get; set; }
+    public string Recipe { get; set; }
+
+    public string Ill => Data.Doctors?.FirstOrDefault(x => x.Id == SelectedDoctorId)?.Career ?? "--";
+
+    public bool IsModalOpen { get; set; }
+    public Action InnerChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        InnerChanged = StateHasChanged;
+
+        await GetReviews();
+    }
+
+    private async Task GetReviews()
+    {
+
+        var res = await client.GetAsync($@"{AppData.BaseUrl}reviews/{appdata.UserId}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            Data = System.Text.Json.JsonSerializer.Deserialize<InfoReviewsDto>(await res.Content.ReadAsStringAsync());
+
+            SelectedHelthCenterId = Data.HealthCenters.FirstOrDefault()?.Id??0;
+            SelectedDoctorId = Data.Doctors.FirstOrDefault()?.Id??0;
+
+            appdata.FullName = Data.FullName;
+            appdata.Area = Data.Area;
+            appdata.Career = Data.Career;
+
+            Bus.AppDataChanged.Invoke();
+        }
+    }
+    public bool BlockAdd { get; set; }
+    private async void AddReview()
+    {
+        if(BlockAdd)
+        {
+            return;
+        }
+        BlockAdd = true;
+        if (SelectedHelthCenterId == 0 ||
+                SelectedDoctorId == 0 || string.IsNullOrEmpty(Recipe.Trim()))
+        {
+            BlockAdd = false;
+            return;
+        }
+
+        var json = System.Text.Json.JsonSerializer.Serialize(new ReviewDto {
+            HealthCenter= new NominalDto() { Id= SelectedHelthCenterId, },
+            Doctor = new NominalDto() { Id=SelectedDoctorId },
+            Description =Description,
+            Note = Note,
+            Recipe = Recipe
+        });
+        var stringContent = new StringContent(json, System.Text.UnicodeEncoding.UTF8, "application/json"); // use MediaTypeNames.Application.Json in Core 3.0+ and Standard 2.1+
+        var res = await client.PostAsync($@"{AppData.BaseUrl}addreview/{appdata.UserId}", stringContent);
+
+        if(res.IsSuccessStatusCode)
+        {
+            SelectedHelthCenterId = Data.HealthCenters.FirstOrDefault()?.Id ?? 0;
+            SelectedDoctorId = Data.Doctors.FirstOrDefault()?.Id ?? 0;
+            Description = default;
+            Recipe = default;
+            Note = default;
+
+            await GetReviews();
+            CloseModal();
+        }
+        BlockAdd = false;
+        InnerChanged.Invoke();
+    }
+
+    public void OpenModal()
+    {
+        IsModalOpen = true;
+    }
+
+    public void CloseModal()
+    {
+        IsModalOpen = false;
+    }
+}

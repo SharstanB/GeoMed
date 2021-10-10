@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoMedHybrid.Windows", "Geo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoMedHybrid.macOS", "GeoMedHybrid.macOS\GeoMedHybrid.macOS.csproj", "{D0355878-4B56-43C8-9970-9EAB5C8E9120}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoMed.MobileService", "..\..\GeoMed.MobileService\GeoMed.MobileService.csproj", "{23D04730-87EE-45DB-A2DB-7BF0C2B53871}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,26 @@ Global
 		{D0355878-4B56-43C8-9970-9EAB5C8E9120}.Release|x64.Build.0 = Release|Any CPU
 		{D0355878-4B56-43C8-9970-9EAB5C8E9120}.Release|x86.ActiveCfg = Release|Any CPU
 		{D0355878-4B56-43C8-9970-9EAB5C8E9120}.Release|x86.Build.0 = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|x64.Build.0 = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Debug|x86.Build.0 = Debug|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|iPhone.Build.0 = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|x64.ActiveCfg = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|x64.Build.0 = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|x86.ActiveCfg = Release|Any CPU
+		{23D04730-87EE-45DB-A2DB-7BF0C2B53871}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ using Android.App;
 [assembly: AssemblyProduct("GeoMedHybrid.Android")]
 [assembly: AssemblyCopyright("Copyright © 2019")]
 [assembly: AssemblyTrademark("")]
+[assembly: Application(UsesCleartextTraffic = true)]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 

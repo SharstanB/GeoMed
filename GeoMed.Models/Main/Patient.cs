@@ -20,6 +20,14 @@ namespace GeoMed.Model.Main
         }
 
         [Column(TypeName = "nvarchar(50)")]
+        public string Username { get; set; }
+
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string Password { get; set; }
+
+
+        [Column(TypeName = "nvarchar(50)")]
         public string FirstName { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
